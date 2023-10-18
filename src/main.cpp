@@ -5,13 +5,9 @@
 #include "profiler/Timer.hpp"
 #include "algorithm/AvlTree.hpp"
 
-// TODO end plug
-// TODO smallest node
-// TODO greatest node
-// TODO end plug contain nullptr, but previous value is greatest
-
-// TODO reverse iterators?
-// TODO take AvlTree in iterator constructor?
+// TODO reverse iterators
+// TODO remove inheritance? or just fix ugly static cast everywhere
+// TODO const iterators are same as default iterators?
 
 template <typename Iterator>
 std::ostream &print(std::ostream &out, Iterator begin, Iterator end)
@@ -20,16 +16,53 @@ std::ostream &print(std::ostream &out, Iterator begin, Iterator end)
 	{
 		out << *it << ' ';
 
-		/*if (it != std::prev(end))
+		if (it != std::prev(end))
 		{
 			out << ' ';
-		}*/
+		}
 	}
 	return out << std::endl;
 }
 
 int main()
 {
+	/*std::set<int> a;
+
+	a.insert(15);
+	*a.find(15) = 19;*/
+
+
+	AvlTreeImplementation<std::string> tree;
+
+	std::string beautiful_string = "fuck you";
+
+	tree.insert(beautiful_string);
+	tree.insert(std::string("all"));
+
+	print(std::cerr, tree.begin(), tree.end());
+	print(std::cerr, tree.cbegin(), tree.cend());
+
+	std::cout << *tree.find("all");
+
+	/*
+	std::set<int> k;
+	k.insert(1);
+
+
+	auto begin = k.begin();
+	auto prev_begin = std::prev(begin);
+
+	std::cout << std::distance(prev_begin, begin) << '\n';
+	std::cout << std::distance(prev_begin, k.end()) << '\n';
+
+	auto end = k.end();
+	auto next_end = std::next(end);
+
+	std::cout << std::distance(end, next_end) << '\n';
+
+	std::cout << std::distance(k.rend(), k.end()) << '\n';
+*/
+	/*
 	AvlTree<int> tree;
 
 	int size = 1e6;
@@ -71,6 +104,6 @@ int main()
 
 			//print(std::cerr, tree.begin(), tree.end());
 		}
-	}
+	}*/
 	return 0;
 }

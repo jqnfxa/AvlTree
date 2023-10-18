@@ -26,7 +26,7 @@ TEST(AvlTreeTestSuite, TestInsertSmall)
 
 	for (int i = -5; i < 5; ++i)
 	{
-		ASSERT_EQ(tree.insert(i)->value, i);
+		ASSERT_EQ(*tree.insert(i), i);
 	}
 }
 
@@ -36,7 +36,7 @@ TEST(AvlTreeTestSuite, TestInsertMedium)
 
 	for (int i = -1000; i < 1000; ++i)
 	{
-		ASSERT_EQ(tree.insert(i)->value, i);
+		ASSERT_EQ(*tree.insert(i), i);
 	}
 }
 
@@ -47,7 +47,7 @@ TEST(AvlTreeTestSuite, TestInsertBig)
 
 	for (int i = -10000; i < 10000; ++i)
 	{
-		ASSERT_EQ(tree.insert(i)->value, i);
+		ASSERT_EQ(*tree.insert(i), i);
 	}
 }
 
@@ -57,9 +57,9 @@ TEST(AvlTreeTestSuite, TestFindSmall)
 
 	for (int i = -100; i < 100; ++i)
 	{
-		auto *inserted = tree.insert(i);
+		auto inserted = tree.insert(i);
 		ASSERT_EQ(tree.find(i), inserted);
-		ASSERT_EQ(tree.find(i)->value, i);
+		ASSERT_EQ(*tree.find(i), i);
 	}
 }
 
@@ -69,9 +69,9 @@ TEST(AvlTreeTestSuite, TestFindMedium)
 
 	for (int i = -1000; i < 1000; ++i)
 	{
-		auto *inserted = tree.insert(i);
+		auto inserted = tree.insert(i);
 		ASSERT_EQ(tree.find(i), inserted);
-		ASSERT_EQ(tree.find(i)->value, i);
+		ASSERT_EQ(*tree.find(i), i);
 	}
 }
 
@@ -81,9 +81,9 @@ TEST(AvlTreeTestSuite, TestFindBig)
 
 	for (int i = -10000; i < 10000; ++i)
 	{
-		auto *inserted = tree.insert(i);
+		auto inserted = tree.insert(i);
 		ASSERT_EQ(tree.find(i), inserted);
-		ASSERT_EQ(tree.find(i)->value, i);
+		ASSERT_EQ(*tree.find(i), i);
 	}
 }
 /*
