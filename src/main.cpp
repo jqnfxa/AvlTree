@@ -41,7 +41,6 @@ int main()
 	tree.insert(std::string("all"));
 
 	print(std::cerr, tree.begin(), tree.end());
-	print(std::cerr, tree.cbegin(), tree.cend());
 
 	//std::string str = *tree.end();
 	//std::cout << str;

@@ -9,6 +9,39 @@ AvlTreeNodeBase::AvlTreeNodeBase(AvlTreeNodeBase::Avl_Base_ptr left, AvlTreeNode
 	iterative_height_update();
 }
 
+AvlTreeNodeBase *AvlTreeNodeBase::predecessor() const
+{
+	if (left_ == nullptr)
+	{
+		return const_cast<AvlTreeNodeBase *>(this);
+	}
+	Avl_Base_ptr predecessor = left_;
+
+	while (predecessor != nullptr && predecessor->right_ != nullptr)
+	{
+		predecessor = predecessor->right_;
+	}
+
+	return predecessor;
+}
+
+AvlTreeNodeBase *AvlTreeNodeBase::successor() const
+{
+	if (right_ == nullptr)
+	{
+		return const_cast<AvlTreeNodeBase *>(this);
+	}
+
+	Avl_Base_ptr successor = right_;
+
+	while (successor != nullptr && successor->left_ != nullptr)
+	{
+		successor = successor->left_;
+	}
+
+	return successor;
+}
+
 AvlTreeNodeBase::difference_type AvlTreeNodeBase::left_height() const
 {
 	return left_ == nullptr ? 0 : left_->height_;
@@ -31,14 +64,17 @@ auto AvlTreeNodeBase::AvlTreeNodeBase::to_constant() const -> Avl_Const_Base_ptr
 
 void AvlTreeNodeBase::iterative_height_update()
 {
-	Avl_Base_ptr node = this;
+	// update our height first
+	update_height_standalone();
+
+	Avl_Base_ptr node = parent_;
 
 	difference_type pre = -1, post = -2;
 
 	while (node != nullptr && pre != post)
 	{
 		pre = node->height_;
-		update_height_standalone();
+		node->update_height_standalone();
 		post = node->height_;
 
 		node = node->parent_;

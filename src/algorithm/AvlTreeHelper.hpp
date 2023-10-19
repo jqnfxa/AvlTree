@@ -94,11 +94,16 @@ auto avl_tree_decrement(typename AvlTreeNode<ValueType>::const_pointer_type node
 	}
 
 	/*
-	 * If placeholder node detected then decrement does not perform.
+	 * If placeholder node detected then decrement performs carefully.
+	 * decrement possible if largest node is not placeholder.
 	 */
 	if (is_placeholder(node))
 	{
-		return node;
+		if (is_placeholder(node->right_))
+		{
+			return node;
+		}
+		return node->right();
 	}
 
 	if (node->left() != nullptr)

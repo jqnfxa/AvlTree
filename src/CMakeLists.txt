@@ -14,5 +14,4 @@ add_library(${BINARY}_lib STATIC ${SOURCES}
         algorithm/AvlTreeHelper.cpp
         algorithm/AvlTreeHelper.hpp
         algorithm/AvlTreeIterator.hpp
-        algorithm/AvlTreeConstIterator.hpp
         algorithm/AvlTreeDeclaration.hpp)

@@ -15,6 +15,8 @@ class AvlTreeNodeBase {
 
   explicit AvlTreeNodeBase(Avl_Base_ptr left = nullptr, Avl_Base_ptr right = nullptr, Avl_Base_ptr parent = nullptr, difference_type height = 1);
 
+  Avl_Base_ptr predecessor() const;
+  Avl_Base_ptr successor() const;
   [[nodiscard]] difference_type left_height() const;
   [[nodiscard]] difference_type right_height() const;
   [[nodiscard]] difference_type balance_factor() const;

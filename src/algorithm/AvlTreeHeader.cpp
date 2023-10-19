@@ -25,6 +25,7 @@ void AvlTreeHeader::move_data(AvlTreeHeader &other)
 	header_.left_ = other.header_.left_;
 	header_.right_ = other.header_.right_;
 	header_.parent_ = &header_;
+	header_.height_ = other.header_.height_;
 	node_count_ = other.node_count_;
 
 	other.reset();
@@ -33,8 +34,9 @@ void AvlTreeHeader::move_data(AvlTreeHeader &other)
 
 void AvlTreeHeader::reset()
 {
-	header_.parent_ = nullptr;
+	header_.parent_ = &header_;
 	header_.left_ = &header_;
 	header_.right_ = &header_;
 	node_count_ = 0;
+	header_.height_ = 0;
 }
