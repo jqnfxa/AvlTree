@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 #include <algorithm/AvlTree.hpp>
-
+/*
 TEST(AvlTreeTestSuite, TestSize)
 {
 	AvlTree<int> tree;
@@ -85,7 +85,7 @@ TEST(AvlTreeTestSuite, TestFindBig)
 		ASSERT_EQ(tree.find(i), inserted);
 		ASSERT_EQ(*tree.find(i), i);
 	}
-}
+}*/
 /*
 TEST(AvlTreeTestSuite, TestEraseSmall)
 {

@@ -119,6 +119,27 @@ build install/strip: phony CMakeFiles/install/strip.util
 
 build cmake_object_order_depends_target_AvlTree_run: phony || src/CMakeFiles/AvlTree_run.dir
 
+build src/CMakeFiles/AvlTree_run.dir/algorithm/AvlTreeHeader.cpp.o: CXX_COMPILER__AvlTree_run_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/src/algorithm/AvlTreeHeader.cpp || cmake_object_order_depends_target_AvlTree_run
+  DEP_FILE = src/CMakeFiles/AvlTree_run.dir/algorithm/AvlTreeHeader.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src
+  OBJECT_DIR = src/CMakeFiles/AvlTree_run.dir
+  OBJECT_FILE_DIR = src/CMakeFiles/AvlTree_run.dir/algorithm
+
+build src/CMakeFiles/AvlTree_run.dir/algorithm/AvlTreeHelper.cpp.o: CXX_COMPILER__AvlTree_run_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/src/algorithm/AvlTreeHelper.cpp || cmake_object_order_depends_target_AvlTree_run
+  DEP_FILE = src/CMakeFiles/AvlTree_run.dir/algorithm/AvlTreeHelper.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src
+  OBJECT_DIR = src/CMakeFiles/AvlTree_run.dir
+  OBJECT_FILE_DIR = src/CMakeFiles/AvlTree_run.dir/algorithm
+
+build src/CMakeFiles/AvlTree_run.dir/algorithm/AvlTreeNode.cpp.o: CXX_COMPILER__AvlTree_run_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/src/algorithm/AvlTreeNode.cpp || cmake_object_order_depends_target_AvlTree_run
+  DEP_FILE = src/CMakeFiles/AvlTree_run.dir/algorithm/AvlTreeNode.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src
+  OBJECT_DIR = src/CMakeFiles/AvlTree_run.dir
+  OBJECT_FILE_DIR = src/CMakeFiles/AvlTree_run.dir/algorithm
+
 build src/CMakeFiles/AvlTree_run.dir/main.cpp.o: CXX_COMPILER__AvlTree_run_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/src/main.cpp || cmake_object_order_depends_target_AvlTree_run
   DEP_FILE = src/CMakeFiles/AvlTree_run.dir/main.cpp.o.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
@@ -141,7 +162,7 @@ build src/CMakeFiles/AvlTree_run.dir/profiler/Timer.cpp.o: CXX_COMPILER__AvlTree
 #############################################
 # Link the executable src/AvlTree_run
 
-build src/AvlTree_run: CXX_EXECUTABLE_LINKER__AvlTree_run_Debug src/CMakeFiles/AvlTree_run.dir/main.cpp.o src/CMakeFiles/AvlTree_run.dir/profiler/Timer.cpp.o
+build src/AvlTree_run: CXX_EXECUTABLE_LINKER__AvlTree_run_Debug src/CMakeFiles/AvlTree_run.dir/algorithm/AvlTreeHeader.cpp.o src/CMakeFiles/AvlTree_run.dir/algorithm/AvlTreeHelper.cpp.o src/CMakeFiles/AvlTree_run.dir/algorithm/AvlTreeNode.cpp.o src/CMakeFiles/AvlTree_run.dir/main.cpp.o src/CMakeFiles/AvlTree_run.dir/profiler/Timer.cpp.o
   FLAGS = -g
   OBJECT_DIR = src/CMakeFiles/AvlTree_run.dir
   POST_BUILD = :
@@ -157,6 +178,27 @@ build src/AvlTree_run: CXX_EXECUTABLE_LINKER__AvlTree_run_Debug src/CMakeFiles/A
 # Order-only phony target for AvlTree_lib
 
 build cmake_object_order_depends_target_AvlTree_lib: phony || src/CMakeFiles/AvlTree_lib.dir
+
+build src/CMakeFiles/AvlTree_lib.dir/algorithm/AvlTreeHeader.cpp.o: CXX_COMPILER__AvlTree_lib_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/src/algorithm/AvlTreeHeader.cpp || cmake_object_order_depends_target_AvlTree_lib
+  DEP_FILE = src/CMakeFiles/AvlTree_lib.dir/algorithm/AvlTreeHeader.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src
+  OBJECT_DIR = src/CMakeFiles/AvlTree_lib.dir
+  OBJECT_FILE_DIR = src/CMakeFiles/AvlTree_lib.dir/algorithm
+
+build src/CMakeFiles/AvlTree_lib.dir/algorithm/AvlTreeHelper.cpp.o: CXX_COMPILER__AvlTree_lib_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/src/algorithm/AvlTreeHelper.cpp || cmake_object_order_depends_target_AvlTree_lib
+  DEP_FILE = src/CMakeFiles/AvlTree_lib.dir/algorithm/AvlTreeHelper.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src
+  OBJECT_DIR = src/CMakeFiles/AvlTree_lib.dir
+  OBJECT_FILE_DIR = src/CMakeFiles/AvlTree_lib.dir/algorithm
+
+build src/CMakeFiles/AvlTree_lib.dir/algorithm/AvlTreeNode.cpp.o: CXX_COMPILER__AvlTree_lib_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/src/algorithm/AvlTreeNode.cpp || cmake_object_order_depends_target_AvlTree_lib
+  DEP_FILE = src/CMakeFiles/AvlTree_lib.dir/algorithm/AvlTreeNode.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src
+  OBJECT_DIR = src/CMakeFiles/AvlTree_lib.dir
+  OBJECT_FILE_DIR = src/CMakeFiles/AvlTree_lib.dir/algorithm
 
 build src/CMakeFiles/AvlTree_lib.dir/main.cpp.o: CXX_COMPILER__AvlTree_lib_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/src/main.cpp || cmake_object_order_depends_target_AvlTree_lib
   DEP_FILE = src/CMakeFiles/AvlTree_lib.dir/main.cpp.o.d
@@ -180,7 +222,7 @@ build src/CMakeFiles/AvlTree_lib.dir/profiler/Timer.cpp.o: CXX_COMPILER__AvlTree
 #############################################
 # Link the static library src/libAvlTree_lib.a
 
-build src/libAvlTree_lib.a: CXX_STATIC_LIBRARY_LINKER__AvlTree_lib_Debug src/CMakeFiles/AvlTree_lib.dir/main.cpp.o src/CMakeFiles/AvlTree_lib.dir/profiler/Timer.cpp.o
+build src/libAvlTree_lib.a: CXX_STATIC_LIBRARY_LINKER__AvlTree_lib_Debug src/CMakeFiles/AvlTree_lib.dir/algorithm/AvlTreeHeader.cpp.o src/CMakeFiles/AvlTree_lib.dir/algorithm/AvlTreeHelper.cpp.o src/CMakeFiles/AvlTree_lib.dir/algorithm/AvlTreeNode.cpp.o src/CMakeFiles/AvlTree_lib.dir/main.cpp.o src/CMakeFiles/AvlTree_lib.dir/profiler/Timer.cpp.o
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = src/CMakeFiles/AvlTree_lib.dir
   POST_BUILD = :

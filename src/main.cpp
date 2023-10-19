@@ -6,7 +6,14 @@
 #include "algorithm/AvlTree.hpp"
 
 // TODO reverse iterators
-// TODO remove inheritance? or just fix ugly static cast everywhere
+// TODO remove inheritance?
+// TODO tests for iterators
+// TODO test for const iterators
+// TODO tests for tree insert
+// TODO tests for tree find
+// TODO implement tree erase
+// TODO tests for tree erase
+// TODO what should we do with erase function? How AvlTree will have access to iterator node?
 // TODO const iterators are same as default iterators?
 
 template <typename Iterator>
@@ -26,13 +33,7 @@ std::ostream &print(std::ostream &out, Iterator begin, Iterator end)
 
 int main()
 {
-	/*std::set<int> a;
-
-	a.insert(15);
-	*a.find(15) = 19;*/
-
-
-	AvlTreeImplementation<std::string> tree;
+	AvlTree<std::string> tree;
 
 	std::string beautiful_string = "fuck you";
 
@@ -42,7 +43,8 @@ int main()
 	print(std::cerr, tree.begin(), tree.end());
 	print(std::cerr, tree.cbegin(), tree.cend());
 
-	std::cout << *tree.find("all");
+	//std::string str = *tree.end();
+	//std::cout << str;
 
 	/*
 	std::set<int> k;

@@ -1,686 +1,19 @@
 #pragma once
 
 #include <cstdint>
-#include "Node.hpp"
-
-/**
- * @class AvlTreeNodeBase
- * @brief Base class for AVL tree nodes.
- * @details This class provides a base for AVL tree nodes. It has pointers to the parent, left and right child nodes.
- */
-class AvlTreeNodeBase {
- public:
-  using difference_type = std::ptrdiff_t;
-  using Avl_Base_ptr = AvlTreeNodeBase *;
-  using Avl_Const_Base_ptr = const AvlTreeNodeBase *;
-
-  explicit AvlTreeNodeBase(Avl_Base_ptr left = nullptr, Avl_Base_ptr right = nullptr, Avl_Base_ptr parent = nullptr, difference_type height = 1);
-
-  [[nodiscard]] inline difference_type left_height() const;
-  [[nodiscard]] inline difference_type right_height() const;
-  [[nodiscard]] inline difference_type balance_factor() const;
-
-  void inline iterative_height_update();
-  void inline update_height_standalone();
-
- public:
-  Avl_Base_ptr parent_;
-  Avl_Base_ptr left_;
-  Avl_Base_ptr right_;
-  difference_type height_;
-};
-
-AvlTreeNodeBase::AvlTreeNodeBase(AvlTreeNodeBase::Avl_Base_ptr left, AvlTreeNodeBase::Avl_Base_ptr right, AvlTreeNodeBase::Avl_Base_ptr parent, AvlTreeNodeBase::difference_type height) : parent_(parent),
-																																														   left_(left),
-																																														   right_(right),
-																																														   height_(height)
-{
-}
-
-AvlTreeNodeBase::difference_type AvlTreeNodeBase::left_height() const
-{
-	return left_ == nullptr ? 0 : left_->height_;
-}
-
-AvlTreeNodeBase::difference_type AvlTreeNodeBase::right_height() const
-{
-	return right_ == nullptr ? 0 : right_->height_;
-}
-
-AvlTreeNodeBase::difference_type AvlTreeNodeBase::balance_factor() const
-{
-	return right_height() - left_height();
-}
-
-void AvlTreeNodeBase::iterative_height_update()
-{
-	Avl_Base_ptr node = this;
-
-	difference_type pre = -1, post = -2;
-
-	while (node != nullptr && pre != post)
-	{
-		pre = node->height_;
-		update_height_standalone();
-		post = node->height_;
-
-		node = node->parent_;
-	}
-}
-
-void AvlTreeNodeBase::update_height_standalone()
-{
-	height_ = 1 + std::max(left_height(), right_height());
-}
-
-/**
- * @class AvlTreeNode
- * @brief A node in an AVL tree.
- * @tparam Value_ The type of the value stored in the node.
- * @details This class represents a node in an AVL tree.
- * @par It inherits from `AvlTreeNodeBase` and adds a member for the value stored in the node.
- * @par It also provides methods for accessing the value stored in the node.
- */
-template<typename ValueType>
-class AvlTreeNode : public AvlTreeNodeBase {
- public:
-  using value_type = ValueType;
-  using difference_type = std::ptrdiff_t;
-  using const_reference = const value_type &;
-  using pointer_type = AvlTreeNode<value_type> *;
-  using const_pointer_type = const AvlTreeNode<const value_type> *;
-
-  AvlTreeNode() = default;
-
-  explicit AvlTreeNode(const_reference val, pointer_type left = nullptr, pointer_type right = nullptr, pointer_type parent = nullptr, difference_type height = 1);
-  /**
-   * @brief Gets a pointer to the value stored in the node.
-   * @return A pointer to the value stored in the node.
-   */
-  value_type *value();
-
-  /**
-   * @brief Gets a const pointer to the value stored in the node.
-   * @return A const pointer to the value stored in the node.
-   */
-  const value_type *const_value() const;
-
-  value_type value_;
-};
-
-template<typename ValueType>
-AvlTreeNode<ValueType>::AvlTreeNode(const_reference val, pointer_type left, pointer_type right, pointer_type parent, difference_type height)  : AvlTreeNodeBase(left, right, parent, height),
-																																				value_(val)
-{
-}
-
-template<typename ValueType>
-auto AvlTreeNode<ValueType>::value() -> AvlTreeNode<ValueType>::value_type *
-{
-	return &value;
-}
-
-template<typename ValueType>
-auto AvlTreeNode<ValueType>::const_value() const -> const AvlTreeNode<ValueType>::value_type *
-{
-	return &value;
-}
-
-/**
- * @class AvlTreeHeader
- * @brief Header for AVL tree.
- * @details This class holds the header for an AVL tree (used as placeholder).
- * @par It includes a pointer to the root node of the tree and the count of nodes in the tree.
- */
-class AvlTreeHeader {
- public:
-  using size_type = std::size_t;
-
-  /**
-   * @brief Constructs a new `AvlTreeHeader` by moving data from another `AvlTreeHeader`.
-   * @param other The `AvlTreeHeader` to move data from.
-   * @par If the other `AvlTreeHeader` is empty, this `AvlTreeHeader` is reset.
-   * @par Otherwise, data is moved from the other `AvlTreeHeader`.
-   */
-  AvlTreeHeader();
-
-  AvlTreeHeader(AvlTreeHeader &&other) noexcept;
-
-  /**
-   * @brief Moves data from another `AvlTreeHeader` to this `AvlTreeHeader`.
-   * @param other The `AvlTreeHeader` to move data from.
-   */
-  void move_data(AvlTreeHeader &other);
-
-  /**
-   * @brief Resets this `AvlTreeHeader` to its initial state.
-   */
-  void reset();
-
- public:
-  AvlTreeNodeBase header_;
-  size_type node_count_;
-};
-
-AvlTreeHeader::AvlTreeHeader()
-{
-	reset();
-}
-
-AvlTreeHeader::AvlTreeHeader(AvlTreeHeader &&other) noexcept
-{
-	if (other.header_.parent_ == nullptr)
-	{
-		reset();
-		node_count_ = 0;
-	}
-	else
-	{
-		move_data(other);
-	}
-}
-
-void AvlTreeHeader::move_data(AvlTreeHeader &other)
-{
-	reset();
-
-	header_.left_ = other.header_.left_;
-	header_.right_ = other.header_.right_;
-	header_.parent_ = &header_;
-	node_count_ = other.node_count_;
-
-	other.reset();
-	other.node_count_ = 0;
-}
-
-void AvlTreeHeader::reset()
-{
-	header_.parent_ = nullptr;
-	header_.left_ = &header_;
-	header_.right_ = &header_;
-	node_count_ = 0;
-}
-
-/*
- * Forward declarations of tree classes.
- */
-template<typename ValueType, class Comparator = std::less<ValueType>>
-class AvlTreeImplementation;
-
-template<typename ValueType, class Comparator = std::less<ValueType>>
-class AvlTree;
-
-/*
-template<typename PointerType>
-concept AvlTreeNodePointerType = std::is_same_v<typeid(PointerType), typeid(AvlTreeNodeBase::Avl_Base_ptr)>; // || std::is_same_v<PointerType, AvlTreeNodeBase::Avl_Const_Base_ptr>;
-*/
-/**
- * @brief Checks if a node is a placeholder.
- * @par Note: Placeholder has following property: node->parent->parent = node.
- * @tparam AvlTreeNodePointer A pointer to an AVL tree node. This can be either a pointer to an `AvlTreeNodeBase` or a pointer to a `const AvlTreeNodeBase`.
- * @param node The node to check.
- * @return `true` if the node is a placeholder, `false` otherwise.
- */
-bool is_placeholder(AvlTreeNodeBase::Avl_Base_ptr node)
-{
-	if (node == nullptr)
-	{
-		return false;
-	}
-
-	return node->parent_ == node;
-}
-
-bool is_placeholder(AvlTreeNodeBase::Avl_Const_Base_ptr node)
-{
-	if (node == nullptr)
-	{
-		return false;
-	}
-
-	return node->parent_ == node;
-}
-
-/**
- * @brief Increments iterator in the AVL tree.
- * @tparam AvlTreeNodePointer A pointer to an AVL tree node.
- * @par This can be either a pointer to an `AvlTreeNodeBase` or a pointer to a `const AvlTreeNodeBase`.
- * @param node The node to increment.
- * @return A pointer to the next node in the AVL tree.
- */
-template<typename ValueType>
-AvlTreeNode<ValueType>::pointer_type avl_tree_increment(typename AvlTreeNode<ValueType>::pointer_type node)
-{
-	using pointer_type = typename AvlTreeNode<ValueType>::pointer_type;
-
-	if (node == nullptr)
-	{
-		return nullptr;
-	}
-
-	/*
-	 * If placeholder node detected then increment does not perform.
-	 */
-	if (is_placeholder(node))
-	{
-		return node;
-	}
-
-	if (node->right_ != nullptr)
-	{
-		/*
-		 * If node has right child then go to leftmost node of this child.
-		 */
-		node = static_cast<pointer_type>(node->right_);
-
-		if (!is_placeholder(node))
-		{
-			while (node->left_ != nullptr)
-			{
-				node = static_cast<pointer_type>(node->left_);
-			}
-		}
-	}
-	else
-	{
-		/*
-		 * We've reached the leaf node, so we're coming out of it
-		 */
-		pointer_type temp;
-
-		while (node->parent_ != nullptr)
-		{
-			temp = node;
-			node = static_cast<pointer_type>(node->parent_);
-
-			if (static_cast<pointer_type>(node->left_) == temp)
-			{
-				break;
-			}
-		}
-	}
-
-	return node;
-}
-
-template<typename ValueType>
-AvlTreeNode<ValueType>::const_pointer_type cavl_tree_increment(typename AvlTreeNode<ValueType>::const_pointer_type node)
-{
-	using pointer_type = typename AvlTreeNode<ValueType>::const_pointer_type;
-
-	if (node == nullptr)
-	{
-		return nullptr;
-	}
-
-	/*
-	 * If placeholder node detected then increment does not perform.
-	 */
-	if (is_placeholder(node))
-	{
-		return node;
-	}
-
-	if (node->right_ != nullptr)
-	{
-		/*
-		 * If node has right child then go to leftmost node of this child.
-		 */
-		node = static_cast<pointer_type>(node->right_);
-
-		if (!is_placeholder(node))
-		{
-			while (node->left_ != nullptr)
-			{
-				node = static_cast<pointer_type>(node->left_);
-			}
-		}
-	}
-	else
-	{
-		/*
-		 * We've reached the leaf node, so we're coming out of it
-		 */
-		pointer_type temp;
-
-		while (node->parent_ != nullptr)
-		{
-			temp = node;
-			node = static_cast<pointer_type>(node->parent_);
-
-			if (static_cast<pointer_type>(node->left_) == temp)
-			{
-				break;
-			}
-		}
-	}
-
-	return node;
-}
-
-/**
- * @brief Decrements iterator in the AVL tree.
- * @tparam AvlTreeNodePointer A pointer to an AVL tree node.
- * @par This can be either a pointer to an `AvlTreeNodeBase` or a pointer to a `const AvlTreeNodeBase`.
- * @param node The node to decrement.
- * @return A pointer to the next node in the AVL tree.
- */
-template<typename ValueType>
-AvlTreeNode<ValueType>::pointer_type avl_tree_decrement(typename AvlTreeNode<ValueType>::pointer_type node)
-{
-	using pointer_type = typename AvlTreeNode<ValueType>::pointer_type;
-
-	if (node == nullptr)
-	{
-		return nullptr;
-	}
-
-	/*
-	 * If placeholder node detected then decrement does not perform.
-	 */
-	if (is_placeholder(node))
-	{
-		return node;
-	}
-
-	if (node->left_ != nullptr)
-	{
-		/*
-		 * If node has left child then go to rightmost node of this child.
-		 */
-		node = static_cast<pointer_type>(node->left_);
-
-		if (!is_placeholder(node))
-		{
-			while (node->right_ != nullptr)
-			{
-				node = static_cast<pointer_type>(node->right_);
-			}
-		}
-	}
-	else
-	{
-		pointer_type temp;
-
-		while (node->parent_ != nullptr)
-		{
-			temp = node;
-			node = static_cast<pointer_type>(node->parent_);
-
-			if (static_cast<pointer_type>(node->right_) == temp)
-			{
-				break;
-			}
-		}
-	}
-	return node;
-}
-
-template<typename ValueType>
-AvlTreeNode<ValueType>::const_pointer_type cavl_tree_decrement(typename AvlTreeNode<ValueType>::const_pointer_type node)
-{
-	using pointer_type = typename AvlTreeNode<ValueType>::const_pointer_type;
-
-	if (node == nullptr)
-	{
-		return nullptr;
-	}
-
-	/*
-	 * If placeholder node detected then decrement does not perform.
-	 */
-	if (is_placeholder(node))
-	{
-		return node;
-	}
-
-	if (node->left_ != nullptr)
-	{
-		/*
-		 * If node has left child then go to rightmost node of this child.
-		 */
-		node = static_cast<pointer_type>(node->left_);
-
-		if (!is_placeholder(node))
-		{
-			while (node->right_ != nullptr)
-			{
-				node = static_cast<pointer_type>(node->right_);
-			}
-		}
-	}
-	else
-	{
-		pointer_type temp;
-
-		while (node->parent_ != nullptr)
-		{
-			temp = node;
-			node = static_cast<pointer_type>(node->parent_);
-
-			if (static_cast<pointer_type>(node->right_) == temp)
-			{
-				break;
-			}
-		}
-	}
-	return node;
-}
-
-template<typename ValueType>
-class AvlTreeIterator {
- public:
-  using value_type = ValueType;
-  using self = AvlTreeIterator<value_type>;
-  using iterator_tag = std::bidirectional_iterator_tag;
-  using difference_type = std::ptrdiff_t;
-  using reference = const value_type &;
-  using pointer = const value_type *;
-
-  AvlTreeIterator();
-
-  explicit AvlTreeIterator(AvlTreeNodeBase::Avl_Base_ptr node);
-
-  reference operator*();
-
-  pointer operator->();
-
-  /**
-   * @brief prefix increment
-   */
-  self &operator++();
-
-  /**
-   * @brief postfix increment
-   */
-  self operator++(int);
-
-  /**
-   * @brief prefix decrement
-   */
-  self &operator--();
-
-  /**
-   * @brief prefix decrement
-   */
-  self operator--(int);
-
-  bool operator==(const AvlTreeIterator<value_type> &other) const;
- private:
-  AvlTreeNode<value_type> *node_;
-};
-
-template<typename ValueType>
-AvlTreeIterator<ValueType>::AvlTreeIterator() : node_(nullptr)
-{
-}
-
-template<typename ValueType>
-AvlTreeIterator<ValueType>::AvlTreeIterator(AvlTreeNodeBase::Avl_Base_ptr node) : node_(static_cast<AvlTreeNode<ValueType> *>(node))
-{
-}
-
-template<typename ValueType>
-auto AvlTreeIterator<ValueType>::operator*() -> reference
-{
-	return node_->value_;
-}
-
-template<typename ValueType>
-auto AvlTreeIterator<ValueType>::operator->() -> pointer
-{
-	return node_->value();
-}
-
-template<typename ValueType>
-auto AvlTreeIterator<ValueType>::operator++() -> self &
-{
-	node_ = avl_tree_increment<ValueType>(node_);
-	return *this;
-}
-
-template<typename ValueType>
-auto AvlTreeIterator<ValueType>::operator++(int) -> self
-{
-	self temp = *this;
-	++(*this);
-	return temp;
-}
-
-template<typename ValueType>
-auto AvlTreeIterator<ValueType>::operator--() -> self &
-{
-	node_ = avl_tree_decrement<ValueType>(node_);
-	return *this;
-}
-
-template<typename ValueType>
-auto AvlTreeIterator<ValueType>::operator--(int) -> self
-{
-	self temp = *this;
-	--(*this);
-	return temp;
-}
-
-template<typename ValueType>
-bool AvlTreeIterator<ValueType>::operator==(const AvlTreeIterator<value_type> &other) const
-{
-	return node_ == other.node_;
-}
-
-template<typename ValueType>
-class AvlTreeConstIterator {
- public:
-  using value_type = ValueType;
-  using iterator = AvlTreeIterator<value_type>;
-  using self = AvlTreeConstIterator<value_type>;
-  using iterator_tag = std::bidirectional_iterator_tag;
-  using difference_type = std::ptrdiff_t;
-  using reference = const value_type &;
-  using pointer = const value_type *;
-
-  AvlTreeConstIterator();
-
-  explicit AvlTreeConstIterator(AvlTreeNodeBase::Avl_Const_Base_ptr node);
-
-  explicit AvlTreeConstIterator(const iterator &other);
-
-  reference operator*();
-
-  pointer operator->();
-
-  /**
-   * @brief prefix increment
-   */
-  self &operator++();
-
-  /**
-   * @brief postfix increment
-   */
-  self operator++(int);
-
-  /**
-   * @brief prefix decrement
-   */
-  self &operator--();
-
-  /**
-   * @brief prefix decrement
-   */
-  self operator--(int);
-
-  bool operator==(const AvlTreeConstIterator<value_type> &other) const;
- private:
-  AvlTreeNode<value_type>::const_pointer_type node_;
-};
-
-template<typename ValueType>
-AvlTreeConstIterator<ValueType>::AvlTreeConstIterator() : node_(nullptr)
-{
-}
-
-template<typename ValueType>
-AvlTreeConstIterator<ValueType>::AvlTreeConstIterator(AvlTreeNodeBase::Avl_Const_Base_ptr node) : node_(static_cast<AvlTreeNode<ValueType>::const_pointer_type>(node))
-{
-}
-
-template<typename ValueType>
-AvlTreeConstIterator<ValueType>::AvlTreeConstIterator(const AvlTreeConstIterator::iterator &other) : node_(other.node_)
-{
-}
-
-template<typename ValueType>
-auto AvlTreeConstIterator<ValueType>::operator*() -> reference
-{
-	return node_->value_;
-}
-
-template<typename ValueType>
-auto AvlTreeConstIterator<ValueType>::operator->() -> pointer
-{
-	return node_->const_value();
-}
-
-template<typename ValueType>
-auto AvlTreeConstIterator<ValueType>::operator++() -> self &
-{
-	node_ = cavl_tree_increment<ValueType>(node_);
-	return *this;
-}
-
-template<typename ValueType>
-auto AvlTreeConstIterator<ValueType>::operator++(int) -> self
-{
-	self temp = *this;
-	++(*this);
-	return temp;
-}
-
-template<typename ValueType>
-auto AvlTreeConstIterator<ValueType>::operator--() -> self &
-{
-	node_ = cavl_tree_decrement<ValueType>(node_);
-	return *this;
-}
-
-template<typename ValueType>
-auto AvlTreeConstIterator<ValueType>::operator--(int) -> self
-{
-	self temp = *this;
-	--(*this);
-	return temp;
-}
-
-template<typename ValueType>
-bool AvlTreeConstIterator<ValueType>::operator==(const AvlTreeConstIterator<value_type> &other) const
-{
-	return node_ == other.node_;
-}
+#include "AvlTreeDeclaration.hpp"
+#include "AvlTreeNode.hpp"
+#include "AvlTreeHeader.hpp"
+#include "AvlTreeHeader.hpp"
+#include "AvlTreeIterator.hpp"
+#include "AvlTreeConstIterator.hpp"
+//#include "Node.hpp"
 
 template<typename ValueType, class Comparator>
-class AvlTreeImplementation : public AvlTreeHeader {
+class AvlTree {
  public:
-  using self = AvlTreeImplementation;
+  using self = AvlTree;
+  using size_type = AvlTreeHeader::size_type;
   using value_type = ValueType;
   using node_type = AvlTreeNode<value_type>;
   using node_pointer = node_type *;
@@ -690,17 +23,17 @@ class AvlTreeImplementation : public AvlTreeHeader {
 
   // TODO implement std::reverse_iterators
 
-  AvlTreeImplementation();
+  AvlTree();
 
-  ~AvlTreeImplementation();
+  ~AvlTree();
 
-  AvlTreeImplementation(AvlTreeImplementation &&other) noexcept;
+  AvlTree(AvlTree &&other) noexcept;
 
-  self &operator=(AvlTreeImplementation &&other) noexcept;
+  self &operator=(AvlTree &&other) noexcept;
 
   // TODO implement copy constructor
-  AvlTreeImplementation(const AvlTreeImplementation &other) = delete;
-  self &operator=(const AvlTreeImplementation &other) = delete;
+  AvlTree(const AvlTree &other) = delete;
+  self &operator=(const AvlTree &other) = delete;
 
   /*
    * iterators
@@ -730,9 +63,19 @@ class AvlTreeImplementation : public AvlTreeHeader {
   void clear();
 
   std::pair<iterator, bool> insert(const value_type &value);
+  std::pair<iterator, bool> insert(value_type &&value);
 
+
+  /*
+   * searchers
+   */
   iterator find(const value_type &value);
+  iterator find(value_type &&value);
+  const_iterator find(const value_type &value) const;
+  const_iterator find(value_type &&value) const;
 
+ private:
+  void recursive_destroy(pointer_type node);
   node_pointer rotate_left(node_pointer node);
 
   node_pointer rotate_right(node_pointer node);
@@ -825,45 +168,24 @@ class AvlTreeImplementation : public AvlTreeHeader {
   node_pointer balance_bottom_up(node_pointer node);
 
  private:
-  void recursive_destroy(pointer_type node);
-
+  AvlTreeHeader header_;
   node_pointer root_;
   Comparator compare_;
 };
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::find(const value_type &value) -> iterator
-{
-	node_pointer node = root_;
-
-	while (node != nullptr && node->value_ != value)
-	{
-		if (compare_(value, node->value_))
-		{
-			node = static_cast<node_pointer>(node->left_);
-		}
-		else
-		{
-			node = static_cast<node_pointer>(node->right_);
-		}
-	}
-
-	return iterator(node);
-}
-
-template<typename ValueType, class Comparator>
-AvlTreeImplementation<ValueType, Comparator>::AvlTreeImplementation() : AvlTreeHeader(), root_(nullptr)
+AvlTree<ValueType, Comparator>::AvlTree() : header_(), root_(nullptr)
 {
 }
 
 template<typename ValueType, class Comparator>
-AvlTreeImplementation<ValueType, Comparator>::~AvlTreeImplementation()
+AvlTree<ValueType, Comparator>::~AvlTree()
 {
 	clear();
 }
 
 template<typename ValueType, class Comparator>
-AvlTreeImplementation<ValueType, Comparator>::AvlTreeImplementation(AvlTreeImplementation &&other) noexcept
+AvlTree<ValueType, Comparator>::AvlTree(AvlTree &&other) noexcept
 {
 	// TODO should we check self assigment here ?
 	header_ = std::move(other.header_);
@@ -871,7 +193,7 @@ AvlTreeImplementation<ValueType, Comparator>::AvlTreeImplementation(AvlTreeImple
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::operator=(AvlTreeImplementation &&other) noexcept -> self &
+auto AvlTree<ValueType, Comparator>::operator=(AvlTree &&other) noexcept -> self &
 {
 	if (this != &other)
 	{
@@ -883,62 +205,62 @@ auto AvlTreeImplementation<ValueType, Comparator>::operator=(AvlTreeImplementati
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::begin() noexcept -> iterator
+auto AvlTree<ValueType, Comparator>::begin() noexcept -> iterator
 {
-	return iterator(header_.left_);
+	return iterator(header_.header_.left_);
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::begin() const noexcept -> const_iterator
+auto AvlTree<ValueType, Comparator>::begin() const noexcept -> const_iterator
 {
-	return iterator(header_.left_);
+	return const_iterator(header_.header_.left_);
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::cbegin() const noexcept -> const_iterator
+auto AvlTree<ValueType, Comparator>::cbegin() const noexcept -> const_iterator
 {
-	return const_iterator(header_.left_);
+	return const_iterator(header_.header_.left_);
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::end() noexcept -> iterator
+auto AvlTree<ValueType, Comparator>::end() noexcept -> iterator
 {
-	return iterator(&header_);
+	return iterator(&header_.header_);
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::end() const noexcept -> const_iterator
+auto AvlTree<ValueType, Comparator>::end() const noexcept -> const_iterator
 {
-	return const_iterator(&header_);
+	return const_iterator(&header_.header_);
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::cend() const noexcept -> const_iterator
+auto AvlTree<ValueType, Comparator>::cend() const noexcept -> const_iterator
 {
-	return const_iterator(&header_);
+	return const_iterator(&header_.header_);
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::size() const -> size_type
+auto AvlTree<ValueType, Comparator>::size() const -> size_type
 {
-	return node_count_;
+	return header_.node_count_;
 }
 
 template<typename ValueType, class Comparator>
-bool AvlTreeImplementation<ValueType, Comparator>::empty() const
+bool AvlTree<ValueType, Comparator>::empty() const
 {
 	return size() == 0;
 }
 
 template<typename ValueType, class Comparator>
-void AvlTreeImplementation<ValueType, Comparator>::clear()
+void AvlTree<ValueType, Comparator>::clear()
 {
 	recursive_destroy(root_);
-	reset();
+	header_.reset();
 }
 
 template<typename ValueType, class Comparator>
-void AvlTreeImplementation<ValueType, Comparator>::recursive_destroy(pointer_type node)
+void AvlTree<ValueType, Comparator>::recursive_destroy(pointer_type node)
 {
 	if (node == nullptr)
 	{
@@ -968,18 +290,18 @@ void AvlTreeImplementation<ValueType, Comparator>::recursive_destroy(pointer_typ
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::insert(const value_type &value) -> std::pair<iterator, bool>
+auto AvlTree<ValueType, Comparator>::insert(const value_type &value) -> std::pair<iterator, bool>
 {
 	if (root_ == nullptr)
 	{
 		root_ = new node_type(value);
-		header_.left_ = root_;
-		header_.right_ = root_;
-		root_->left_ = &header_;
-		root_->right_ = &header_;
-		header_.parent_ = &header_;
+		header_.header_.left_ = root_;
+		header_.header_.right_ = root_;
+		root_->left_ = &header_.header_;
+		root_->right_ = &header_.header_;
+		header_.header_.parent_ = &header_.header_;
 
-		node_count_ = 1;
+		header_.node_count_ = 1;
 		return {begin(), true};
 	}
 
@@ -988,77 +310,121 @@ auto AvlTreeImplementation<ValueType, Comparator>::insert(const value_type &valu
 
 	while (needle == nullptr)
 	{
-		if (is_placeholder(current->left_))
+		/*
+		 * if value less than current node value
+		 */
+		if (compare_(value, current->value_))
 		{
-			// we want to insert value smaller than smallest
-			current->left_ = new node_type(value);
-			current->left_->parent_ = current;
-			needle = static_cast<node_pointer>(current->left_);
-
-			header_.left_ = needle;
-			needle->left_ = &header_;
-		}
-		else if (is_placeholder(current->right_))
-		{
-			// we want to insert value greater than largest
-			current->right_ = new node_type(value);
-			current->right_->parent_ = current;
-			needle = static_cast<node_pointer>(current->right_);
-
-			header_.right_ = needle;
-			needle->right_ = &header_;
-		}
-		else
-		{
-			if (compare_(value, current->value_))
+			if (is_placeholder(current->left_))
 			{
-				if (current->left_ == nullptr)
-				{
-					current->left_ = new node_type(value);
-					current->left_->parent_ = current;
-					needle = static_cast<node_pointer>(current->left_);
-				}
-				else
-				{
-					current = static_cast<node_pointer>(current->left_);
-				}
+				// we want to insert value smaller than smallest
+				current->left_ = new node_type(value);
+				current->left_->parent_ = current;
+				needle = current->left();
+
+				header_.header_.left_ = needle;
+				needle->left_ = &header_.header_;
 			}
-			else if (compare_(current->value_, value))
+			else if (current->left_ == nullptr)
 			{
-				if (current->right_ == nullptr)
-				{
-					current->right_ = new node_type(value);
-					current->right_->parent_ = current;
-					needle = static_cast<node_pointer>(current->right_);
-				}
-				else
-				{
-					current = static_cast<node_pointer>(current->right_);
-				}
+				current->left_ = new node_type(value);
+				current->left_->parent_ = current;
+				needle = current->left();
 			}
 			else
 			{
-				// current node contains same value
-				return {iterator(needle), false};
+				current = current->left();
 			}
+		}
+		else if (compare_(current->value_, value))
+		{
+			if (is_placeholder(current->right_))
+			{
+				// we want to insert value greater than largest
+				current->right_ = new node_type(value);
+				current->right_->parent_ = current;
+				needle = current->right();
+
+				header_.header_.right_ = needle;
+				needle->right_ = &header_.header_;
+			}
+			else if (current->right_ == nullptr)
+			{
+				current->right_ = new node_type(value);
+				current->right_->parent_ = current;
+				needle = current->right();
+			}
+			else
+			{
+				current = current->right();
+			}
+		}
+		else
+		{
+			// current node contains same value
+			return {iterator(needle), false};
 		}
 	}
 
-	++node_count_;
+	++header_.node_count_;
 
 	// update heights for all ancestors
 	needle->iterative_height_update();
 
 	// balance nodes start from parent
-	balance_bottom_up(static_cast<node_pointer>(needle->parent_));
+	balance_bottom_up(needle->parent());
 
 	return {iterator(needle), true};
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::rotate_left(node_pointer node) -> node_pointer
+auto AvlTree<ValueType, Comparator>::insert(value_type &&value) -> std::pair<iterator, bool>
 {
-	node_pointer new_root = static_cast<node_pointer>(node->right_);
+	return insert(static_cast<ValueType &>(value));
+}
+
+template<typename ValueType, class Comparator>
+auto AvlTree<ValueType, Comparator>::find(const value_type &value) -> iterator
+{
+	node_pointer node = root_;
+
+	while (node != nullptr && node->value_ != value)
+	{
+		if (compare_(value, node->value_))
+		{
+			node = node->left();
+		}
+		else
+		{
+			node = node->right();
+		}
+	}
+
+	return iterator(node);
+}
+
+template<typename ValueType, class Comparator>
+auto AvlTree<ValueType, Comparator>::find(value_type &&value) -> iterator
+{
+	return find(static_cast<value_type &>(value));
+}
+
+template<typename ValueType, class Comparator>
+auto AvlTree<ValueType, Comparator>::find(const value_type &value) const -> const_iterator
+{
+	return const_iterator(find(value));
+}
+
+template<typename ValueType, class Comparator>
+auto AvlTree<ValueType, Comparator>::find(value_type &&value) const -> const_iterator
+{
+	return find(static_cast<value_type &>(value));
+}
+
+template<typename ValueType, class Comparator>
+auto AvlTree<ValueType, Comparator>::rotate_left(node_pointer node) -> node_pointer
+{
+	node_pointer new_root = node->right();
 
 	node->right_ = new_root->left_;
 	node->right_->parent_ = node;
@@ -1075,9 +441,9 @@ auto AvlTreeImplementation<ValueType, Comparator>::rotate_left(node_pointer node
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::rotate_right(node_pointer node) -> node_pointer
+auto AvlTree<ValueType, Comparator>::rotate_right(node_pointer node) -> node_pointer
 {
-	node_pointer new_root = static_cast<node_pointer>(node->left_);
+	node_pointer new_root = node->left();
 
 	node->left_ = new_root->right_;
 	node->left_->parent_ = node;
@@ -1094,18 +460,18 @@ auto AvlTreeImplementation<ValueType, Comparator>::rotate_right(node_pointer nod
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::small_left_rotate(node_pointer node) -> node_pointer
+auto AvlTree<ValueType, Comparator>::small_left_rotate(node_pointer node) -> node_pointer
 {
 	if (node->parent_ == nullptr)
 	{
 		return rotate_left(node);
 	}
 
-	node_pointer parent = static_cast<node_pointer>(node->parent_);
-	node_pointer left = static_cast<node_pointer>(parent->left_);
-	node_pointer right = static_cast<node_pointer>(parent->right_);
+	node_pointer parent = node->parent();
+	node_pointer left = parent->left();
+	node_pointer right = parent->right();
 
-	node_pointer &part = static_cast<node_pointer>(parent->left_) == node ? left : right;
+	node_pointer &part = parent->left() == node ? left : right;
 
 	node->parent_ = nullptr;
 	part = rotate_left(node);
@@ -1116,9 +482,9 @@ auto AvlTreeImplementation<ValueType, Comparator>::small_left_rotate(node_pointe
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::big_left_rotate(node_pointer node) -> node_pointer
+auto AvlTree<ValueType, Comparator>::big_left_rotate(node_pointer node) -> node_pointer
 {
-	node->right_ = small_right_rotate(static_cast<node_pointer>(node->right_));
+	node->right_ = small_right_rotate(node->right());
 	node->right_->parent_ = node;
 	node->iterative_height_update();
 
@@ -1126,18 +492,18 @@ auto AvlTreeImplementation<ValueType, Comparator>::big_left_rotate(node_pointer 
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::small_right_rotate(node_pointer node) -> node_pointer
+auto AvlTree<ValueType, Comparator>::small_right_rotate(node_pointer node) -> node_pointer
 {
 	if (node->parent_ == nullptr)
 	{
 		return rotate_right(node);
 	}
 
-	node_pointer parent = static_cast<node_pointer>(node->parent_);
-	node_pointer left = static_cast<node_pointer>(parent->left_);
-	node_pointer right = static_cast<node_pointer>(parent->right_);
+	node_pointer parent = node->parent();
+	node_pointer left = parent->left();
+	node_pointer right = parent->right();
 
-	node_pointer &part = static_cast<node_pointer>(parent->left_) == node ? left : right;
+	node_pointer &part = parent->left() == node ? left : right;
 
 	node->parent_ = nullptr;
 	part = rotate_right(node);
@@ -1148,9 +514,9 @@ auto AvlTreeImplementation<ValueType, Comparator>::small_right_rotate(node_point
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::big_right_rotate(node_pointer node) -> node_pointer
+auto AvlTree<ValueType, Comparator>::big_right_rotate(node_pointer node) -> node_pointer
 {
-	node->left_ = small_left_rotate(static_cast<node_pointer>(node->left_));
+	node->left_ = small_left_rotate(node->left());
 	node->left_->parent_ = node;
 	node->iterative_height_update();
 
@@ -1158,7 +524,7 @@ auto AvlTreeImplementation<ValueType, Comparator>::big_right_rotate(node_pointer
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::balance_node(node_pointer node) -> node_pointer
+auto AvlTree<ValueType, Comparator>::balance_node(node_pointer node) -> node_pointer
 {
 	if (node == nullptr)
 	{
@@ -1194,7 +560,7 @@ auto AvlTreeImplementation<ValueType, Comparator>::balance_node(node_pointer nod
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTreeImplementation<ValueType, Comparator>::balance_bottom_up(node_pointer node) -> node_pointer
+auto AvlTree<ValueType, Comparator>::balance_bottom_up(node_pointer node) -> node_pointer
 {
 	node_pointer temp = node;
 
@@ -1206,7 +572,7 @@ auto AvlTreeImplementation<ValueType, Comparator>::balance_bottom_up(node_pointe
 		{
 			root_ = temp;
 		}
-		temp = static_cast<node_pointer>(temp->parent_);
+		temp = temp->parent();
 	}
 
 	return node;
