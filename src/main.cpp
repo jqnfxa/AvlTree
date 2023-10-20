@@ -5,21 +5,11 @@
 #include "profiler/Timer.hpp"
 #include "algorithm/AvlTree.hpp"
 
-// TODO rewrite all function to work on clear tree
-// i.e. first unlink header
-// then process tree
-// restore header back
-
-// TODO reverse iterators
-// TODO remove inheritance?
 // TODO tests for iterators
-// TODO test for const iterators
 // TODO tests for tree insert
 // TODO tests for tree find
-// TODO implement tree erase
 // TODO tests for tree erase
-// TODO what should we do with erase function? How AvlTree will have access to iterator node?
-// TODO const iterators are same as default iterators?
+// TODO speed up
 
 template <typename Iterator>
 std::ostream &print(std::ostream &out, Iterator begin, Iterator end)
