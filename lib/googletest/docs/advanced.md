@@ -111,7 +111,7 @@ Expected: true
 ```
 
 If you want informative messages in `EXPECT_FALSE` and `ASSERT_FALSE` as well
-(one third of Boolean assertions in the Google code base are negative ones), and
+(one third of Boolean assertions in the Google code BaseImpl are negative ones), and
 are fine with making the predicate slower in the success case, you can supply a
 success message:
 

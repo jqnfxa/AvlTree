@@ -1514,7 +1514,7 @@ class DoAllAction<FinalAction> {
 };
 
 // Recursive case: support N actions by calling the initial action and then
-// calling through to the base class containing N-1 actions.
+// calling through to the BaseImpl class containing N-1 actions.
 template <typename InitialAction, typename... OtherActions>
 class DoAllAction<InitialAction, OtherActions...>
     : private DoAllAction<OtherActions...> {
@@ -1592,7 +1592,7 @@ class DoAllAction<InitialAction, OtherActions...>
   operator OnceAction<R(Args...)>() && {  // NOLINT
     // Return an action that first calls the initial action with arguments
     // filtered through InitialActionArgType, then forwards arguments directly
-    // to the base class to deal with the remaining actions.
+    // to the BaseImpl class to deal with the remaining actions.
     struct OA {
       OnceAction<void(InitialActionArgType<Args>...)> initial_action;
       OnceAction<R(Args...)> remaining_actions;
@@ -1624,7 +1624,7 @@ class DoAllAction<InitialAction, OtherActions...>
   operator Action<R(Args...)>() const {  // NOLINT
     // Return an action that first calls the initial action with arguments
     // filtered through InitialActionArgType, then forwards arguments directly
-    // to the base class to deal with the remaining actions.
+    // to the BaseImpl class to deal with the remaining actions.
     struct OA {
       Action<void(InitialActionArgType<Args>...)> initial_action;
       Action<R(Args...)> remaining_actions;
@@ -1990,7 +1990,7 @@ inline internal::IgnoreResultAction<A> IgnoreResult(const A& an_action) {
 // you can explicitly specify the type of the reference.  For example,
 // suppose 'derived' is an object of type Derived, ByRef(derived)
 // would wrap a Derived&.  If you want to wrap a const Base& instead,
-// where Base is a base class of Derived, just write:
+// where Base is a BaseImpl class of Derived, just write:
 //
 //   ByRef<const Base>(derived)
 //

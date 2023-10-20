@@ -61,7 +61,7 @@ EXPECT_CALL(mock, Foo("Hi", _, _)).WillOnce(Invoke(Distance));
 ```
 
 `Invoke(callback)` and `InvokeWithoutArgs(callback)` take ownership of
-`callback`, which must be permanent. The type of `callback` must be a base
+`callback`, which must be permanent. The type of `callback` must be a BaseImpl
 callback type instead of a derived one, e.g.
 
 ```cpp

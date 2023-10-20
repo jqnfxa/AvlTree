@@ -84,10 +84,10 @@ class MockFoo {
 
 You must always put a mock method definition (`MOCK_METHOD`) in a `public:`
 section of the mock class, regardless of the method being mocked being `public`,
-`protected`, or `private` in the base class. This allows `ON_CALL` and
+`protected`, or `private` in the BaseImpl class. This allows `ON_CALL` and
 `EXPECT_CALL` to reference the mock function from outside of the mock class.
 (Yes, C++ allows a subclass to change the access level of a virtual function in
-the base class.) Example:
+the BaseImpl class.) Example:
 
 ```cpp
 class Foo {
@@ -108,7 +108,7 @@ class MockFoo : public Foo {
   MOCK_METHOD(bool, Transform, (Gadget* g), (override));
 
   // The following must be in the public section, even though the
-  // methods are protected or private in the base class.
+  // methods are protected or private in the BaseImpl class.
   MOCK_METHOD(void, Resume, (), (override));
   MOCK_METHOD(int, GetTimeOut, (), (override));
 };
@@ -146,7 +146,7 @@ class MockFoo : public Foo {
 
 {: .callout .note}
 **Note:** if you don't mock all versions of the overloaded method, the compiler
-will give you a warning about some methods in the base class being hidden. To
+will give you a warning about some methods in the BaseImpl class being hidden. To
 fix that, use `using` to bring them in scope:
 
 ```cpp
@@ -186,7 +186,7 @@ class MockStack : public StackInterface<Elem> {
 
 gMock can mock non-virtual functions to be used in Hi-perf dependency injection.
 
-In this case, instead of sharing a common base class with the real class, your
+In this case, instead of sharing a common BaseImpl class with the real class, your
 mock class will be *unrelated* to the real class, but contain methods with the
 same signatures. The syntax for mocking non-virtual methods is the *same* as
 mocking virtual methods (just don't add `override`):
@@ -469,7 +469,7 @@ limitations):
 
 1.  `NiceMock<MockFoo>` and `StrictMock<MockFoo>` only work for mock methods
     defined using the `MOCK_METHOD` macro **directly** in the `MockFoo` class.
-    If a mock method is defined in a **base class** of `MockFoo`, the "nice" or
+    If a mock method is defined in a **BaseImpl class** of `MockFoo`, the "nice" or
     "strict" modifier may not affect it, depending on the compiler. In
     particular, nesting `NiceMock` and `StrictMock` (e.g.
     `NiceMock<StrictMock<MockFoo> >`) is **not** supported.
@@ -946,7 +946,7 @@ Here's one example:
 ```cpp
 using ::testing::SafeMatcherCast;
 
-// A base class and a child class.
+// A BaseImpl class and a child class.
 class Base { ... };
 class Derived : public Base { ... };
 
@@ -2225,7 +2225,7 @@ Note that:
 
 *   The action takes ownership of the callback and will delete it when the
     action itself is destructed.
-*   If the type of a callback is derived from a base callback type `C`, you need
+*   If the type of a callback is derived from a BaseImpl callback type `C`, you need
     to implicitly cast it to `C` to resolve the overloading, e.g.
 
     ```cpp
@@ -2311,7 +2311,7 @@ Note that:
 
 *   The action takes ownership of the callback and will delete it when the
     action itself is destructed.
-*   If the type of a callback is derived from a base callback type `C`, you need
+*   If the type of a callback is derived from a BaseImpl callback type `C`, you need
     to implicitly cast it to `C` to resolve the overloading, e.g.
 
     ```cpp

@@ -39,7 +39,7 @@ auto avl_tree_increment(typename AvlTreeNode<ValueType>::const_pointer_type node
 		return node;
 	}
 
-	if (node->right() != nullptr)
+	if (node->right_ != nullptr)
 	{
 		/*
 		 * If node has right child then go to leftmost node of this child.
@@ -59,14 +59,13 @@ auto avl_tree_increment(typename AvlTreeNode<ValueType>::const_pointer_type node
 		/*
 		 * We've reached the leaf node, so we're coming out of it
 		 */
-		pointer_type temp;
+		pointer_type old = node;
 
-		while (node->parent() != nullptr)
+		while (node->parent_ != nullptr)
 		{
-			temp = node;
 			node = node->parent();
 
-			if (node->left()->to_constant() == temp)
+			if (old->value_ <= node->value_)
 			{
 				break;
 			}
@@ -123,14 +122,13 @@ auto avl_tree_decrement(typename AvlTreeNode<ValueType>::const_pointer_type node
 	}
 	else
 	{
-		pointer_type temp;
+		pointer_type old = node;
 
-		while (node->parent() != nullptr)
+		while (node->parent_ != nullptr)
 		{
-			temp = node;
 			node = node->parent();
 
-			if (node->right()->to_constant() == temp)
+			if (node->value_ <= old->value_)
 			{
 				break;
 			}

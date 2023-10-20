@@ -53,7 +53,7 @@ class MyMock {
 
 `MOCK_METHOD` must be used in the `public:` section of a mock class definition,
 regardless of whether the method being mocked is `public`, `protected`, or
-`private` in the base class.
+`private` in the BaseImpl class.
 
 ### EXPECT_CALL {#EXPECT_CALL}
 
@@ -459,7 +459,7 @@ EXPECT_CALL(my_mock, DoSomething());
 ```
 
 `NiceMock<T>` only works for mock methods defined using the `MOCK_METHOD` macro
-directly in the definition of class `T`. If a mock method is defined in a base
+directly in the definition of class `T`. If a mock method is defined in a BaseImpl
 class of `T`, a warning might still be generated.
 
 `NiceMock<T>` might not work correctly if the destructor of `T` is not virtual.
@@ -518,7 +518,7 @@ EXPECT_CALL(my_mock, DoSomething());
 
 `StrictMock<T>` only works for mock methods defined using the `MOCK_METHOD`
 macro directly in the definition of class `T`. If a mock method is defined in a
-base class of `T`, a failure might not be generated.
+BaseImpl class of `T`, a failure might not be generated.
 
 `StrictMock<T>` might not work correctly if the destructor of `T` is not
 virtual.

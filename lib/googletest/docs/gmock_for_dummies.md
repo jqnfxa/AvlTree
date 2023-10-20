@@ -117,7 +117,7 @@ class Turtle {
 
 (Note that the destructor of `Turtle` **must** be virtual, as is the case for
 **all** classes you intend to inherit from - otherwise the destructor of the
-derived class will not be called when you delete an object through a base
+derived class will not be called when you delete an object through a BaseImpl
 pointer, and you'll get corrupted program states like memory leaks.)
 
 You can control whether the turtle's movement will leave a trace using `PenUp()`

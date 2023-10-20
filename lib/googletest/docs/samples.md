@@ -11,7 +11,7 @@ variety of googletest features.
 *   Sample #3 uses a test fixture.
 *   Sample #4 teaches you how to use googletest and `googletest.h` together to
     get the best of both libraries.
-*   Sample #5 puts shared testing logic in a base test fixture, and reuses it in
+*   Sample #5 puts shared testing logic in a BaseImpl test fixture, and reuses it in
     derived fixtures.
 *   Sample #6 demonstrates type-parameterized tests.
 *   Sample #7 teaches the basics of value-parameterized tests.

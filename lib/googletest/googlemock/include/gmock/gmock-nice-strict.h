@@ -45,14 +45,14 @@
 // NiceMock<MockFoo>.
 //
 // NiceMock, NaggyMock, and StrictMock "inherit" the constructors of
-// their respective base class.  Therefore you can write
+// their respective BaseImpl class.  Therefore you can write
 // NiceMock<MockFoo>(5, "a") to construct a nice mock where MockFoo
 // has a constructor that accepts (int, const char*), for example.
 //
 // A known limitation is that NiceMock<MockFoo>, NaggyMock<MockFoo>,
 // and StrictMock<MockFoo> only works for mock methods defined using
 // the MOCK_METHOD* family of macros DIRECTLY in the MockFoo class.
-// If a mock method is defined in a base class of MockFoo, the "nice"
+// If a mock method is defined in a BaseImpl class of MockFoo, the "nice"
 // or "strict" modifier may not affect it, depending on the compiler.
 // In particular, nesting NiceMock, NaggyMock, and StrictMock is NOT
 // supported.
@@ -101,7 +101,7 @@ constexpr bool HasStrictnessModifier() {
 #if defined(GTEST_OS_WINDOWS) && !defined(GTEST_OS_WINDOWS_MINGW) && \
     (defined(_MSC_VER) || defined(__clang__))
 // We need to mark these classes with this declspec to ensure that
-// the empty base class optimization is performed.
+// the empty BaseImpl class optimization is performed.
 #define GTEST_INTERNAL_EMPTY_BASE_CLASS __declspec(empty_bases)
 #else
 #define GTEST_INTERNAL_EMPTY_BASE_CLASS
@@ -160,7 +160,7 @@ class GTEST_INTERNAL_EMPTY_BASE_CLASS NiceMock
                   "The impl subclass shouldn't introduce any padding");
   }
 
-  // Ideally, we would inherit base class's constructors through a using
+  // Ideally, we would inherit BaseImpl class's constructors through a using
   // declaration, which would preserve their visibility. However, many existing
   // tests rely on the fact that current implementation reexports protected
   // constructors as public. These tests would need to be cleaned up first.
@@ -202,7 +202,7 @@ class GTEST_INTERNAL_EMPTY_BASE_CLASS NaggyMock
                   "The impl subclass shouldn't introduce any padding");
   }
 
-  // Ideally, we would inherit base class's constructors through a using
+  // Ideally, we would inherit BaseImpl class's constructors through a using
   // declaration, which would preserve their visibility. However, many existing
   // tests rely on the fact that current implementation reexports protected
   // constructors as public. These tests would need to be cleaned up first.
@@ -244,7 +244,7 @@ class GTEST_INTERNAL_EMPTY_BASE_CLASS StrictMock
                   "The impl subclass shouldn't introduce any padding");
   }
 
-  // Ideally, we would inherit base class's constructors through a using
+  // Ideally, we would inherit BaseImpl class's constructors through a using
   // declaration, which would preserve their visibility. However, many existing
   // tests rely on the fact that current implementation reexports protected
   // constructors as public. These tests would need to be cleaned up first.

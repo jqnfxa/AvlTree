@@ -34,7 +34,12 @@ class AvlTreeHeader {
    */
   void reset();
 
+  void force_unlink() const;
+  void restore_links() const;
+
+  void update_left(AvlTreeNodeBase::Avl_Base_ptr new_ptr);
+  void update_right(AvlTreeNodeBase::Avl_Base_ptr new_ptr);
+
  public:
-  AvlTreeNodeBase header_;
-  size_type node_count_;
+  AvlTreeNodeBase base_;
 };

@@ -1278,7 +1278,7 @@ GTEST_DISABLE_MSC_WARNINGS_POP_()  // 4251
 // As a C-function, ThreadFuncWithCLinkage cannot be templated itself.
 // Consequently, it cannot select a correct instantiation of ThreadWithParam
 // in order to call its Run(). Introducing ThreadWithParamBase as a
-// non-templated base class for ThreadWithParam allows us to bypass this
+// non-templated BaseImpl class for ThreadWithParam allows us to bypass this
 // problem.
 class ThreadWithParamBase {
  public:
@@ -1574,7 +1574,7 @@ class ThreadLocal : public ThreadLocalBase {
   void set(const T& value) { *pointer() = value; }
 
  private:
-  // Holds a value of T.  Can be deleted via its base class without the caller
+  // Holds a value of T.  Can be deleted via its BaseImpl class without the caller
   // knowing the type of T.
   class ValueHolder : public ThreadLocalValueHolderBase {
    public:

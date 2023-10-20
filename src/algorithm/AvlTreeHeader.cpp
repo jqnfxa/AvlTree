@@ -1,42 +1,81 @@
 #include "AvlTreeHeader.hpp"
+#include "AvlTreeHelper.hpp"
 
-AvlTreeHeader::AvlTreeHeader() : header_(), node_count_(0)
+AvlTreeHeader::AvlTreeHeader() : base_()
 {
-	reset();
+	base_.parent_ = &base_;
+	base_.left_ = base_.parent_;
+	base_.right_ = base_.parent_;
+	base_.height_ = 0;
 }
 
 AvlTreeHeader::AvlTreeHeader(AvlTreeHeader &&other) noexcept
 {
-	if (other.header_.parent_ == nullptr)
-	{
-		reset();
-		node_count_ = 0;
-	}
-	else
-	{
-		move_data(other);
-	}
+	move_data(other);
 }
 
 void AvlTreeHeader::move_data(AvlTreeHeader &other)
 {
 	reset();
 
-	header_.left_ = other.header_.left_;
-	header_.right_ = other.header_.right_;
-	header_.parent_ = &header_;
-	header_.height_ = other.header_.height_;
-	node_count_ = other.node_count_;
+	base_.left_ = other.base_.left_;
+	base_.right_ = other.base_.right_;
+	base_.parent_ = &base_;
+	base_.height_ = other.base_.height_;
 
 	other.reset();
-	other.node_count_ = 0;
 }
 
 void AvlTreeHeader::reset()
 {
-	header_.parent_ = &header_;
-	header_.left_ = &header_;
-	header_.right_ = &header_;
-	node_count_ = 0;
-	header_.height_ = 0;
+	force_unlink();
+
+	base_.parent_ = &base_;
+	base_.left_ = base_.parent_;
+	base_.right_ = base_.parent_;
+	base_.height_ = 0;
+}
+
+void AvlTreeHeader::force_unlink() const
+{
+	if (!is_placeholder(base_.left_))
+	{
+		base_.left_->left_ = nullptr;
+	}
+	if (!is_placeholder(base_.right_))
+	{
+		base_.right_->right_ = nullptr;
+	}
+}
+
+void AvlTreeHeader::restore_links() const
+{
+	if (!is_placeholder(base_.left_) || base_.left_ == nullptr)
+	{
+		base_.left_->left_ = base_.parent_;
+	}
+	if (!is_placeholder(base_.right_) || base_.right_ == nullptr)
+	{
+		base_.right_->right_ = base_.parent_;
+	}
+}
+
+void AvlTreeHeader::update_left(AvlTreeNodeBase::Avl_Base_ptr new_ptr)
+{
+	if (new_ptr == nullptr)
+	{
+		base_.left_ = base_.parent_;
+	}
+
+	base_.left_ = new_ptr;
+}
+
+void AvlTreeHeader::update_right(AvlTreeNodeBase::Avl_Base_ptr new_ptr)
+{
+	if (new_ptr == nullptr)
+	{
+		base_.right_ = base_.parent_;
+	}
+
+	base_.right_ = new_ptr;
 }

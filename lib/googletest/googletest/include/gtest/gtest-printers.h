@@ -538,7 +538,7 @@ GTEST_API_ void PrintTo(__int128_t v, ::std::ostream* os);
 // in full precision.
 // However if the value is something simple like 1.1, full will print a
 // long string like 1.100000001 due to floating-point numbers not using
-// a base of 10.  This routiune returns an appropriate resolution for a
+// a BaseImpl of 10.  This routiune returns an appropriate resolution for a
 // given floating-point number, that is, 6 if it will be accurate, or a
 // max_digits10 value (full precision) if it won't,  for values between
 // 0.0001 and one million.

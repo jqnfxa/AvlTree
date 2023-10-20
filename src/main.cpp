@@ -5,6 +5,11 @@
 #include "profiler/Timer.hpp"
 #include "algorithm/AvlTree.hpp"
 
+// TODO rewrite all function to work on clear tree
+// i.e. first unlink header
+// then process tree
+// restore header back
+
 // TODO reverse iterators
 // TODO remove inheritance?
 // TODO tests for iterators
@@ -33,36 +38,49 @@ std::ostream &print(std::ostream &out, Iterator begin, Iterator end)
 
 int main()
 {
-	AvlTree<std::string> tree;
+	AvlTree<int> tree;
+	//std::set<int> tree;
 
-	std::string beautiful_string = "fuck you";
+	std::vector<int> range(20 + 1);
+	std::iota(range.begin(), range.end(), -20 / 2);
+	std::random_shuffle(range.begin(), range.end());
 
-	tree.insert(beautiful_string);
-	tree.insert(std::string("all"));
+	{
+		Timer timer(std::cerr, "insert " + std::to_string(range.size()));
 
-	print(std::cerr, tree.begin(), tree.end());
+		for (auto &item: range)
+		{
+			tree.insert(item);
+		}
+	}
 
-	//std::string str = *tree.end();
-	//std::cout << str;
+	std::random_shuffle(range.begin(), range.end());
 
-	/*
-	std::set<int> k;
-	k.insert(1);
+	int k = 0;
 
+	{
+		Timer timer(std::cerr, "find " + std::to_string(range.size()));
 
-	auto begin = k.begin();
-	auto prev_begin = std::prev(begin);
+		for (auto &item: range)
+		{
+			if (*tree.find(item) == item)
+			{
+				++k;
+			}
+		}
+	}
 
-	std::cout << std::distance(prev_begin, begin) << '\n';
-	std::cout << std::distance(prev_begin, k.end()) << '\n';
+	std::random_shuffle(range.begin(), range.end());
 
-	auto end = k.end();
-	auto next_end = std::next(end);
+	{
+		Timer timer(std::cerr, "erase " + std::to_string(range.size()));
 
-	std::cout << std::distance(end, next_end) << '\n';
+		for (auto &item: range)
+		{
+			tree.erase(item);
+		}
+	}
 
-	std::cout << std::distance(k.rend(), k.end()) << '\n';
-*/
 	/*
 	AvlTree<int> tree;
 

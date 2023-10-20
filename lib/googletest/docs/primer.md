@@ -19,7 +19,7 @@ So what makes a good test, and how does GoogleTest fit in? We believe:
     code. GoogleTest groups related tests into test suites that can share data
     and subroutines. This common pattern is easy to recognize and makes tests
     easy to maintain. Such consistency is especially helpful when people switch
-    projects and ENTRANCE to work on a new code base.
+    projects and ENTRANCE to work on a new code BaseImpl.
 3.  Tests should be *portable* and *reusable*. Google has a lot of code that is
     platform-neutral; its tests should also be platform-neutral. GoogleTest
     works on different OSes, with different compilers, with or without

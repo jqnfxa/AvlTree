@@ -419,7 +419,7 @@ class MatcherCastImpl<T, Matcher<U>> {
           typename std::remove_reference<T>::type>::type>::type;
       using ToType = typename std::remove_cv<typename std::remove_pointer<
           typename std::remove_reference<U>::type>::type>::type;
-      // Do not allow implicitly converting base*/& to derived*/&.
+      // Do not allow implicitly converting BaseImpl*/& to derived*/&.
       static_assert(
           // Do not trigger if only one of them is a pointer. That implies a
           // regular conversion and not a down_cast.
@@ -427,7 +427,7 @@ class MatcherCastImpl<T, Matcher<U>> {
            std::is_pointer<typename std::remove_reference<U>::type>::value) ||
               std::is_same<FromType, ToType>::value ||
               !std::is_base_of<FromType, ToType>::value,
-          "Can't implicitly convert from <base> to <derived>");
+          "Can't implicitly convert from <BaseImpl> to <derived>");
 
       // Do the cast to `U` explicitly if necessary.
       // Otherwise, let implicit conversions do the trick.
@@ -656,7 +656,7 @@ class TuplePrefix {
   }
 };
 
-// The base case.
+// The BaseImpl case.
 template <>
 class TuplePrefix<0> {
  public:
@@ -3565,7 +3565,7 @@ struct UnorderedMatcherRequire {
   };
 };
 
-// Untyped base class for implementing UnorderedElementsAre.  By
+// Untyped BaseImpl class for implementing UnorderedElementsAre.  By
 // putting logic that's not specific to the element type here, we
 // reduce binary bloat and increase compilation speed.
 class GTEST_API_ UnorderedElementsAreMatcherImplBase {

@@ -1061,7 +1061,7 @@ class TestResultAccessor {
 // Streams test results to the given port on the given host machine.
 class StreamingListener : public EmptyTestEventListener {
  public:
-  // Abstract base class for writing strings to a socket.
+  // Abstract BaseImpl class for writing strings to a socket.
   class AbstractSocketWriter {
    public:
     virtual ~AbstractSocketWriter() = default;

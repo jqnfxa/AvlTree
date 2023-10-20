@@ -12,7 +12,7 @@ arguments) directly in gMock.
 
 The problem is that in general, there is *no way* for a mock object to know how
 many arguments are passed to the variadic method, and what the arguments' types
-are. Only the *author of the base class* knows the protocol, and we cannot look
+are. Only the *author of the BaseImpl class* knows the protocol, and we cannot look
 into his or her head.
 
 Therefore, to mock such a function, the *user* must teach the mock object how to
@@ -53,7 +53,7 @@ warning C4373: 'MockFoo::Bar': virtual function overrides 'Foo::Bar', previous v
 ```
 
 In C++, if you *declare* a function with a `const` parameter, the `const`
-modifier is ignored. Therefore, the `Foo` base class above is equivalent to:
+modifier is ignored. Therefore, the `Foo` BaseImpl class above is equivalent to:
 
 ```cpp
 class Foo {
@@ -139,7 +139,7 @@ interesting information.
 Does the class (hopefully a pure interface) you are mocking have a virtual
 destructor?
 
-Whenever you derive from a base class, make sure its destructor is virtual.
+Whenever you derive from a BaseImpl class, make sure its destructor is virtual.
 Otherwise Bad Things will happen. Consider the following code:
 
 ```cpp

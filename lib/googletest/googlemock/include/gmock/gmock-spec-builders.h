@@ -134,7 +134,7 @@ class NaggyMockImpl;
 // calls to ensure the integrity of the mock objects' states.
 GTEST_API_ GTEST_DECLARE_STATIC_MUTEX_(g_gmock_mutex);
 
-// Abstract base class of FunctionMocker.  This is the
+// Abstract BaseImpl class of FunctionMocker.  This is the
 // type-agnostic part of the function mocker interface.  Its pure
 // virtual methods are implemented by FunctionMocker.
 class GTEST_API_ UntypedFunctionMockerBase {
@@ -235,7 +235,7 @@ class GTEST_API_ UntypedFunctionMockerBase {
   UntypedExpectations untyped_expectations_;
 };  // class UntypedFunctionMockerBase
 
-// Untyped base class for OnCallSpec<F>.
+// Untyped BaseImpl class for OnCallSpec<F>.
 class UntypedOnCallSpecBase {
  public:
   // The arguments are the location of the ON_CALL() statement.
@@ -670,16 +670,16 @@ GTEST_API_ extern ThreadLocal<Sequence*> g_gmock_implicit_sequence;
 
 // Base class for implementing expectations.
 //
-// There are two reasons for having a type-agnostic base class for
+// There are two reasons for having a type-agnostic BaseImpl class for
 // Expectation:
 //
 //   1. We need to store collections of expectations of different
 //   types (e.g. all pre-requisites of a particular expectation, all
 //   expectations in a sequence).  Therefore these expectation objects
-//   must share a common base class.
+//   must share a common BaseImpl class.
 //
 //   2. We can avoid binary code bloat by moving methods not depending
-//   on the template argument of Expectation to the base class.
+//   on the template argument of Expectation to the BaseImpl class.
 //
 // This class is internal and mustn't be used by user code directly.
 class GTEST_API_ ExpectationBase {

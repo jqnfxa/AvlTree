@@ -205,14 +205,14 @@ may want to make sure that all of a GUI library's test suites don't leak
 important system resources like fonts and brushes.
 
 In GoogleTest, you share a fixture among test suites by putting the shared logic
-in a base test fixture, then deriving from that base a separate fixture for each
+in a BaseImpl test fixture, then deriving from that BaseImpl a separate fixture for each
 test suite that wants to use this common logic. You then use `TEST_F()` to write
 tests using each derived fixture.
 
 Typically, your code looks like this:
 
 ```c++
-// Defines a base test fixture.
+// Defines a BaseImpl test fixture.
 class BaseTest : public ::testing::Test {
  protected:
   ...
@@ -222,13 +222,13 @@ class BaseTest : public ::testing::Test {
 class FooTest : public BaseTest {
  protected:
   void SetUp() override {
-    BaseTest::SetUp();  // Sets up the base fixture first.
+    BaseTest::SetUp();  // Sets up the BaseImpl fixture first.
     ... additional set-up work ...
   }
 
   void TearDown() override {
     ... clean-up work for FooTest ...
-    BaseTest::TearDown();  // Remember to tear down the base fixture
+    BaseTest::TearDown();  // Remember to tear down the BaseImpl fixture
                            // after cleaning up FooTest!
   }
 
@@ -297,10 +297,10 @@ The former is usually preferred, as it has the following benefits:
     make it `const`, which helps prevent accidental changes to its value and
     makes the tests more obviously correct.
 *   In case we need to subclass the test fixture class, the subclass'
-    constructor is guaranteed to call the base class' constructor *first*, and
-    the subclass' destructor is guaranteed to call the base class' destructor
+    constructor is guaranteed to call the BaseImpl class' constructor *first*, and
+    the subclass' destructor is guaranteed to call the BaseImpl class' destructor
     *afterward*. With `SetUp()/TearDown()`, a subclass may make the mistake of
-    forgetting to call the base class' `SetUp()/TearDown()` or call them at the
+    forgetting to call the BaseImpl class' `SetUp()/TearDown()` or call them at the
     wrong time.
 
 You may still want to use `SetUp()/TearDown()` in the following cases:

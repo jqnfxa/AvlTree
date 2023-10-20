@@ -98,7 +98,7 @@ template <typename T>
 class ParamIteratorInterface {
  public:
   virtual ~ParamIteratorInterface() = default;
-  // A pointer to the base generator instance.
+  // A pointer to the BaseImpl generator instance.
   // Used only for the purposes of iterator comparison
   // to make sure that two iterators belong to the same generator.
   virtual const ParamGeneratorInterface<T>* BaseGenerator() const = 0;
@@ -244,7 +244,7 @@ class RangeGenerator : public ParamGeneratorInterface<T> {
     }
     const T* Current() const override { return &value_; }
     bool Equals(const ParamIteratorInterface<T>& other) const override {
-      // Having the same base generator guarantees that the other
+      // Having the same BaseImpl generator guarantees that the other
       // iterator is of the same type and we can downcast.
       GTEST_CHECK_(BaseGenerator() == other.BaseGenerator())
           << "The program attempted to compare iterators "
@@ -340,7 +340,7 @@ class ValuesInIteratorRangeGenerator : public ParamGeneratorInterface<T> {
       return value_.get();
     }
     bool Equals(const ParamIteratorInterface<T>& other) const override {
-      // Having the same base generator guarantees that the other
+      // Having the same BaseImpl generator guarantees that the other
       // iterator is of the same type and we can downcast.
       GTEST_CHECK_(BaseGenerator() == other.BaseGenerator())
           << "The program attempted to compare iterators "
@@ -415,7 +415,7 @@ class ParameterizedTestFactory : public TestFactoryBase {
 
 // INTERNAL IMPLEMENTATION - DO NOT USE IN USER CODE.
 //
-// TestMetaFactoryBase is a base class for meta-factories that create
+// TestMetaFactoryBase is a BaseImpl class for meta-factories that create
 // test factories for passing into MakeAndRegisterTestInfo function.
 template <class ParamType>
 class TestMetaFactoryBase {
@@ -517,7 +517,7 @@ class ParameterizedTestSuiteInfo : public ParameterizedTestSuiteInfoBase {
                                       CodeLocation code_location)
       : test_suite_name_(name), code_location_(code_location) {}
 
-  // Test suite base name for display purposes.
+  // Test suite BaseImpl name for display purposes.
   const std::string& GetTestSuiteName() const override {
     return test_suite_name_;
   }
@@ -525,10 +525,10 @@ class ParameterizedTestSuiteInfo : public ParameterizedTestSuiteInfoBase {
   TypeId GetTestSuiteTypeId() const override { return GetTypeId<TestSuite>(); }
   // TEST_P macro uses AddTestPattern() to record information
   // about a single test in a LocalTestInfo structure.
-  // test_suite_name is the base name of the test suite (without invocation
+  // test_suite_name is the BaseImpl name of the test suite (without invocation
   // prefix). test_base_name is the name of an individual test without
   // parameter index. For the test SequenceA/FooTest.DoBar/1 FooTest is
-  // test suite base name and DoBar is test base name.
+  // test suite BaseImpl name and DoBar is test BaseImpl name.
   void AddTestPattern(const char* test_suite_name, const char* test_base_name,
                       TestMetaFactoryBase<ParamType>* meta_factory,
                       CodeLocation code_location) {
@@ -874,7 +874,7 @@ class CartesianProductGenerator
     const ParamType* Current() const override { return current_value_.get(); }
 
     bool Equals(const ParamIteratorInterface<ParamType>& other) const override {
-      // Having the same base generator guarantees that the other
+      // Having the same BaseImpl generator guarantees that the other
       // iterator is of the same type and we can downcast.
       GTEST_CHECK_(BaseGenerator() == other.BaseGenerator())
           << "The program attempted to compare iterators "
@@ -985,7 +985,7 @@ class ParamGeneratorConverter : public ParamGeneratorInterface<To> {
     }
     const To* Current() const override { return value_.get(); }
     bool Equals(const ParamIteratorInterface<To>& other) const override {
-      // Having the same base generator guarantees that the other
+      // Having the same BaseImpl generator guarantees that the other
       // iterator is of the same type and we can downcast.
       GTEST_CHECK_(BaseGenerator() == other.BaseGenerator())
           << "The program attempted to compare iterators "

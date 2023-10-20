@@ -268,8 +268,8 @@ TEST(AvlTreeTestSuite, TestEraseSmall)
 	for (auto &item: range)
 	{
 		auto inserted = tree.insert(item);
-		ASSERT_EQ(tree.find(item), inserted.first);
-		ASSERT_EQ(*tree.find(item), item);
+		EXPECT_EQ(tree.find(item), inserted.first);
+		EXPECT_EQ(*tree.find(item), item);
 		EXPECT_TRUE(tree.force_balance_check());
 	}
 
@@ -277,8 +277,25 @@ TEST(AvlTreeTestSuite, TestEraseSmall)
 
 	for (auto &item: range)
 	{
+		std::cerr << "Pre: [" << item << "]\n";
+
+		for (int it : tree)
+		{
+			std::cerr << it << ' ';
+		}
+		std::cerr << std::endl;
+
 		tree.erase(item);
-		ASSERT_EQ(tree.find(item), tree.end());
+
+		std::cerr << "Post: \n";
+
+		for (int it : tree)
+		{
+			std::cerr << it << ' ';
+		}
+		std::cerr << std::endl;
+
+		EXPECT_EQ(tree.find(item), tree.end());
 		EXPECT_TRUE(tree.force_balance_check());
 	}
 }
@@ -294,8 +311,8 @@ TEST(AvlTreeTestSuite, TestEraseMedium)
 	for (auto &item: range)
 	{
 		auto inserted = tree.insert(item);
-		ASSERT_EQ(tree.find(item), inserted.first);
-		ASSERT_EQ(*tree.find(item), item);
+		EXPECT_EQ(tree.find(item), inserted.first);
+		EXPECT_EQ(*tree.find(item), item);
 		EXPECT_TRUE(tree.force_balance_check());
 	}
 
@@ -304,7 +321,7 @@ TEST(AvlTreeTestSuite, TestEraseMedium)
 	for (auto &item: range)
 	{
 		tree.erase(item);
-		ASSERT_EQ(tree.find(item), tree.end());
+		EXPECT_EQ(tree.find(item), tree.end());
 		EXPECT_TRUE(tree.force_balance_check());
 	}
 }
@@ -332,5 +349,26 @@ TEST(AvlTreeTestSuite, TestEraseMediumIterator)
 		tree.erase(tree.find(item));
 		ASSERT_EQ(tree.find(item), tree.end());
 		EXPECT_TRUE(tree.force_balance_check());
+	}
+}
+
+TEST(AvlTreeTestSuite, TestFindStressTest)
+{
+	AvlTree<int> tree;
+
+	std::vector<int> range(2000000 + 1);
+	std::iota(range.begin(), range.end(), -2000000 / 2);
+	std::random_shuffle(range.begin(), range.end());
+
+	for (auto &item: range)
+	{
+		tree.insert(item);
+	}
+
+	std::random_shuffle(range.begin(), range.end());
+
+	for (auto &item: range)
+	{
+		ASSERT_EQ(*tree.find(item), item);
 	}
 }

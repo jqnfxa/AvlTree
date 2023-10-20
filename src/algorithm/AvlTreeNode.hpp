@@ -5,7 +5,7 @@
 /**
  * @class AvlTreeNodeBase
  * @brief Base class for AVL tree nodes.
- * @details This class provides a base for AVL tree nodes. It has pointers to the parent, left and right child nodes.
+ * @details This class provides a BaseImpl for AVL tree nodes. It has pointers to the parent, left and right child nodes.
  */
 class AvlTreeNodeBase {
  public:
@@ -15,8 +15,8 @@ class AvlTreeNodeBase {
 
   explicit AvlTreeNodeBase(Avl_Base_ptr left = nullptr, Avl_Base_ptr right = nullptr, Avl_Base_ptr parent = nullptr, difference_type height = 1);
 
-  Avl_Base_ptr predecessor() const;
-  Avl_Base_ptr successor() const;
+  [[nodiscard]] Avl_Base_ptr predecessor() const;
+  [[nodiscard]] Avl_Base_ptr successor() const;
   [[nodiscard]] difference_type left_height() const;
   [[nodiscard]] difference_type right_height() const;
   [[nodiscard]] difference_type balance_factor() const;
