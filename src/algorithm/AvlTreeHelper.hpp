@@ -6,16 +6,8 @@
 template<typename PointerType>
 concept AvlTreeNodePointerType = std::is_same_v<typeid(PointerType), typeid(AvlTreeNodeBase::Avl_Base_ptr)>; // || std::is_same_v<PointerType, AvlTreeNodeBase::Avl_Const_Base_ptr>;
 */
-
-/**
- * @brief Increments iterator in the AVL tree.
- * @tparam AvlTreeNodePointer A pointer to an AVL tree node.
- * @par This can be either a pointer to an `AvlTreeNodeBase` or a pointer to a `const AvlTreeNodeBase`.
- * @param node The node to increment.
- * @return A pointer to the next node in the AVL tree.
- */
-template<typename ValueType>
-auto avl_tree_increment(typename AvlTreeNode<ValueType>::pointer_type node) -> AvlTreeNode<ValueType>::pointer_type
+template <typename ValueType>
+auto avl_tree_increment(typename AvlTreeNode<ValueType>::pointer_type node) -> typename AvlTreeNode<ValueType>::pointer_type
 {
 	using pointer_type = typename AvlTreeNode<ValueType>::pointer_type;
 
@@ -58,27 +50,22 @@ auto avl_tree_increment(typename AvlTreeNode<ValueType>::pointer_type node) -> A
 		{
 			node = node->parent_;
 
-			if (old->value_ <= node->value_)
+			if (node->left_ == old)
 			{
 				break;
 			}
+
+			old = node;
 		}
 	}
 
 	return node;
 }
 
-/**
- * @brief Decrements iterator in the AVL tree.
- * @tparam AvlTreeNodePointer A pointer to an AVL tree node.
- * @par This can be either a pointer to an `AvlTreeNodeBase` or a pointer to a `const AvlTreeNodeBase`.
- * @param node The node to decrement.
- * @return A pointer to the next node in the AVL tree.
- */
-template<typename ValueType>
-auto avl_tree_decrement(typename AvlTreeNode<ValueType>::pointer_type node) -> AvlTreeNode<ValueType>::pointer_type
+template <typename ValueType>
+auto avl_tree_decrement(typename AvlTreeNode<ValueType>::pointer_type node) -> typename AvlTreeNode<ValueType>::pointer_type
 {
-	using pointer_type = AvlTreeNode<ValueType>::pointer_type;
+	using pointer_type = typename AvlTreeNode<ValueType>::pointer_type;
 
 	if (node == nullptr)
 	{
@@ -122,10 +109,12 @@ auto avl_tree_decrement(typename AvlTreeNode<ValueType>::pointer_type node) -> A
 		{
 			node = node->parent_;
 
-			if (node->value_ <= old->value_)
+			if (node->right_ == old)
 			{
 				break;
 			}
+
+			old = node;
 		}
 	}
 

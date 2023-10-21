@@ -10,10 +10,12 @@ class AvlTreeNode {
   using const_reference = const value_type &;
   using difference_type = std::ptrdiff_t;
   using pointer_type = AvlTreeNode<value_type> *;
-  using const_pointer_type = const AvlTreeNode<value_type> *;
 
   AvlTreeNode() = default;
-  explicit AvlTreeNode(const_reference val, const pointer_type &left = nullptr, const pointer_type &right = nullptr, const pointer_type &parent = nullptr, difference_type height = 1);
+  explicit AvlTreeNode(const_reference val,
+					   const pointer_type &left = nullptr,
+					   const pointer_type &right = nullptr,
+					   const pointer_type &parent = nullptr);
   AvlTreeNode &operator=(AvlTreeNode &&other) noexcept;
 
   [[nodiscard]] pointer_type predecessor() const;
@@ -25,28 +27,33 @@ class AvlTreeNode {
 
   void iterative_height_update();
   void update_height_standalone();
-  void reset();
 
-  void unlink_children();
-  void unlink_left();
-  void unlink_right();
-  void drop_children();
-  void drop_left();
-  void drop_right();
-  void restore_children();
-  void restore_left();
-  void restore_right();
+  /*
+   * placeholder related functions
+   */
+  void reset();
+  void unlink_placeholder() const;
+  void restore_placeholder() const;
+
  public:
   pointer_type left_;
   pointer_type right_;
   pointer_type parent_;
 
   value_type value_;
-  difference_type height_;
+  difference_type height_{};
 };
 
 template<typename ValueType>
-AvlTreeNode<ValueType>::AvlTreeNode(const_reference val, const pointer_type &left, const pointer_type &right, const pointer_type &parent, difference_type height)  : left_(left), right_(right), parent_(parent), value_(val), height_(height)
+AvlTreeNode<ValueType>::AvlTreeNode(const_reference val,
+									const pointer_type &left,
+									const pointer_type &right,
+									const pointer_type &parent)
+									: left_(left),
+									right_(right),
+									parent_(parent),
+									value_(val),
+									height_(1)
 {
 	iterative_height_update();
 }
@@ -161,78 +168,21 @@ void AvlTreeNode<ValueType>::reset()
 }
 
 template<typename ValueType>
-void AvlTreeNode<ValueType>::unlink_children()
+void AvlTreeNode<ValueType>::unlink_placeholder() const
 {
-	unlink_left();
-	unlink_right();
-}
-
-template<typename ValueType>
-void AvlTreeNode<ValueType>::unlink_left()
-{
-	if (left_ != nullptr && !left_->is_placeholder())
+	if (!left_->is_placeholder())
 	{
-		left_->parent_ = nullptr;
+		left_->left_ = nullptr;
+	}
+	if (!right_->is_placeholder())
+	{
+		right_->right_ = nullptr;
 	}
 }
 
 template<typename ValueType>
-void AvlTreeNode<ValueType>::unlink_right()
+void AvlTreeNode<ValueType>::restore_placeholder() const
 {
-	if (right_ != nullptr && !right_->is_placeholder())
-	{
-		right_->parent_ = nullptr;
-	}
-}
-
-template<typename ValueType>
-void AvlTreeNode<ValueType>::drop_children()
-{
-	drop_left();
-	drop_right();
-}
-
-template<typename ValueType>
-void AvlTreeNode<ValueType>::drop_left()
-{
-	left_ = parent_;
-}
-
-template<typename ValueType>
-void AvlTreeNode<ValueType>::drop_right()
-{
-	left_ = parent_;
-}
-
-template<typename ValueType>
-void AvlTreeNode<ValueType>::restore_children()
-{
-	restore_left();
-	restore_right();
-}
-
-template<typename ValueType>
-void AvlTreeNode<ValueType>::restore_left()
-{
-	if (left_ == nullptr)
-	{
-		drop_left();
-	}
-	else
-	{
-		left_->parent_ = this;
-	}
-}
-
-template<typename ValueType>
-void AvlTreeNode<ValueType>::restore_right()
-{
-	if (right_ == nullptr)
-	{
-		drop_right();
-	}
-	else
-	{
-		right_->parent_ = this;
-	}
+	left_->left_ = parent_;
+	right_->right_ = parent_;
 }

@@ -11,7 +11,9 @@
 // TODO tests for tree find
 // TODO tests for tree erase
 // TODO speed up
-// TODO inheritance is really slow!! delete it
+// TODO std::side_view compability
+// TODO concepts for templates
+
 
 template <typename Iterator>
 std::ostream &print(std::ostream &out, Iterator begin, Iterator end)
@@ -31,7 +33,7 @@ std::ostream &print(std::ostream &out, Iterator begin, Iterator end)
 void benchmark_set(const std::vector<int> &test, const std::vector<int> &find, const std::vector<int> &erase)
 {
 	std::cerr << "Set\n";
-	std::set<int> tree;
+	std::set<int, std::greater<>> tree;
 	std::vector<int> res;
 	res.reserve(test.size());
 
@@ -44,7 +46,7 @@ void benchmark_set(const std::vector<int> &test, const std::vector<int> &find, c
 		}
 	}
 	{
-		Timer timer(std::cerr, "find " + std::to_string(test.size()));
+		Timer timer(std::cerr, "find " + std::to_string(find.size()));
 
 		for (auto &item : find)
 		{
@@ -56,7 +58,7 @@ void benchmark_set(const std::vector<int> &test, const std::vector<int> &find, c
 	}
 	int k;
 	{
-		Timer timer(std::cerr, "traverse forward " + std::to_string(test.size()));
+		Timer timer(std::cerr, "traverse forward " + std::to_string(tree.size()));
 
 		for (auto i : tree)
 		{
@@ -68,7 +70,7 @@ void benchmark_set(const std::vector<int> &test, const std::vector<int> &find, c
 	}
 	std::cerr << k << std::endl;
 	{
-		Timer timer(std::cerr, "traverse backward " + std::to_string(test.size()));
+		Timer timer(std::cerr, "traverse backward " + std::to_string(tree.size()));
 
 		for (int it : std::ranges::reverse_view(tree))
 		{
@@ -80,7 +82,7 @@ void benchmark_set(const std::vector<int> &test, const std::vector<int> &find, c
 	}
 	std::cerr << k << std::endl;
 	{
-		Timer timer(std::cerr, "erase " + std::to_string(test.size()));
+		Timer timer(std::cerr, "erase " + std::to_string(erase.size()));
 
 		for (auto &item : erase)
 		{
@@ -95,7 +97,7 @@ void benchmark_naked_tree(const std::vector<int> &test, const std::vector<int> &
 {
 	std::cerr << "Naked tree\n";
 
-	AvlTreeBase<int> tree;
+	AvlTreeBase<int, std::greater<>> tree;
 	std::vector<int> res;
 	res.reserve(test.size());
 
@@ -108,7 +110,7 @@ void benchmark_naked_tree(const std::vector<int> &test, const std::vector<int> &
 		}
 	}
 	{
-		Timer timer(std::cerr, "find " + std::to_string(test.size()));
+		Timer timer(std::cerr, "find " + std::to_string(find.size()));
 
 		for (auto &item : find)
 		{
@@ -119,7 +121,7 @@ void benchmark_naked_tree(const std::vector<int> &test, const std::vector<int> &
 		}
 	}
 	{
-		Timer timer(std::cerr, "erase " + std::to_string(test.size()));
+		Timer timer(std::cerr, "erase " + std::to_string(erase.size()));
 
 		for (auto &item : erase)
 		{
@@ -134,7 +136,7 @@ void benchmark_tree(const std::vector<int> &test, const std::vector<int> &find, 
 {
 	std::cerr << "Tree\n";
 
-	AvlTree<int> tree;
+	AvlTree<int, std::greater<>> tree;
 	std::vector<int> res;
 	res.reserve(test.size());
 
@@ -146,12 +148,8 @@ void benchmark_tree(const std::vector<int> &test, const std::vector<int> &find, 
 			tree.insert(item);
 		}
 	}
-
-	//std::cerr << std::boolalpha << tree.force_balance_check() << '\n';
-
-	//tree.header_.force_unlink();
 	{
-		Timer timer(std::cerr, "find " + std::to_string(test.size()));
+		Timer timer(std::cerr, "find " + std::to_string(find.size()));
 
 		for (auto &item : find)
 		{
@@ -161,10 +159,9 @@ void benchmark_tree(const std::vector<int> &test, const std::vector<int> &find, 
 			}
 		}
 	}
-	//tree.header_.restore_links();
-	int k;
+	int k = 0;
 	{
-		Timer timer(std::cerr, "traverse forward " + std::to_string(test.size()));
+		Timer timer(std::cerr, "traverse forward " + std::to_string(tree.size()));
 
 		for (auto i : tree)
 		{
@@ -174,13 +171,13 @@ void benchmark_tree(const std::vector<int> &test, const std::vector<int> &find, 
 			}
 		}
 	}
-	/*std::cerr << k << std::endl;
-	{
+	std::cerr << k << std::endl;
+	/*{
 		Timer timer(std::cerr, "traverse backward " + std::to_string(test.size()));
 
-		for (auto it = tree.rbegin(); it != tree.rend(); ++it)
+		for (int it : std::ranges::reverse_view(tree))
 		{
-			if (*it > 15)
+			if (it > 15)
 			{
 				k++;
 			}
@@ -188,7 +185,7 @@ void benchmark_tree(const std::vector<int> &test, const std::vector<int> &find, 
 	}*/
 	std::cerr << k << std::endl;
 	{
-		Timer timer(std::cerr, "erase " + std::to_string(test.size()));
+		Timer timer(std::cerr, "erase " + std::to_string(erase.size()));
 
 		for (auto &item : erase)
 		{
@@ -201,8 +198,17 @@ void benchmark_tree(const std::vector<int> &test, const std::vector<int> &find, 
 
 int main()
 {
-	std::vector<int> range(2e6 + 1);
-	std::iota(range.begin(), range.end(), -static_cast<int64_t>(range.size()) / 2);
+	int size = 2e6 + 1;
+
+	std::vector<int> range(size);
+	std::iota(range.begin(), range.end(), -size / 2);
+
+	std::shuffle(range.begin(), range.end(), std::mt19937(std::random_device()()));
+
+	for (int i = 0; i < size * 2; ++i)
+	{
+		range.push_back(range[rand() % range.size()]);
+	}
 
 	std::shuffle(range.begin(), range.end(), std::mt19937(std::random_device()()));
 
@@ -214,9 +220,16 @@ int main()
 
 	std::shuffle(erase.begin(), erase.end(), std::mt19937(std::random_device()()));
 
+	for (int i = 0; i < size * 2; ++i)
+	{
+		erase.push_back((1e7 + 1) * (-1) * (rand() % 2));
+	}
+
+	std::shuffle(erase.begin(), erase.end(), std::mt19937(std::random_device()()));
+
 	benchmark_set(range, find, erase);
-	benchmark_tree(range, find, erase);
 	benchmark_naked_tree(range, find, erase);
+	benchmark_tree(range, find, erase);
 
 	return 0;
 }
