@@ -11,12 +11,12 @@ TEST(NodeTestSuite, TestNodeValues)
 	Node node(1, &left, &right);
 
 	EXPECT_EQ(node.value_, 1);
-	EXPECT_EQ(*node.value(), 1);
-	EXPECT_EQ(node.left()->value_, 3);
-	EXPECT_EQ(*node.left()->value(), 3);
-	EXPECT_EQ(*node.right()->value(), 2);
-	EXPECT_EQ(node.left()->height_, 1);
-	EXPECT_EQ(node.right()->height_, 1);
+	EXPECT_EQ(node.value_, 1);
+	EXPECT_EQ(node.left_->value_, 3);
+	EXPECT_EQ(node.left_->value_, 3);
+	EXPECT_EQ(node.right_->value_, 2);
+	EXPECT_EQ(node.left_->height_, 1);
+	EXPECT_EQ(node.right_->height_, 1);
 	EXPECT_EQ(node.height_, 2);
 }
 

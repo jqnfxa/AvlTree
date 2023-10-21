@@ -1,6 +1,7 @@
 #include <iostream>
 #include <numeric>
 #include <random>
+#include <ranges>
 #include <set>
 #include "profiler/Timer.hpp"
 #include "algorithm/AvlTree.hpp"
@@ -10,6 +11,7 @@
 // TODO tests for tree find
 // TODO tests for tree erase
 // TODO speed up
+// TODO inheritance is really slow!! delete it
 
 template <typename Iterator>
 std::ostream &print(std::ostream &out, Iterator begin, Iterator end)
@@ -26,93 +28,195 @@ std::ostream &print(std::ostream &out, Iterator begin, Iterator end)
 	return out << std::endl;
 }
 
-int main()
+void benchmark_set(const std::vector<int> &test, const std::vector<int> &find, const std::vector<int> &erase)
 {
-	AvlTree<int> tree;
-	//std::set<int> tree;
-
-	std::vector<int> range(20 + 1);
-	std::iota(range.begin(), range.end(), -20 / 2);
-	std::random_shuffle(range.begin(), range.end());
+	std::cerr << "Set\n";
+	std::set<int> tree;
+	std::vector<int> res;
+	res.reserve(test.size());
 
 	{
-		Timer timer(std::cerr, "insert " + std::to_string(range.size()));
+		Timer timer(std::cerr, "insert " + std::to_string(test.size()));
 
-		for (auto &item: range)
+		for (auto &item : test)
 		{
 			tree.insert(item);
 		}
 	}
-
-	std::random_shuffle(range.begin(), range.end());
-
-	int k = 0;
-
 	{
-		Timer timer(std::cerr, "find " + std::to_string(range.size()));
+		Timer timer(std::cerr, "find " + std::to_string(test.size()));
 
-		for (auto &item: range)
+		for (auto &item : find)
 		{
 			if (*tree.find(item) == item)
 			{
-				++k;
+				res.push_back(item);
 			}
 		}
 	}
-
-	std::random_shuffle(range.begin(), range.end());
-
+	int k;
 	{
-		Timer timer(std::cerr, "erase " + std::to_string(range.size()));
+		Timer timer(std::cerr, "traverse forward " + std::to_string(test.size()));
 
-		for (auto &item: range)
+		for (auto i : tree)
+		{
+			if (i > 15)
+			{
+				k++;
+			}
+		}
+	}
+	std::cerr << k << std::endl;
+	{
+		Timer timer(std::cerr, "traverse backward " + std::to_string(test.size()));
+
+		for (int it : std::ranges::reverse_view(tree))
+		{
+			if (it > 15)
+			{
+				k++;
+			}
+		}
+	}
+	std::cerr << k << std::endl;
+	{
+		Timer timer(std::cerr, "erase " + std::to_string(test.size()));
+
+		for (auto &item : erase)
 		{
 			tree.erase(item);
 		}
 	}
 
-	/*
-	AvlTree<int> tree;
+	std::cerr << "\n\n";
+}
 
-	int size = 1e6;
-	//std::vector<int> range = {13, 35, 38, 95, 54, 79, 67};
+void benchmark_naked_tree(const std::vector<int> &test, const std::vector<int> &find, const std::vector<int> &erase)
+{
+	std::cerr << "Naked tree\n";
 
-	//  = {13, 35, 38, 95, 54, 79, 67}; //
-	std::vector<int> range(size);
-	std::iota(range.begin(), range.end(), 1);
-	std::shuffle(range.begin(), range.end(), std::mt19937(std::random_device()()));
-	std::shuffle(range.begin(), range.end(), std::mt19937(std::random_device()()));
+	AvlTreeBase<int> tree;
+	std::vector<int> res;
+	res.reserve(test.size());
 
 	{
-		Timer timer(std::cerr, "insert " + std::to_string(size));
+		Timer timer(std::cerr, "insert " + std::to_string(test.size()));
 
-		for(auto &item : range)
+		for (auto &item : test)
 		{
 			tree.insert(item);
-
-			//print(std::cerr, tree.begin(), tree.end());
 		}
 	}
-
-	std::vector<int> values;
-	values.reserve(size);
 	{
-		Timer timer(std::cerr, "find " + std::to_string(size));
+		Timer timer(std::cerr, "find " + std::to_string(test.size()));
 
-		for(auto &item : range)
+		for (auto &item : find)
 		{
-			values.push_back(*tree.find(item));
+			if (tree.find(item)->value_ == item)
+			{
+				res.push_back(item);
+			}
 		}
 	}
 	{
-		Timer timer(std::cerr, "erase " + std::to_string(size));
+		Timer timer(std::cerr, "erase " + std::to_string(test.size()));
 
-		for(auto &item : range)
+		for (auto &item : erase)
 		{
 			tree.erase(item);
+		}
+	}
 
-			//print(std::cerr, tree.begin(), tree.end());
+	std::cerr << "\n\n";
+}
+
+void benchmark_tree(const std::vector<int> &test, const std::vector<int> &find, const std::vector<int> &erase)
+{
+	std::cerr << "Tree\n";
+
+	AvlTree<int> tree;
+	std::vector<int> res;
+	res.reserve(test.size());
+
+	{
+		Timer timer(std::cerr, "insert " + std::to_string(test.size()));
+
+		for (auto &item : test)
+		{
+			tree.insert(item);
+		}
+	}
+
+	//std::cerr << std::boolalpha << tree.force_balance_check() << '\n';
+
+	//tree.header_.force_unlink();
+	{
+		Timer timer(std::cerr, "find " + std::to_string(test.size()));
+
+		for (auto &item : find)
+		{
+			if (*tree.find(item) == item)
+			{
+				res.push_back(item);
+			}
+		}
+	}
+	//tree.header_.restore_links();
+	int k;
+	{
+		Timer timer(std::cerr, "traverse forward " + std::to_string(test.size()));
+
+		for (auto i : tree)
+		{
+			if (i > 15)
+			{
+				k++;
+			}
+		}
+	}
+	/*std::cerr << k << std::endl;
+	{
+		Timer timer(std::cerr, "traverse backward " + std::to_string(test.size()));
+
+		for (auto it = tree.rbegin(); it != tree.rend(); ++it)
+		{
+			if (*it > 15)
+			{
+				k++;
+			}
 		}
 	}*/
+	std::cerr << k << std::endl;
+	{
+		Timer timer(std::cerr, "erase " + std::to_string(test.size()));
+
+		for (auto &item : erase)
+		{
+			tree.erase(item);
+		}
+	}
+
+	std::cerr << "\n\n";
+}
+
+int main()
+{
+	std::vector<int> range(2e6 + 1);
+	std::iota(range.begin(), range.end(), -static_cast<int64_t>(range.size()) / 2);
+
+	std::shuffle(range.begin(), range.end(), std::mt19937(std::random_device()()));
+
+	std::vector<int> find = range;
+
+	std::shuffle(find.begin(), find.end(), std::mt19937(std::random_device()()));
+
+	std::vector<int> erase = find;
+
+	std::shuffle(erase.begin(), erase.end(), std::mt19937(std::random_device()()));
+
+	benchmark_set(range, find, erase);
+	benchmark_tree(range, find, erase);
+	benchmark_naked_tree(range, find, erase);
+
 	return 0;
 }

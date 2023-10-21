@@ -11,7 +11,6 @@ class AvlTreeBase {
   using value_type = ValueType;
   using node_type = AvlTreeNode<value_type>;
   using node_pointer = node_type *;
-  using base_pointer_type = node_type::Avl_Base_ptr;
 
   AvlTreeBase();
 
@@ -49,7 +48,7 @@ class AvlTreeBase {
 
   node_pointer find(const value_type &value) const;
 
-  void recursive_destroy(base_pointer_type node);
+  void recursive_destroy(node_pointer node);
 
   node_pointer rotate_left(node_pointer node);
   node_pointer rotate_right(node_pointer node);
@@ -305,7 +304,7 @@ void AvlTreeBase<ValueType, Comparator>::insert(node_pointer node)
 			}
 			else
 			{
-				current = current->left();
+				current = current->left_;
 			}
 		}
 		else
@@ -318,7 +317,7 @@ void AvlTreeBase<ValueType, Comparator>::insert(node_pointer node)
 			}
 			else
 			{
-				current = current->right();
+				current = current->right_;
 			}
 		}
 	}
@@ -329,7 +328,7 @@ void AvlTreeBase<ValueType, Comparator>::insert(node_pointer node)
 	node->iterative_height_update();
 
 	// balance nodes start from parent
-	rebalance(node->parent());
+	rebalance(node->parent_);
 }
 
 template<typename ValueType, class Comparator>
@@ -342,7 +341,9 @@ auto AvlTreeBase<ValueType, Comparator>::insert(const value_type &value) -> node
 		return old;
 	}
 
-	return insert(new node_type(value));
+	auto node = new node_type(value);
+	insert(node);
+	return node;
 }
 
 template<typename ValueType, class Comparator>
@@ -350,6 +351,11 @@ void AvlTreeBase<ValueType, Comparator>::erase(node_pointer node)
 {
 	if (node == nullptr)
 	{
+		return;
+	}
+	if (number_of_nodes_ == 1)
+	{
+		clear();
 		return;
 	}
 
@@ -361,28 +367,27 @@ void AvlTreeBase<ValueType, Comparator>::erase(node_pointer node)
 		/*auto successor = static_cast<node_pointer>(node->successor());
 		node->value_ = std::move(successor->value_);
 		node = successor;*/
-		auto successor = static_cast<node_pointer>(node->successor());
+		auto successor = node->successor();
 		swap_nodes(node, successor);
-
 	}
 
-	node_pointer parent = node->parent();
+	node_pointer parent = node->parent_;
 
 	if (parent == nullptr)
 	{
-		root_ = root_->left() != nullptr ? root_->left() : root_->right();
+		root_ = root_->left_ != nullptr ? root_->left_ : root_->right_;
 
-		delete root_->parent();
+		delete root_->parent_;
 		root_->parent_ = nullptr;
 		parent = root_;
 	}
 	else
 	{
-		node_pointer child = node->right_ == nullptr ? node->left() : node->right();
+		node_pointer child = node->right_ == nullptr ? node->left_ : node->right_;
 
 		if (child != nullptr)
 		{
-			if (parent->left() == node)
+			if (parent->left_ == node)
 			{
 				parent->left_ = child;
 			}
@@ -396,14 +401,14 @@ void AvlTreeBase<ValueType, Comparator>::erase(node_pointer node)
 		}
 		else
 		{
-			if (parent->left() == node)
+			if (parent->left_ == node)
 			{
-				delete parent->left();
+				delete parent->left_;
 				parent->left_ = nullptr;
 			}
 			else
 			{
-				delete parent->right();
+				delete parent->right_;
 				parent->right_ = nullptr;
 			}
 		}
@@ -418,8 +423,7 @@ void AvlTreeBase<ValueType, Comparator>::erase(node_pointer node)
 template<typename ValueType, class Comparator>
 void AvlTreeBase<ValueType, Comparator>::erase(const value_type &value)
 {
-	node_pointer node = find(value);
-	erase(node);
+	erase(find(value));
 }
 
 template<typename ValueType, class Comparator>
@@ -431,11 +435,11 @@ auto AvlTreeBase<ValueType, Comparator>::find(const value_type &value) const -> 
 	{
 		if (compare_(value, node->value_))
 		{
-			node = node->left();
+			node = node->left_;
 		}
 		else
 		{
-			node = node->right();
+			node = node->right_;
 		}
 	}
 
@@ -451,7 +455,7 @@ void AvlTreeBase<ValueType, Comparator>::clear()
 }
 
 template<typename ValueType, class Comparator>
-void AvlTreeBase<ValueType, Comparator>::recursive_destroy(base_pointer_type node)
+void AvlTreeBase<ValueType, Comparator>::recursive_destroy(node_pointer node)
 {
 	if (node == nullptr)
 	{
@@ -473,7 +477,7 @@ void AvlTreeBase<ValueType, Comparator>::recursive_destroy(base_pointer_type nod
 template<typename ValueType, class Comparator>
 auto AvlTreeBase<ValueType, Comparator>::rotate_left(node_pointer node) -> node_pointer
 {
-	node_pointer new_root = node->right();
+	node_pointer new_root = node->right_;
 
 	node->right_ = new_root->left_;
 
@@ -496,7 +500,7 @@ auto AvlTreeBase<ValueType, Comparator>::rotate_left(node_pointer node) -> node_
 template<typename ValueType, class Comparator>
 auto AvlTreeBase<ValueType, Comparator>::rotate_right(node_pointer node) -> node_pointer
 {
-	node_pointer new_root = node->left();
+	node_pointer new_root = node->left_;
 
 	node->left_ = new_root->right_;
 
@@ -524,16 +528,16 @@ auto AvlTreeBase<ValueType, Comparator>::small_left_rotate(node_pointer node) ->
 		return rotate_left(node);
 	}
 
-	node_pointer parent = node->parent();
+	node_pointer parent = node->parent_;
 	node->parent_ = nullptr;
 
-	if (parent->left() == node)
+	if (parent->left_ == node)
 	{
 		parent->left_ = rotate_left(node);
 		parent->left_->parent_ = parent;
 		parent->iterative_height_update();
 
-		return parent->left();
+		return parent->left_;
 	}
 	else
 	{
@@ -541,14 +545,14 @@ auto AvlTreeBase<ValueType, Comparator>::small_left_rotate(node_pointer node) ->
 		parent->right_->parent_ = parent;
 		parent->iterative_height_update();
 
-		return parent->right();
+		return parent->right_;
 	}
 }
 
 template<typename ValueType, class Comparator>
 auto AvlTreeBase<ValueType, Comparator>::big_left_rotate(node_pointer node) -> node_pointer
 {
-	node->right_ = small_right_rotate(node->right());
+	node->right_ = small_right_rotate(node->right_);
 	node->right_->parent_ = node;
 	node->iterative_height_update();
 
@@ -563,17 +567,16 @@ auto AvlTreeBase<ValueType, Comparator>::small_right_rotate(node_pointer node) -
 		return rotate_right(node);
 	}
 
-	node_pointer parent = node->parent();
+	node_pointer parent = node->parent_;
 	node->parent_ = nullptr;
 
-	// TODO rewrite this part to reduce code garbage
-	if (parent->left() == node)
+	if (parent->left_ == node)
 	{
 		parent->left_ = rotate_right(node);
 		parent->left_->parent_ = parent;
 		parent->iterative_height_update();
 
-		return parent->left();
+		return parent->left_;
 	}
 	else
 	{
@@ -581,14 +584,14 @@ auto AvlTreeBase<ValueType, Comparator>::small_right_rotate(node_pointer node) -
 		parent->right_->parent_ = parent;
 		parent->iterative_height_update();
 
-		return parent->right();
+		return parent->right_;
 	}
 }
 
 template<typename ValueType, class Comparator>
 auto AvlTreeBase<ValueType, Comparator>::big_right_rotate(node_pointer node) -> node_pointer
 {
-	node->left_ = small_left_rotate(node->left());
+	node->left_ = small_left_rotate(node->left_);
 	node->left_->parent_ = node;
 	node->iterative_height_update();
 
@@ -647,7 +650,7 @@ void AvlTreeBase<ValueType, Comparator>::rebalance(node_pointer node)
 		{
 			root_ = temp;
 		}
-		temp = temp->parent();
+		temp = temp->parent_;
 	}
 }
 

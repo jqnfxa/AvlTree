@@ -4,6 +4,33 @@
 #include <vector>
 #include <numeric>
 
+TEST(AvlTreeTestSuite, TestIterator)
+{
+	AvlTree<int> tree;
+
+	std::vector<int> range(3 + 1);
+	std::iota(range.begin(), range.end(), -static_cast<int64_t>(range.size()) / 2);
+	std::random_shuffle(range.begin(), range.end());
+
+	for (auto &item: range)
+	{
+		tree.insert(item);
+	}
+
+	std::random_shuffle(range.begin(), range.end());
+
+	int k = 0;
+	for (auto it : tree)
+	{
+		k++;
+	}
+
+	if (k > 5)
+	{
+		tree.erase_smallest();
+	}
+}
+
 TEST(AvlTreeTestSuite, TestPushFrontSmallRange)
 {
 	AvlTree<int> tree;
@@ -277,23 +304,23 @@ TEST(AvlTreeTestSuite, TestEraseSmall)
 
 	for (auto &item: range)
 	{
-		std::cerr << "Pre: [" << item << "]\n";
+		/*std::cerr << "Pre: [" << item << "]\n";
 
 		for (int it : tree)
 		{
 			std::cerr << it << ' ';
 		}
-		std::cerr << std::endl;
+		std::cerr << std::endl;*/
 
 		tree.erase(item);
 
-		std::cerr << "Post: \n";
+		/*std::cerr << "Post: \n";
 
 		for (int it : tree)
 		{
 			std::cerr << it << ' ';
 		}
-		std::cerr << std::endl;
+		std::cerr << std::endl;*/
 
 		EXPECT_EQ(tree.find(item), tree.end());
 		EXPECT_TRUE(tree.force_balance_check());

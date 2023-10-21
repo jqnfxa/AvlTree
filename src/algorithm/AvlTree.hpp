@@ -1,37 +1,31 @@
 #pragma once
 
 #include <cstdint>
+#include <cassert>
 #include "AvlTreeImplementation.hpp"
 #include "AvlTreeDeclaration.hpp"
-#include "AvlTreeHeader.hpp"
 #include "AvlTreeIterator.hpp"
 
 template<typename ValueType, class Comparator>
 class AvlTree {
  public:
   using self = AvlTree;
+  using value_type = ValueType;
   using BaseImpl = AvlTreeBase<ValueType, Comparator>;
   using size_type = BaseImpl::size_type;
-  using value_type = ValueType;
   using node_type = BaseImpl::node_type;
   using node_pointer = BaseImpl::node_pointer;
   using iterator = AvlTreeIterator<value_type>;
   using reverse_iterator = std::reverse_iterator<iterator>;
 
-  // TODO implement std::reverse_iterators
-
   int dfs(node_pointer root)
   {
-	  if (is_placeholder(root))
-	  {
-		  return 0;
-	  }
-	  if (root == nullptr)
+	  if (root == nullptr || root->is_placeholder())
 	  {
 		  return 0;
 	  }
 
-	  int left = dfs(root->left());
+	  int left = dfs(root->left_);
 	  assert(root->left_height() == left);
 
 	  if (left == -1)
@@ -39,7 +33,7 @@ class AvlTree {
 		  return -1;
 	  }
 
-	  int right = dfs(root->right());
+	  int right = dfs(root->right_);
 	  assert(root->right_height() == right);
 
 	  if (right == -1)
@@ -93,17 +87,18 @@ class AvlTree {
   void erase_smallest();
   void erase_largest();
   void erase(const value_type &value);
-  void erase(iterator pos);
+  void erase(const iterator &pos);
 
   /*
    * searchers
    */
-  iterator find(const value_type &value) const;
-  iterator find(value_type &&value) const;
+  iterator find(const value_type &value);
+  iterator find(value_type &&value);
 
- private:
+ public:
+
   BaseImpl base_;
-  AvlTreeHeader header_;
+  AvlTreeNode<value_type> header_;
 };
 
 template<typename ValueType, class Comparator>
@@ -119,8 +114,9 @@ auto AvlTree<ValueType, Comparator>::rend() const noexcept -> reverse_iterator
 }
 
 template<typename ValueType, class Comparator>
-AvlTree<ValueType, Comparator>::AvlTree() : base_(), header_()
+AvlTree<ValueType, Comparator>::AvlTree() : base_(), header_(0, nullptr, nullptr, nullptr, 0)
 {
+	header_.reset();
 }
 
 template<typename ValueType, class Comparator>
@@ -133,7 +129,7 @@ template<typename ValueType, class Comparator>
 AvlTree<ValueType, Comparator>::AvlTree(AvlTree &&other) noexcept
 {
 	base_ = std::move(other.base_);
-	header_.move_data(other.header_);
+	header_ = std::move(other.header_);
 }
 
 template<typename ValueType, class Comparator>
@@ -142,7 +138,7 @@ auto AvlTree<ValueType, Comparator>::operator=(AvlTree &&other) noexcept -> self
 	if (this != &other)
 	{
 		base_ = std::move(other.base_);
-		header_.move_data(other.header_);
+		header_ = std::move(other.header_);
 	}
 
 	return *this;
@@ -151,13 +147,13 @@ auto AvlTree<ValueType, Comparator>::operator=(AvlTree &&other) noexcept -> self
 template<typename ValueType, class Comparator>
 auto AvlTree<ValueType, Comparator>::begin() const noexcept -> iterator
 {
-	return iterator(header_.base_.left_);
+	return iterator(header_.left_);
 }
 
 template<typename ValueType, class Comparator>
 auto AvlTree<ValueType, Comparator>::end() const noexcept -> iterator
 {
-	return iterator(header_.base_.parent_);
+	return iterator(header_.parent_);
 }
 
 template<typename ValueType, class Comparator>
@@ -175,6 +171,8 @@ bool AvlTree<ValueType, Comparator>::empty() const
 template<typename ValueType, class Comparator>
 void AvlTree<ValueType, Comparator>::clear()
 {
+	header_.left_->left_ = nullptr;
+	header_.right_->right_ = nullptr;
 	header_.reset();
 	base_.clear();
 }
@@ -182,48 +180,54 @@ void AvlTree<ValueType, Comparator>::clear()
 template<typename ValueType, class Comparator>
 auto AvlTree<ValueType, Comparator>::insert(const value_type &value) -> std::pair<iterator, bool>
 {
-	auto pos = find(value);
-
 	/*
 	 * value already exists
 	 */
-	if (pos != end())
+	if (auto pos = find(value); pos != end())
 	{
 		return {pos, false};
 	}
 
-	header_.force_unlink();
+	if (!header_.left_->is_placeholder())
+	{
+		header_.left_->left_ = nullptr;
+	}
+	if (!header_.right_->is_placeholder())
+	{
+		header_.right_->right_ = nullptr;
+	}
 
 	node_pointer node = new node_type(value);
 
 	if (empty())
 	{
 		base_.root_ = node;
-		header_.update_left(base_.root_);
-		header_.update_right(base_.root_);
+		header_.left_ = base_.root_;
+		header_.right_ = base_.root_;
 		++base_.number_of_nodes_;
 	}
 	else
 	{
-		auto smallest = static_cast<node_pointer>(header_.base_.left_);
-		auto greatest = static_cast<node_pointer>(header_.base_.right_);
+		const auto &smallest = header_.left_;
+		const auto &greatest = header_.right_;
 
 		/*
 		 * we want to update the smallest value or greatest values, then update header
 		 */
 		if (base_.compare_(node->value_, smallest->value_))
 		{
-			header_.update_left(node);
+			header_.left_ = node;
 		}
 		else if (base_.compare_(greatest->value_, node->value_))
 		{
-			header_.update_right(node);
+			header_.right_ = node;
 		}
 
 		base_.insert(node);
 	}
 
-	header_.restore_links();
+	header_.left_->left_ = header_.parent_;
+	header_.right_->right_ = header_.parent_;
 
 	return {iterator(node), true};
 }
@@ -253,7 +257,7 @@ void AvlTree<ValueType, Comparator>::erase(const value_type &value)
 }
 
 template<typename ValueType, class Comparator>
-void AvlTree<ValueType, Comparator>::erase(iterator pos)
+void AvlTree<ValueType, Comparator>::erase(const iterator &pos)
 {
 	/*
 	 * cannot erase placeholder
@@ -268,42 +272,109 @@ void AvlTree<ValueType, Comparator>::erase(iterator pos)
 		return;
 	}
 
-	header_.force_unlink();
+	if (!header_.left_->is_placeholder())
+	{
+		header_.left_->left_ = nullptr;
+	}
+	if (!header_.right_->is_placeholder())
+	{
+		header_.right_->right_ = nullptr;
+	}
 
-	bool force_left = false;
-	bool force_right = false;
 	/*
 	 * we want to update the smallest value or greatest values, then update header
 	 */
 	if (pos == begin())
 	{
-		header_.update_left(std::next(pos).node_);
+		header_.left_ = std::next(pos).node_;
 	}
 	else if (pos == std::prev(end()))
 	{
-		header_.update_right(std::prev(pos).node_);
+		header_.right_ = std::prev(pos).node_;
 	}
 
 	base_.erase(pos.node_);
 
-	header_.restore_links();
+	if (header_.left_ == nullptr)
+	{
+		header_.left_ = header_.parent_;
+	}
+	else
+	{
+		header_.left_->left_ = header_.parent_;
+	}
+	if (header_.right_ == nullptr)
+	{
+		header_.right_ = header_.parent_;
+	}
+	else
+	{
+		header_.right_->right_ = header_.parent_;
+	}
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTree<ValueType, Comparator>::find(const value_type &value) const -> iterator
+auto AvlTree<ValueType, Comparator>::find(const value_type &value) -> iterator
 {
-	header_.force_unlink();
+	iterator ret = end();
 
-	auto needle = base_.find(value);
-	iterator ret = needle == nullptr ? end() : iterator(needle);
+	if (!header_.left_->is_placeholder())
+	{
+		header_.left_->left_ = nullptr;
+	}
+	if (!header_.right_->is_placeholder())
+	{
+		header_.right_->right_ = nullptr;
+	}
 
-	header_.restore_links();
+	node_pointer node = base_.find(value);
+
+	if (node != nullptr)
+	{
+		ret = std::move(iterator(node));
+	}
+
+	if (header_.left_ == nullptr)
+	{
+		header_.left_ = header_.parent_;
+	}
+	else
+	{
+		header_.left_->left_ = header_.parent_;
+	}
+	if (header_.right_ == nullptr)
+	{
+		header_.right_ = header_.parent_;
+	}
+	else
+	{
+		header_.right_->right_ = header_.parent_;
+	}
+
+	/*node_pointer node = base_.root_;
+
+	while (node != nullptr && node->value_ != value && !node->is_placeholder())
+	{
+		if (base_.compare_(value, node->value_))
+		{
+			node = node->left_;
+		}
+		else
+		{
+			node = node->right_;
+		}
+	}
+
+	if (node != nullptr && !node->is_placeholder())
+	{
+		ret = std::move(iterator(node));
+	}*/
 
 	return ret;
 }
 
 template<typename ValueType, class Comparator>
-auto AvlTree<ValueType, Comparator>::find(value_type &&value) const -> iterator
+auto AvlTree<ValueType, Comparator>::find(value_type &&value) -> iterator
 {
 	return find(static_cast<value_type &>(value));
 }

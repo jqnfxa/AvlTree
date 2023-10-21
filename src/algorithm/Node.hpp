@@ -18,16 +18,16 @@ class Node {
   ptr_type right;
   ptr_type parent;
 
-  explicit Node(const_reference val, ptr_type left = nullptr, ptr_type right = nullptr);
+  explicit Node(const_reference val, const ptr_type &left = nullptr, const ptr_type &right = nullptr);
 
   [[nodiscard]] different_type left_height() const;
   [[nodiscard]] different_type right_height() const;
 
   void update_height();
-  void update_right(ptr_type new_node);
-  void update_left(ptr_type new_node);
+  void update_right(const ptr_type &new_node);
+  void update_left(const ptr_type &new_node);
   void unlink_parent();
-  void link_parent(ptr_type new_parent);
+  void link_parent(const ptr_type &new_parent);
 
   [[nodiscard]] different_type height() const;
   [[nodiscard]] different_type balance_factor() const;
@@ -75,7 +75,7 @@ auto Node<Type>::left_height() const -> different_type
 }
 
 template<typename Type>
-Node<Type>::Node(const_reference val, ptr_type left, ptr_type right) : value(val), left(left), right(right), parent(nullptr), height_(1)
+Node<Type>::Node(const_reference val, const ptr_type &left, const ptr_type &right) : value(val), left(left), right(right), parent(nullptr), height_(1)
 {
 	update_height();
 }
@@ -99,7 +99,7 @@ void Node<Type>::update_height()
 }
 
 template<typename Type>
-void Node<Type>::update_left(Node::ptr_type new_node)
+void Node<Type>::update_left(const ptr_type &new_node)
 {
 	if (left != nullptr)
 	{
@@ -117,7 +117,7 @@ void Node<Type>::update_left(Node::ptr_type new_node)
 }
 
 template<typename Type>
-void Node<Type>::update_right(Node::ptr_type new_node)
+void Node<Type>::update_right(const ptr_type &new_node)
 {
 	if (right != nullptr)
 	{
@@ -142,7 +142,7 @@ void Node<Type>::unlink_parent()
 }
 
 template<typename Type>
-void Node<Type>::link_parent(Node::ptr_type new_parent)
+void Node<Type>::link_parent(const ptr_type &new_parent)
 {
 	parent = new_parent;
 	parent->update_height();

@@ -1,17 +1,18 @@
 #pragma once
 
 #include <iterator>
-#include "AvlTreeDeclaration.hpp"
+//#include "AvlTreeDeclaration.hpp"
 #include "AvlTreeHelper.hpp"
 #include "AvlTreeNode.hpp"
 
-template<typename ValueType>
+template <typename ValueType, class Comparator = std::less<ValueType>>
 class AvlTreeIterator {
  public:
   template<typename T, class C> friend
   class AvlTree;
  public:
   using value_type = ValueType;
+  using pointer_type = AvlTreeNode<value_type>::pointer_type;
   using self = AvlTreeIterator<value_type>;
   using iterator_tag = std::bidirectional_iterator_tag;
   using difference_type = std::ptrdiff_t;
@@ -19,8 +20,7 @@ class AvlTreeIterator {
   using pointer = const value_type *;
 
   AvlTreeIterator();
-
-  explicit AvlTreeIterator(AvlTreeNodeBase::Avl_Base_ptr node);
+  explicit AvlTreeIterator(const pointer_type &node);
 
   reference operator*();
 
@@ -48,63 +48,63 @@ class AvlTreeIterator {
 
   bool operator==(const AvlTreeIterator<value_type> &other) const;
  private:
-  AvlTreeNode<value_type>::pointer_type node_;
+  pointer_type node_;
 };
 
-template<typename ValueType>
-AvlTreeIterator<ValueType>::AvlTreeIterator() : node_(nullptr)
+template <typename ValueType, class Comparator>
+AvlTreeIterator<ValueType, Comparator>::AvlTreeIterator() : node_(nullptr)
 {
 }
 
-template<typename ValueType>
-AvlTreeIterator<ValueType>::AvlTreeIterator(AvlTreeNodeBase::Avl_Base_ptr node) : node_(static_cast<AvlTreeNode<value_type>::pointer_type>(node))
+template <typename ValueType, class Comparator>
+AvlTreeIterator<ValueType, Comparator>::AvlTreeIterator(const pointer_type &node) : node_(node)
 {
 }
 
-template<typename ValueType>
-auto AvlTreeIterator<ValueType>::operator*() -> reference
+template <typename ValueType, class Comparator>
+auto AvlTreeIterator<ValueType, Comparator>::operator*() -> reference
 {
 	return node_->value_;
 }
 
-template<typename ValueType>
-auto AvlTreeIterator<ValueType>::operator->() -> pointer
+template <typename ValueType, class Comparator>
+auto AvlTreeIterator<ValueType, Comparator>::operator->() -> pointer
 {
-	return node_->value();
+	return &node_->value_;
 }
 
-template<typename ValueType>
-auto AvlTreeIterator<ValueType>::operator++() -> self &
+template <typename ValueType, class Comparator>
+auto AvlTreeIterator<ValueType, Comparator>::operator++() -> self &
 {
-	node_ = const_cast<AvlTreeNode<ValueType>::pointer_type>(avl_tree_increment<ValueType>(node_->to_constant()));
+	node_ = avl_tree_increment<ValueType>(node_);
 	return *this;
 }
 
-template<typename ValueType>
-auto AvlTreeIterator<ValueType>::operator++(int) -> self
+template <typename ValueType, class Comparator>
+auto AvlTreeIterator<ValueType, Comparator>::operator++(int) -> self
 {
 	self temp = *this;
 	++(*this);
 	return temp;
 }
 
-template<typename ValueType>
-auto AvlTreeIterator<ValueType>::operator--() -> self &
+template <typename ValueType, class Comparator>
+auto AvlTreeIterator<ValueType, Comparator>::operator--() -> self &
 {
-	node_ = const_cast<AvlTreeNode<ValueType>::pointer_type>(avl_tree_decrement<ValueType>(node_->to_constant()));
+	node_ = avl_tree_decrement<ValueType>(node_);
 	return *this;
 }
 
-template<typename ValueType>
-auto AvlTreeIterator<ValueType>::operator--(int) -> self
+template <typename ValueType, class Comparator>
+auto AvlTreeIterator<ValueType, Comparator>::operator--(int) -> self
 {
 	self temp = *this;
 	--(*this);
 	return temp;
 }
 
-template<typename ValueType>
-bool AvlTreeIterator<ValueType>::operator==(const AvlTreeIterator<value_type> &other) const
+template <typename ValueType, class Comparator>
+bool AvlTreeIterator<ValueType, Comparator>::operator==(const AvlTreeIterator<value_type> &other) const
 {
 	return node_ == other.node_;
 }
