@@ -172,17 +172,17 @@ void benchmark_tree(const std::vector<int> &test, const std::vector<int> &find, 
 		}
 	}
 	std::cerr << k << std::endl;
-	/*{
+	{
 		Timer timer(std::cerr, "traverse backward " + std::to_string(test.size()));
 
-		for (int it : std::ranges::reverse_view(tree))
+		for (auto it = tree.rbegin(); it != tree.rend(); ++it)
 		{
-			if (it > 15)
+			if (*it > 15)
 			{
 				k++;
 			}
 		}
-	}*/
+	}
 	std::cerr << k << std::endl;
 	{
 		Timer timer(std::cerr, "erase " + std::to_string(erase.size()));
