@@ -222,7 +222,7 @@ int main()
 
 	for (int i = 0; i < size * 2; ++i)
 	{
-		erase.push_back((1e7 + 1) * (-1) * (rand() % 2));
+		erase.push_back((2 * size + 1) * (-1) * (rand() % 2));
 	}
 
 	std::shuffle(erase.begin(), erase.end(), std::mt19937(std::random_device()()));
