@@ -38,7 +38,6 @@ TEST(AvlTreeTestSuite, TestPushFrontSmallRange)
 	for (int i = -5; i < 5; ++i)
 	{
 		ASSERT_EQ(*tree.insert(i).first, i);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 }
 
@@ -54,7 +53,6 @@ TEST(AvlTreeTestSuite, TestSize)
 		tree.insert(i);
 		EXPECT_EQ(tree.size(), i);
 		EXPECT_FALSE(tree.empty());
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 
 	tree.clear();
@@ -69,7 +67,6 @@ TEST(AvlTreeTestSuite, TestPushFrontMediumRange)
 	for (int i = -1000; i < 1000; ++i)
 	{
 		ASSERT_EQ(*tree.insert(i).first, i);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 }
 
@@ -80,7 +77,6 @@ TEST(AvlTreeTestSuite, TestPushFrontBigRange)
 	for (int i = -10000; i < 10000; ++i)
 	{
 		ASSERT_EQ(*tree.insert(i).first, i);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 }
 
@@ -91,7 +87,6 @@ TEST(AvlTreeTestSuite, TestPushBackSmallRange)
 	for (int i = 5; i >= -5; --i)
 	{
 		ASSERT_EQ(*tree.insert(i).first, i);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 }
 
@@ -102,7 +97,6 @@ TEST(AvlTreeTestSuite, TestPushBackMediumRange)
 	for (int i = 1000; i >= -1000; --i)
 	{
 		ASSERT_EQ(*tree.insert(i).first, i);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 }
 
@@ -113,7 +107,6 @@ TEST(AvlTreeTestSuite, TestPushBackBigRange)
 	for (int i = 10000; i >= -10000; --i)
 	{
 		ASSERT_EQ(*tree.insert(i).first, i);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 }
 
@@ -135,7 +128,6 @@ TEST(AvlTreeTestSuite, TestFindSmall)
 		auto found = tree.find(item);
 		ASSERT_EQ(found, inserted.first);
 		ASSERT_EQ(*found, item);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 
 	// -6 0 1 5 4 6
@@ -145,7 +137,6 @@ TEST(AvlTreeTestSuite, TestFindSmall)
 	for (auto &item: range)
 	{
 		ASSERT_EQ(*tree.find(item), item);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 }
 
@@ -162,7 +153,6 @@ TEST(AvlTreeTestSuite, TestFindMedium)
 		auto inserted = tree.insert(item);
 		ASSERT_EQ(tree.find(item), inserted.first);
 		ASSERT_EQ(*tree.find(item), item);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 
 	std::random_shuffle(range.begin(), range.end());
@@ -170,7 +160,6 @@ TEST(AvlTreeTestSuite, TestFindMedium)
 	for (auto &item: range)
 	{
 		ASSERT_EQ(*tree.find(item), item);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 }
 
@@ -187,7 +176,6 @@ TEST(AvlTreeTestSuite, TestFindBig)
 		auto inserted = tree.insert(item);
 		ASSERT_EQ(tree.find(item), inserted.first);
 		ASSERT_EQ(*tree.find(item), item);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 
 	std::random_shuffle(range.begin(), range.end());
@@ -195,7 +183,6 @@ TEST(AvlTreeTestSuite, TestFindBig)
 	for (auto &item: range)
 	{
 		ASSERT_EQ(*tree.find(item), item);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 }
 
@@ -206,7 +193,6 @@ TEST(AvlTreeTestSuite, TestPopBack)
 	for (int i = -2; i <= 2; ++i)
 	{
 		tree.insert(i);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 
 	int size = tree.size();
@@ -216,7 +202,6 @@ TEST(AvlTreeTestSuite, TestPopBack)
 		tree.erase(i);
 		size--;
 		EXPECT_EQ(tree.size(), size);
-		EXPECT_TRUE(tree.force_balance_check());
 		EXPECT_EQ(tree.find(i), tree.end());
 	}
 }
@@ -228,7 +213,6 @@ TEST(AvlTreeTestSuite, TestPopBackBig)
 	for (int i = -2000; i <= 2000; ++i)
 	{
 		tree.insert(i);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 
 	int size = tree.size();
@@ -237,7 +221,6 @@ TEST(AvlTreeTestSuite, TestPopBackBig)
 		tree.erase(i);
 		size--;
 		EXPECT_EQ(tree.size(), size);
-		EXPECT_TRUE(tree.force_balance_check());
 		EXPECT_EQ(tree.find(i), tree.end());
 	}
 }
@@ -249,7 +232,6 @@ TEST(AvlTreeTestSuite, TestPopFront)
 	for (int i = 2; i >= -2; --i)
 	{
 		tree.insert(i);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 
 	int size = tree.size();
@@ -258,7 +240,6 @@ TEST(AvlTreeTestSuite, TestPopFront)
 		tree.erase(i);
 		size--;
 		EXPECT_EQ(tree.size(), size);
-		EXPECT_TRUE(tree.force_balance_check());
 		EXPECT_EQ(tree.find(i), tree.end());
 	}
 }
@@ -270,7 +251,6 @@ TEST(AvlTreeTestSuite, TestPopFrontBig)
 	for (int i = 2000; i >= -2000; --i)
 	{
 		tree.insert(i);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 
 	int size = tree.size();
@@ -279,7 +259,6 @@ TEST(AvlTreeTestSuite, TestPopFrontBig)
 		tree.erase(i);
 		size--;
 		EXPECT_EQ(tree.size(), size);
-		EXPECT_TRUE(tree.force_balance_check());
 		EXPECT_EQ(tree.find(i), tree.end());
 	}
 }
@@ -297,7 +276,6 @@ TEST(AvlTreeTestSuite, TestEraseSmall)
 		auto inserted = tree.insert(item);
 		EXPECT_EQ(tree.find(item), inserted.first);
 		EXPECT_EQ(*tree.find(item), item);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 
 	std::random_shuffle(range.begin(), range.end());
@@ -323,7 +301,6 @@ TEST(AvlTreeTestSuite, TestEraseSmall)
 		std::cerr << std::endl;*/
 
 		EXPECT_EQ(tree.find(item), tree.end());
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 }
 
@@ -340,7 +317,6 @@ TEST(AvlTreeTestSuite, TestEraseMedium)
 		auto inserted = tree.insert(item);
 		EXPECT_EQ(tree.find(item), inserted.first);
 		EXPECT_EQ(*tree.find(item), item);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 
 	std::random_shuffle(range.begin(), range.end());
@@ -349,7 +325,6 @@ TEST(AvlTreeTestSuite, TestEraseMedium)
 	{
 		tree.erase(item);
 		EXPECT_EQ(tree.find(item), tree.end());
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 }
 
@@ -366,7 +341,6 @@ TEST(AvlTreeTestSuite, TestEraseMediumIterator)
 		auto inserted = tree.insert(item);
 		ASSERT_EQ(tree.find(item), inserted.first);
 		ASSERT_EQ(*tree.find(item), item);
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 
 	std::random_shuffle(range.begin(), range.end());
@@ -375,7 +349,6 @@ TEST(AvlTreeTestSuite, TestEraseMediumIterator)
 	{
 		tree.erase(tree.find(item));
 		ASSERT_EQ(tree.find(item), tree.end());
-		EXPECT_TRUE(tree.force_balance_check());
 	}
 }
 

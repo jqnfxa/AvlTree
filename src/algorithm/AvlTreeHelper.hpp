@@ -2,10 +2,12 @@
 
 #include "AvlTreeNode.hpp"
 
-/*
-template<typename PointerType>
-concept AvlTreeNodePointerType = std::is_same_v<typeid(PointerType), typeid(AvlTreeNodeBase::Avl_Base_ptr)>; // || std::is_same_v<PointerType, AvlTreeNodeBase::Avl_Const_Base_ptr>;
-*/
+/**
+ * @brief Function to increment a node in an AVL tree.
+ * @tparam ValueType The type of the value stored in the tree node.
+ * @param node The node to increment.
+ * @return The incremented node (next).
+ */
 template <typename ValueType>
 auto avl_tree_increment(typename AvlTreeNode<ValueType>::pointer_type node) -> typename AvlTreeNode<ValueType>::pointer_type
 {
@@ -16,9 +18,7 @@ auto avl_tree_increment(typename AvlTreeNode<ValueType>::pointer_type node) -> t
 		return nullptr;
 	}
 
-	/*
-	 * If placeholder node detected then increment does not perform.
-	 */
+	// If placeholder node detected then increment does not perform.
 	if (node->is_placeholder())
 	{
 		return node;
@@ -26,9 +26,7 @@ auto avl_tree_increment(typename AvlTreeNode<ValueType>::pointer_type node) -> t
 
 	if (node->right_ != nullptr)
 	{
-		/*
-		 * If node has right child then go to leftmost node of this child.
-		 */
+		// If node has right child then go to leftmost node of this child.
 		node = node->right_;
 
 		if (!node->is_placeholder())
@@ -41,9 +39,7 @@ auto avl_tree_increment(typename AvlTreeNode<ValueType>::pointer_type node) -> t
 	}
 	else
 	{
-		/*
-		 * We've reached the leaf node, so we're coming out of it
-		 */
+		// We've reached the leaf node, so we're coming out of it
 		pointer_type old = node;
 
 		while (node->parent_ != nullptr)
@@ -62,6 +58,12 @@ auto avl_tree_increment(typename AvlTreeNode<ValueType>::pointer_type node) -> t
 	return node;
 }
 
+/**
+ * @brief Function to decrement a node in an AVL tree.
+ * @tparam ValueType The type of the value stored in the tree node.
+ * @param node The node to decrement.
+ * @return The decremented node (previous).
+ */
 template <typename ValueType>
 auto avl_tree_decrement(typename AvlTreeNode<ValueType>::pointer_type node) -> typename AvlTreeNode<ValueType>::pointer_type
 {
@@ -88,9 +90,7 @@ auto avl_tree_decrement(typename AvlTreeNode<ValueType>::pointer_type node) -> t
 
 	if (node->left_ != nullptr)
 	{
-		/*
-		 * If node has left child then go to rightmost node of this child.
-		 */
+		// If node has left child then go to rightmost node of this child.
 		node = node->left_;
 
 		if (!node->is_placeholder())

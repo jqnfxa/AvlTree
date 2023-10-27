@@ -14,7 +14,6 @@
 // TODO std::side_view compability
 // TODO concepts for templates
 
-
 template <typename Iterator>
 std::ostream &print(std::ostream &out, Iterator begin, Iterator end)
 {
@@ -106,7 +105,7 @@ void benchmark_naked_tree(const std::vector<int> &test, const std::vector<int> &
 
 		for (auto &item : test)
 		{
-			tree.insert(item);
+			tree.insert(new AvlTreeNode<int>(item));
 		}
 	}
 	{
@@ -198,7 +197,7 @@ void benchmark_tree(const std::vector<int> &test, const std::vector<int> &find, 
 
 int main()
 {
-	int size = 2e6 + 1;
+	int size = 2e6 + 2;
 
 	std::vector<int> range(size);
 	std::iota(range.begin(), range.end(), -size / 2);

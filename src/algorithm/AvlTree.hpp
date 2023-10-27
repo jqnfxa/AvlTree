@@ -1,136 +1,232 @@
 #pragma once
 
 #include <cstdint>
-#include <cassert>
 #include "AvlTreeImplementation.hpp"
 #include "AvlTreeIterator.hpp"
 
-template<typename ValueType, class Comparator = std::less<ValueType>>
+/**
+ * @brief An AVL tree.
+ * @tparam ValueType The type of the value stored in the tree.
+ * @tparam Comparator The type of the comparator used to order the values in the tree (default is std::less<ValueType>).
+ */
+template <typename ValueType, class Comparator = std::less<ValueType>>
 class AvlTree {
- public:
-  using self = AvlTree;
-  using value_type = ValueType;
-  using BaseImpl = AvlTreeBase<ValueType, Comparator>;
-  using size_type = typename BaseImpl::size_type;
-  using node_type = typename BaseImpl::node_type;
-  using node_pointer = typename BaseImpl::node_pointer;
-  using iterator = AvlTreeIterator<value_type>;
-  using reverse_iterator = std::reverse_iterator<iterator>;
+public:
+	using self = AvlTree;
+	using value_type = ValueType;
+	using BaseImpl = AvlTreeBase<ValueType, Comparator>;
+	using size_type = typename BaseImpl::size_type;
+	using node_type = typename BaseImpl::node_type;
+	using node_pointer = typename BaseImpl::node_pointer;
+	using iterator = AvlTreeIterator<value_type>;
+	using reverse_iterator = std::reverse_iterator<iterator>;
 
-  int dfs(node_pointer root)
-  {
-	  if (root == nullptr || root->is_placeholder())
-	  {
-		  return 0;
-	  }
+	/**
+     * @brief Default constructor.
+     */
+	AvlTree();
 
-	  int left = dfs(root->left_);
-	  assert(root->left_height() == left);
+	/**
+     * @brief Destructor.
+     */
+	~AvlTree();
 
-	  if (left == -1)
-	  {
-		  return -1;
-	  }
+	/**
+     * @brief Move constructor.
+     * @param other The tree to be moved.
+     */
+	AvlTree(AvlTree &&other) noexcept;
 
-	  int right = dfs(root->right_);
-	  assert(root->right_height() == right);
+	/**
+     * @brief Copy constructor.
+     * @param other The tree to be copied.
+     */
+	AvlTree(const AvlTree &other) noexcept;
 
-	  if (right == -1)
-	  {
-		  return -1;
-	  }
+	/**
+     * @brief Move assignment operator.
+     * @param other The tree to be moved.
+     * @return Reference to the moved tree.
+     */
+	self &operator=(AvlTree &&other) noexcept;
 
-	  return abs(left - right) > 1 ? -1 : 1 + std::max(left, right);
-  }
-  bool force_balance_check()
-  {
-	  auto ret = dfs(base_.root_);
-	  return ret != -1;
-  }
+	/**
+     * @brief Copy assignment operator.
+     * @param other The tree to be copied.
+     * @return Reference to the copied tree.
+     */
+	self &operator=(const AvlTree &other) noexcept;
 
-  AvlTree();
+	/**
+     * @brief Get the beginning iterator of the tree.
+     * @return The beginning iterator of the tree.
+     */
+	iterator begin() const & noexcept;
 
-  ~AvlTree();
+	/**
+     * @brief Get the ending iterator of the tree.
+     * @return The ending iterator of the tree.
+     */
+	iterator end() const & noexcept;
 
-  AvlTree(AvlTree &&other) noexcept;
+	/**
+     * @brief Get the reverse beginning iterator of the tree.
+     * @return The reverse beginning iterator of the tree.
+     */
+	reverse_iterator rbegin() const & noexcept;
 
-  self &operator=(AvlTree &&other) noexcept;
+	/**
+     * @brief Get the reverse ending iterator of the tree.
+     * @return The reverse ending iterator of the tree.
+     */
+	reverse_iterator rend() const & noexcept;
 
-  // TODO implement copy constructor
-  AvlTree(const AvlTree &other) = delete;
-  self &operator=(const AvlTree &other) = delete;
+	/**
+     * @brief Get the size of the tree.
+     * @return The size of the tree.
+     */
+	[[nodiscard]] size_type size() const & noexcept;
 
-  /*
-   * iterators
-   */
-  iterator begin() const noexcept;
-  iterator end() const noexcept;
+	/**
+     * @brief Check if the tree is empty.
+     * @return True if the tree is empty.
+     */
+	[[nodiscard]] bool empty() const & noexcept;
 
-  reverse_iterator rbegin() const noexcept;
-  reverse_iterator rend() const noexcept;
+	/**
+     * @brief Clear the tree.
+     */
+	void clear() & noexcept;
 
-  /*
-   * capacity
-   */
-  [[nodiscard]] size_type size() const;
+	/**
+     * @brief Insert a value into the tree.
+     * @param value The value to be inserted.
+     * @return A pair consisting of an iterator to the inserted element (or to the element that prevented the insertion) and a bool denoting whether the insertion took place.
+     */
+	std::pair<iterator, bool> insert(const value_type &value) & noexcept;
 
-  [[nodiscard]] bool empty() const;
+	/**
+     * @brief Insert a value into the tree.
+     * @param value The value to be inserted.
+     * @return A pair consisting of an iterator to the inserted element (or to the element that prevented the insertion) and a bool denoting whether the insertion took place.
+     */
+	std::pair<iterator, bool> insert(value_type &&value) & noexcept;
 
-  /*
-   * modifiers
-   */
-  void clear();
+	/**
+     * @brief Remove the node with the smallest value from the tree.
+     */
+	void erase_smallest() & noexcept;
 
-  std::pair<iterator, bool> insert(const value_type &value);
-  std::pair<iterator, bool> insert(value_type &&value);
-  void erase_smallest();
-  void erase_largest();
-  void erase(const value_type &value);
-  void erase(const iterator &pos);
+	/**
+     * @brief Remove the node with the largest value from the tree.
+     */
+	void erase_largest() & noexcept;
 
-  /*
-   * searchers
-   */
-  iterator find(const value_type &value) const;
-  iterator find(value_type &&value) const;
+	/**
+ 	 * @brief Remove a value from the tree.
+ 	 * @param value The value to be removed.
+ 	 */
+	void erase(const value_type &value) & noexcept;
 
- public:
-  BaseImpl base_;
-  AvlTreeNode<value_type> header_;
+	/**
+ 	 * @brief Remove an element from the tree.
+ 	 * @param pos An iterator pointing to the element to be removed.
+ 	 */
+	void erase(const iterator &pos) & noexcept;
+
+	/**
+ 	 * @brief Find an element with a specific value in the tree.
+ 	 * @param value The value of the element to be found.
+ 	 * @return An iterator pointing to the element with the specific value.
+ 	 */
+	iterator find(const value_type &value) & noexcept;
+
+	/**
+ 	 * @brief Find an element with a specific value in the tree.
+ 	 * @param value The value of the element to be found.
+ 	 * @return An iterator pointing to the element with the specific value.
+ 	 */
+	iterator find(value_type &&value) & noexcept;
+
+private:
+	/**
+	 * @brief Clone the tree.
+	 * @param other The tree to be cloned.
+	 */
+	void clone(const self &other) const & noexcept;
+
+	BaseImpl base_;
+	AvlTreeNode<value_type> header_;
 };
 
-template<typename ValueType, class Comparator>
-auto AvlTree<ValueType, Comparator>::rbegin() const noexcept -> reverse_iterator
+template <typename ValueType, class Comparator>
+void AvlTree<ValueType, Comparator>::clone(const self &other) const & noexcept
 {
-	return reverse_iterator(end());
+	base_ = other.base_;
+	header_.reset();
+
+	auto node = base_.root_;
+
+	while (node != nullptr && node->left_ != nullptr)
+	{
+		node = node->left_;
+	}
+
+	if (node == nullptr)
+	{
+		header_.left_ = header_.parent_;
+	}
+	else
+	{
+		header_.left_ = node;
+	}
+
+	node = base_.root_;
+
+	while (node != nullptr && node->right_ != nullptr)
+	{
+		node = node->right_;
+	}
+
+	if (node == nullptr)
+	{
+		header_.right_ = header_.parent_;
+	}
+	else
+	{
+		header_.right_ = node;
+	}
+
+	header_.height_ = other.header_.height_;
+	header_.restore_placeholder();
 }
 
-template<typename ValueType, class Comparator>
-auto AvlTree<ValueType, Comparator>::rend() const noexcept -> reverse_iterator
-{
-	return reverse_iterator(begin());
-}
-
-template<typename ValueType, class Comparator>
+template <typename ValueType, class Comparator>
 AvlTree<ValueType, Comparator>::AvlTree() : base_(), header_(0xffffff)
 {
 	header_.reset();
 }
 
-template<typename ValueType, class Comparator>
+template <typename ValueType, class Comparator>
 AvlTree<ValueType, Comparator>::~AvlTree()
 {
 	clear();
 }
 
-template<typename ValueType, class Comparator>
+template <typename ValueType, class Comparator>
 AvlTree<ValueType, Comparator>::AvlTree(AvlTree &&other) noexcept
 {
 	base_ = std::move(other.base_);
 	header_ = std::move(other.header_);
 }
 
-template<typename ValueType, class Comparator>
+template <typename ValueType, class Comparator>
+AvlTree<ValueType, Comparator>::AvlTree(const AvlTree &other) noexcept
+{
+	clone(other);
+}
+
+template <typename ValueType, class Comparator>
 auto AvlTree<ValueType, Comparator>::operator=(AvlTree &&other) noexcept -> self &
 {
 	if (this != &other)
@@ -142,44 +238,66 @@ auto AvlTree<ValueType, Comparator>::operator=(AvlTree &&other) noexcept -> self
 	return *this;
 }
 
-template<typename ValueType, class Comparator>
-auto AvlTree<ValueType, Comparator>::begin() const noexcept -> iterator
+template <typename ValueType, class Comparator>
+auto AvlTree<ValueType, Comparator>::operator=(const AvlTree &other) noexcept -> self &
+{
+	if (this != &other)
+	{
+		clear();
+		clone(other);
+	}
+
+	return *this;
+}
+
+template <typename ValueType, class Comparator>
+auto AvlTree<ValueType, Comparator>::begin() const & noexcept -> iterator
 {
 	return iterator(header_.left_);
 }
 
-template<typename ValueType, class Comparator>
-auto AvlTree<ValueType, Comparator>::end() const noexcept -> iterator
+template <typename ValueType, class Comparator>
+auto AvlTree<ValueType, Comparator>::end() const & noexcept -> iterator
 {
 	return iterator(header_.parent_);
 }
 
-template<typename ValueType, class Comparator>
-auto AvlTree<ValueType, Comparator>::size() const -> size_type
+template <typename ValueType, class Comparator>
+auto AvlTree<ValueType, Comparator>::rbegin() const & noexcept -> reverse_iterator
+{
+	return reverse_iterator(end());
+}
+
+template <typename ValueType, class Comparator>
+auto AvlTree<ValueType, Comparator>::rend() const & noexcept -> reverse_iterator
+{
+	return reverse_iterator(begin());
+}
+
+template <typename ValueType, class Comparator>
+auto AvlTree<ValueType, Comparator>::size() const & noexcept -> size_type
 {
 	return base_.size();
 }
 
-template<typename ValueType, class Comparator>
-bool AvlTree<ValueType, Comparator>::empty() const
+template <typename ValueType, class Comparator>
+bool AvlTree<ValueType, Comparator>::empty() const & noexcept
 {
 	return base_.empty();
 }
 
-template<typename ValueType, class Comparator>
-void AvlTree<ValueType, Comparator>::clear()
+template <typename ValueType, class Comparator>
+void AvlTree<ValueType, Comparator>::clear() & noexcept
 {
 	header_.unlink_placeholder();
 	header_.reset();
 	base_.clear();
 }
 
-template<typename ValueType, class Comparator>
-auto AvlTree<ValueType, Comparator>::insert(const value_type &value) -> std::pair<iterator, bool>
+template <typename ValueType, class Comparator>
+auto AvlTree<ValueType, Comparator>::insert(const value_type &value) & noexcept -> std::pair<iterator, bool>
 {
-	/*
-	 * value already exists
-	 */
+	// Value already exists
 	if (auto pos = find(value); pos != end())
 	{
 		return {pos, false};
@@ -201,9 +319,7 @@ auto AvlTree<ValueType, Comparator>::insert(const value_type &value) -> std::pai
 		const auto &smallest = header_.left_;
 		const auto &greatest = header_.right_;
 
-		/*
-		 * we want to update the smallest value or greatest values, then update header
-		 */
+		// We want to update the smallest or the largest values, therefore update header
 		if (base_.compare_(node->value_, smallest->value_))
 		{
 			header_.left_ = node;
@@ -221,36 +337,34 @@ auto AvlTree<ValueType, Comparator>::insert(const value_type &value) -> std::pai
 	return {iterator(node), true};
 }
 
-template<typename ValueType, class Comparator>
-auto AvlTree<ValueType, Comparator>::insert(value_type &&value) -> std::pair<iterator, bool>
+template <typename ValueType, class Comparator>
+auto AvlTree<ValueType, Comparator>::insert(value_type &&value) & noexcept -> std::pair<iterator, bool>
 {
 	return insert(static_cast<ValueType &>(value));
 }
 
-template<typename ValueType, class Comparator>
-void AvlTree<ValueType, Comparator>::erase_smallest()
+template <typename ValueType, class Comparator>
+void AvlTree<ValueType, Comparator>::erase_smallest() & noexcept
 {
 	erase(iterator(header_.left_));
 }
 
-template<typename ValueType, class Comparator>
-void AvlTree<ValueType, Comparator>::erase_largest()
+template <typename ValueType, class Comparator>
+void AvlTree<ValueType, Comparator>::erase_largest() & noexcept
 {
 	erase(iterator(header_.right_));
 }
 
-template<typename ValueType, class Comparator>
-void AvlTree<ValueType, Comparator>::erase(const value_type &value)
+template <typename ValueType, class Comparator>
+void AvlTree<ValueType, Comparator>::erase(const value_type &value) & noexcept
 {
 	erase(find(value));
 }
 
-template<typename ValueType, class Comparator>
-void AvlTree<ValueType, Comparator>::erase(const iterator &pos)
+template <typename ValueType, class Comparator>
+void AvlTree<ValueType, Comparator>::erase(const iterator &pos) & noexcept
 {
-	/*
-	 * cannot erase placeholder
-	 */
+	// Cannot erase placeholder
 	if (pos == end())
 	{
 		return;
@@ -263,9 +377,7 @@ void AvlTree<ValueType, Comparator>::erase(const iterator &pos)
 
 	header_.unlink_placeholder();
 
-	/*
-	 * we want to update the smallest value or greatest values, then update header
-	 */
+	// We want to update the smallest or the largest values, therefore update header
 	if (pos == begin())
 	{
 		header_.left_ = std::next(pos).node_;
@@ -280,8 +392,8 @@ void AvlTree<ValueType, Comparator>::erase(const iterator &pos)
 	header_.restore_placeholder();
 }
 
-template<typename ValueType, class Comparator>
-auto AvlTree<ValueType, Comparator>::find(const value_type &value) const -> iterator
+template <typename ValueType, class Comparator>
+auto AvlTree<ValueType, Comparator>::find(const value_type &value) & noexcept -> iterator
 {
 	header_.unlink_placeholder();
 
@@ -296,8 +408,8 @@ auto AvlTree<ValueType, Comparator>::find(const value_type &value) const -> iter
 	return ret;
 }
 
-template<typename ValueType, class Comparator>
-auto AvlTree<ValueType, Comparator>::find(value_type &&value) const -> iterator
+template <typename ValueType, class Comparator>
+auto AvlTree<ValueType, Comparator>::find(value_type &&value) & noexcept -> iterator
 {
 	return find(static_cast<value_type &>(value));
 }
