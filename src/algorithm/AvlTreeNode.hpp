@@ -17,107 +17,107 @@ public:
 	using pointer_type = self *;
 
 	/**
-     * @brief Default constructor.
-     */
+ 	 * @brief Default constructor.
+ 	 */
 	AvlTreeNode() = default;
 
 	/**
-     * @brief Constructor with a value and optional left, right, and parent pointers.
-     * @param val The value of the node.
-     * @param left The left child of the node (default is nullptr).
-     * @param right The right child of the node (default is nullptr).
-     * @param parent The parent of the node (default is nullptr).
-     */
+ 	 * @brief Constructor with a value and optional left, right, and parent pointers.
+ 	 * @param val The value of the node.
+ 	 * @param left The left child of the node (default is nullptr).
+ 	 * @param right The right child of the node (default is nullptr).
+ 	 * @param parent The parent of the node (default is nullptr).
+ 	 */
 	explicit AvlTreeNode(const_reference val,
 						 const pointer_type &left = nullptr,
 						 const pointer_type &right = nullptr,
 						 const pointer_type &parent = nullptr);
 
 	/**
-     * @brief Move assignment constructor.
-     * @param other The node to be moved.
-     */
+ 	 * @brief Move assignment constructor.
+ 	 * @param other The node to be moved.
+ 	 */
 	AvlTreeNode(self &&other) noexcept;
 
 	/**
-     * @brief Copy assignment constructor.
-     * @param other The node to be copied.
-     */
+ 	 * @brief Copy assignment constructor.
+ 	 * @param other The node to be copied.
+ 	 */
 	AvlTreeNode(const self &other) noexcept;
 
 	/**
-     * @brief Move assignment operator.
-     * @param other The node to be moved.
-     * @return A reference to the moved node.
-     */
+ 	 * @brief Move assignment operator.
+ 	 * @param other The node to be moved.
+ 	 * @return A reference to the moved node.
+ 	 */
 	self &operator=(self &&other) & noexcept;
 
 	/**
-     * @brief Copy assignment operator.
-     * @param other The node to be moved.
-     * @return A reference to the copied node.
-     */
+ 	 * @brief Copy assignment operator.
+ 	 * @param other The node to be moved.
+ 	 * @return A reference to the copied node.
+ 	 */
 	self &operator=(const self &other) & noexcept;
 
 	/**
-     * @brief Get the predecessor of the node.
-     * @return The predecessor of the node.
-     */
+ 	 * @brief Get the predecessor of the node.
+ 	 * @return The predecessor of the node.
+ 	 */
 	[[nodiscard]] pointer_type predecessor() & noexcept;
 
 	/**
-     * @brief Get the successor of the node.
-     * @return The successor of the node.
-     */
+ 	 * @brief Get the successor of the node.
+ 	 * @return The successor of the node.
+ 	 */
 	[[nodiscard]] pointer_type successor() & noexcept;
 
 	/**
-     * @brief Get the height of the left subtree.
-     * @return The height of the left subtree.
-     */
+ 	 * @brief Get the height of the left subtree.
+ 	 * @return The height of the left subtree.
+ 	 */
 	[[nodiscard]] difference_type left_height() const & noexcept;
 
 	/**
-     * @brief Get the height of the right subtree.
-     * @return The height of the right subtree.
-     */
+ 	 * @brief Get the height of the right subtree.
+ 	 * @return The height of the right subtree.
+ 	 */
 	[[nodiscard]] difference_type right_height() const & noexcept;
 
 	/**
-     * @brief Get the balance factor of the node.
-     * @return The balance factor of the node.
-     */
+ 	 * @brief Get the balance factor of the node.
+ 	 * @return The balance factor of the node.
+ 	 */
 	[[nodiscard]] difference_type balance_factor() const & noexcept;
 
 	/**
-     * @brief Check if the node is a placeholder.
-     * @return True if the node is a placeholder.
-     */
+ 	 * @brief Check if the node is a placeholder.
+ 	 * @return True if the node is a placeholder.
+ 	 */
 	[[nodiscard]] bool is_placeholder() const & noexcept;
 
 	/**
-	* @brief Update the height of the node and its ancestors iteratively.
-	*/
+ 	 * @brief Update the height of the node and its ancestors iteratively.
+ 	 */
 	void iterative_height_update() & noexcept;
 
 	/**
-     * @brief Update the height of the node standalone.
-     */
+ 	 * @brief Update the height of the node standalone.
+ 	 */
 	void update_height_standalone() & noexcept;
 
 	/**
-     * @brief Reset the node.
-     */
+ 	 * @brief Reset the node.
+ 	 */
 	void reset() & noexcept;
 
 	/**
-     * @brief Unlink the placeholder.
-     */
+ 	 * @brief Unlink the placeholder.
+ 	 */
 	void unlink_placeholder() & noexcept;
 
 	/**
-     * @brief Restore the placeholder.
-     */
+ 	 * @brief Restore the placeholder.
+ 	 */
 	void restore_placeholder() & noexcept;
 
 public:

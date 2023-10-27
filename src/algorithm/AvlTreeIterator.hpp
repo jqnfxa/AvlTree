@@ -24,64 +24,64 @@ public:
 	using pointer = const value_type *;
 
 	/**
-     * @brief Default constructor.
-     */
+ 	 * @brief Default constructor.
+ 	 */
 	AvlTreeIterator();
 
 	/**
-     * @brief Constructor with a node pointer.
-     * @param node The node pointer.
-     */
+ 	 * @brief Constructor with a node pointer.
+ 	 * @param node The node pointer.
+ 	 */
 	explicit AvlTreeIterator(const pointer_type &node) noexcept;
 
 	/**
-     * @brief Dereference operator.
-     * @return The value of the node.
-     */
+ 	 * @brief Dereference operator.
+ 	 * @return The value of the node.
+ 	 */
 	reference operator*() const & noexcept;
 
 	/**
-     * @brief Arrow operator.
-     * @return The pointer to the value of the node.
-     */
+ 	 * @brief Arrow operator.
+ 	 * @return The pointer to the value of the node.
+ 	 */
 	pointer operator->() const & noexcept;
 
 	/**
-     * @brief Prefix increment operator.
-     * @return Reference to the incremented iterator.
-     */
+ 	 * @brief Prefix increment operator.
+ 	 * @return Reference to the incremented iterator.
+ 	 */
 	self &operator++() & noexcept;
 
 	/**
-     * @brief Postfix increment operator.
-     * @return The iterator before increment.
-     */
+ 	 * @brief Postfix increment operator.
+ 	 * @return The iterator before increment.
+ 	 */
 	self operator++(int) const & noexcept;
 
 	/**
-     * @brief Prefix decrement operator.
-     * @return Reference to the decremented iterator.
-     */
+ 	 * @brief Prefix decrement operator.
+ 	 * @return Reference to the decremented iterator.
+ 	 */
 	self &operator--() & noexcept;
 
 	/**
-     * @brief Postfix decrement operator.
-     * @return The iterator before decrement.
-     */
+ 	 * @brief Postfix decrement operator.
+ 	 * @return The iterator before decrement.
+ 	 */
 	self operator--(int) const & noexcept;
 
 	/**
-     * @brief Inequality operator.
-     * @param other The other iterator.
-     * @return True if the two iterators are not equal.
-     */
+ 	 * @brief Inequality operator.
+ 	 * @param other The other iterator.
+ 	 * @return True if the two iterators are not equal.
+ 	 */
 	bool operator!=(const AvlTreeIterator<value_type> &other) const & noexcept;
 
 	/**
-     * @brief Equality operator.
-     * @param other The other iterator.
-     * @return True if the two iterators are equal.
-     */
+ 	 * @brief Equality operator.
+ 	 * @param other The other iterator.
+ 	 * @return True if the two iterators are equal.
+ 	 */
 	bool operator==(const AvlTreeIterator<value_type> &other) const & noexcept;
 
 private:

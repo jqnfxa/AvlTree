@@ -17,116 +17,116 @@ public:
 	using node_pointer = node_type *;
 
 	/**
-     * @brief Default constructor.
-     */
+ 	 * @brief Default constructor.
+ 	 */
 	AvlTreeBase();
 
 	/**
-     * @brief Destructor.
-     */
+ 	 * @brief Destructor.
+ 	 */
 	~AvlTreeBase();
 
 	/**
-     * @brief Move constructor.
-     * @param other The tree to be moved.
-     */
+ 	 * @brief Move constructor.
+ 	 * @param other The tree to be moved.
+ 	 */
 	AvlTreeBase(AvlTreeBase &&other) noexcept;
 
 	/**
-     * @brief Copy constructor.
-     * @param other The tree to be copied.
-     */
+ 	 * @brief Copy constructor.
+ 	 * @param other The tree to be copied.
+ 	 */
 	AvlTreeBase(const AvlTreeBase &other) noexcept;
 
 	/**
-     * @brief Move assignment operator.
-     * @param other The tree to be moved.
-     * @return Reference to the moved tree.
-     */
+ 	 * @brief Move assignment operator.
+ 	 * @param other The tree to be moved.
+ 	 * @return Reference to the moved tree.
+ 	 */
 	self &operator=(AvlTreeBase &&other) noexcept;
 
 	/**
-     * @brief Copy assignment operator.
-     * @param other The tree to be copied.
-     * @return Reference to the copied tree.
-     */
+ 	 * @brief Copy assignment operator.
+ 	 * @param other The tree to be copied.
+ 	 * @return Reference to the copied tree.
+ 	 */
 	self &operator=(const AvlTreeBase &other) noexcept;
 
 	/**
-     * @brief Get the size of the tree.
-     * @return The size of the tree.
-     */
+ 	 * @brief Get the size of the tree.
+ 	 * @return The size of the tree.
+ 	 */
 	[[nodiscard]] size_type size() const & noexcept;
 
 	/**
-     * @brief Check if the tree is empty.
-     * @return True if the tree is empty.
-     */
+ 	 * @brief Check if the tree is empty.
+ 	 * @return True if the tree is empty.
+ 	 */
 	[[nodiscard]] bool empty() const & noexcept;
 
 	/**
-     * @brief Copy a node and its descendants.
-     * @param node The root of the subtree to be copied.
-     * @param parent The parent of the copied node.
-     * @return The root of the copied subtree.
-     */
+ 	 * @brief Copy a node and its descendants.
+ 	 * @param node The root of the subtree to be copied.
+ 	 * @param parent The parent of the copied node.
+ 	 * @return The root of the copied subtree.
+ 	 */
 	node_pointer copy(node_pointer node, node_pointer parent) const & noexcept;
 
 	/**
-     * @brief Clear the tree.
-     */
+ 	 * @brief Clear the tree.
+ 	 */
 	void clear() & noexcept;
 
 	/**
-     * @brief Swap the positions of two nodes in the tree.
-     * @param a The first node.
-     * @param b The second node.
-     */
+ 	 * @brief Swap the positions of two nodes in the tree.
+ 	 * @param a The first node.
+ 	 * @param b The second node.
+ 	 */
 	void swap_nodes(node_pointer a, node_pointer b) & noexcept;
 
 	/**
-     * @brief Insert a node into the tree.
-     * @param node The node to be inserted.
-     */
+ 	 * @brief Insert a node into the tree.
+ 	 * @param node The node to be inserted.
+ 	 */
 	void insert(node_pointer node) & noexcept;
 
 	/**
-     * @brief Remove a node from the tree.
-     * @param node The node to be removed.
-     */
+ 	 * @brief Remove a node from the tree.
+ 	 * @param node The node to be removed.
+ 	 */
 	void erase(node_pointer node) & noexcept;
 
 	/**
-     * @brief Remove a node with a specific value from the tree.
-     * @param value The value of the node to be removed.
-     */
+ 	 * @brief Remove a node with a specific value from the tree.
+ 	 * @param value The value of the node to be removed.
+ 	 */
 	void erase(const value_type &value) & noexcept;
 
 	/**
-     * @brief Find a node with a specific value in the tree.
-     * @param value The value of the node to be found.
-     * @return The node with the specific value.
-     */
+ 	 * @brief Find a node with a specific value in the tree.
+ 	 * @param value The value of the node to be found.
+ 	 * @return The node with the specific value.
+ 	 */
 	node_pointer find(const value_type &value) const & noexcept;
 
 	/**
-     * @brief Recursively destroy a subtree.
-     * @param node The root of the subtree to be destroyed.
-     */
+ 	 * @brief Recursively destroy a subtree.
+ 	 * @param node The root of the subtree to be destroyed.
+ 	 */
 	void recursive_destroy(node_pointer node) & noexcept;
 
 	/**
  	 * @brief Rotate a node to the left.
-	 * @param node The node to be rotated.
+ 	 * @param node The node to be rotated.
  	 * @return The new root of the subtree.
-	 */
+ 	 */
 	node_pointer rotate_left(node_pointer node) & noexcept;
 
 	/**
  	 * @brief Rotate a node to the right.
-	 * @param node The node to be rotated.
+ 	 * @param node The node to be rotated.
  	 * @return The new root of the subtree.
-	 */
+ 	 */
 	node_pointer rotate_right(node_pointer node) & noexcept;
 
 	/**

@@ -22,104 +22,104 @@ public:
 	using reverse_iterator = std::reverse_iterator<iterator>;
 
 	/**
-     * @brief Default constructor.
-     */
+ 	 * @brief Default constructor.
+ 	 */
 	AvlTree();
 
 	/**
-     * @brief Destructor.
-     */
+ 	 * @brief Destructor.
+ 	 */
 	~AvlTree();
 
 	/**
-     * @brief Move constructor.
-     * @param other The tree to be moved.
-     */
+ 	 * @brief Move constructor.
+ 	 * @param other The tree to be moved.
+ 	 */
 	AvlTree(AvlTree &&other) noexcept;
 
 	/**
-     * @brief Copy constructor.
-     * @param other The tree to be copied.
-     */
+ 	 * @brief Copy constructor.
+ 	 * @param other The tree to be copied.
+ 	 */
 	AvlTree(const AvlTree &other) noexcept;
 
 	/**
-     * @brief Move assignment operator.
-     * @param other The tree to be moved.
-     * @return Reference to the moved tree.
-     */
+ 	 * @brief Move assignment operator.
+ 	 * @param other The tree to be moved.
+ 	 * @return Reference to the moved tree.
+ 	 */
 	self &operator=(AvlTree &&other) noexcept;
 
 	/**
-     * @brief Copy assignment operator.
-     * @param other The tree to be copied.
-     * @return Reference to the copied tree.
-     */
+ 	 * @brief Copy assignment operator.
+ 	 * @param other The tree to be copied.
+ 	 * @return Reference to the copied tree.
+ 	 */
 	self &operator=(const AvlTree &other) noexcept;
 
 	/**
-     * @brief Get the beginning iterator of the tree.
-     * @return The beginning iterator of the tree.
-     */
+ 	 * @brief Get the beginning iterator of the tree.
+ 	 * @return The beginning iterator of the tree.
+ 	 */
 	iterator begin() const & noexcept;
 
 	/**
-     * @brief Get the ending iterator of the tree.
-     * @return The ending iterator of the tree.
-     */
+ 	 * @brief Get the ending iterator of the tree.
+ 	 * @return The ending iterator of the tree.
+ 	 */
 	iterator end() const & noexcept;
 
 	/**
-     * @brief Get the reverse beginning iterator of the tree.
-     * @return The reverse beginning iterator of the tree.
-     */
+ 	 * @brief Get the reverse beginning iterator of the tree.
+ 	 * @return The reverse beginning iterator of the tree.
+ 	 */
 	reverse_iterator rbegin() const & noexcept;
 
 	/**
-     * @brief Get the reverse ending iterator of the tree.
-     * @return The reverse ending iterator of the tree.
-     */
+ 	 * @brief Get the reverse ending iterator of the tree.
+ 	 * @return The reverse ending iterator of the tree.
+ 	 */
 	reverse_iterator rend() const & noexcept;
 
 	/**
-     * @brief Get the size of the tree.
-     * @return The size of the tree.
-     */
+ 	 * @brief Get the size of the tree.
+ 	 * @return The size of the tree.
+ 	 */
 	[[nodiscard]] size_type size() const & noexcept;
 
 	/**
-     * @brief Check if the tree is empty.
-     * @return True if the tree is empty.
-     */
+ 	 * @brief Check if the tree is empty.
+ 	 * @return True if the tree is empty.
+ 	 */
 	[[nodiscard]] bool empty() const & noexcept;
 
 	/**
-     * @brief Clear the tree.
-     */
+ 	 * @brief Clear the tree.
+ 	 */
 	void clear() & noexcept;
 
 	/**
-     * @brief Insert a value into the tree.
-     * @param value The value to be inserted.
-     * @return A pair consisting of an iterator to the inserted element (or to the element that prevented the insertion) and a bool denoting whether the insertion took place.
-     */
+ 	 * @brief Insert a value into the tree.
+ 	 * @param value The value to be inserted.
+ 	 * @return A pair consisting of an iterator to the inserted element (or to the element that prevented the insertion) and a bool denoting whether the insertion took place.
+ 	 */
 	std::pair<iterator, bool> insert(const value_type &value) & noexcept;
 
 	/**
-     * @brief Insert a value into the tree.
-     * @param value The value to be inserted.
-     * @return A pair consisting of an iterator to the inserted element (or to the element that prevented the insertion) and a bool denoting whether the insertion took place.
-     */
+ 	 * @brief Insert a value into the tree.
+ 	 * @param value The value to be inserted.
+ 	 * @return A pair consisting of an iterator to the inserted element (or to the element that prevented the insertion) and a bool denoting whether the insertion took place.
+ 	 */
 	std::pair<iterator, bool> insert(value_type &&value) & noexcept;
 
 	/**
-     * @brief Remove the node with the smallest value from the tree.
-     */
+ 	 * @brief Remove the node with the smallest value from the tree.
+ 	 */
 	void erase_smallest() & noexcept;
 
 	/**
-     * @brief Remove the node with the largest value from the tree.
-     */
+ 	 * @brief Remove the node with the largest value from the tree.
+ 	 */
 	void erase_largest() & noexcept;
 
 	/**
