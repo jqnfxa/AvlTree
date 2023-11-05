@@ -1,15 +1,16 @@
 #pragma once
 
-#include <ostream>
 #include <chrono>
+#include <ostream>
 #include <string>
 
 class Timer {
- private:
-  std::chrono::time_point<std::chrono::high_resolution_clock> start_time_;
-  std::ostream& out_;
-  std::string message_;
- public:
-  Timer(std::ostream &out, std::string message);
-  ~Timer();
+private:
+    std::chrono::time_point<std::chrono::high_resolution_clock> start_time_;
+    std::ostream &out_;
+    std::string message_;
+
+public:
+    Timer(std::ostream &out, std::string message);
+    ~Timer();
 };
