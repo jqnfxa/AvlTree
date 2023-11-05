@@ -1,0 +1,19 @@
+# ninja log v5
+1	2374	1699178315518072096	src/CMakeFiles/AvlTree_lib.dir/profiler/Timer.cpp.o	d94e39e7d7a5babd
+1	2393	1699178315538072135	src/CMakeFiles/AvlTree_run.dir/profiler/Timer.cpp.o	b732da7f89914868
+10	7343	1699178320490082017	tst/CMakeFiles/AvlTree_tst.dir/TestNode.cpp.o	b733f639f52a5f49
+2	7803	1699178320950082942	tst/CMakeFiles/AvlTree_tst.dir/TestAvlTree.cpp.o	d84c97d5bd946f2c
+0	8368	1699178321514084077	src/CMakeFiles/AvlTree_run.dir/main.cpp.o	366cf7ff8998b1cd
+1	8422	1699178321570084192	src/CMakeFiles/AvlTree_lib.dir/main.cpp.o	524e9f41db4a8da8
+2376	8544	1699178321686084426	tst/CMakeFiles/AvlTree_tst.dir/main.cpp.o	cec0720cf7620a51
+8422	8654	1699178321798084650	src/libAvlTree_lib.a	62192f93fac6c9f5
+8368	8660	1699178321806084666	src/AvlTree_run	cee39b09c364be63
+8544	12842	1699178325990093152	lib/googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o	70224a15d61630fc
+7345	13268	1699178326418094027	lib/googletest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o	ea0955cb74f063b0
+2393	13464	1699178326610094419	lib/googletest/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o	87f33c1da40be978
+7804	18975	1699178332114105747	lib/googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o	21957f3735fa5718
+18976	19154	1699178332290106112	lib/libgtest.a	a90c228d4c27716b
+19155	19245	1699178332390106321	lib/libgtest_main.a	4e341b2bc757cc3d
+19154	19303	1699178332442106427	lib/libgmock.a	713b03b6a17c7d6e
+19303	19376	1699178332522106594	lib/libgmock_main.a	56b5522a351a44b9
+19154	19575	1699178332722107009	tst/AvlTree_tst	9202386e531e734c
