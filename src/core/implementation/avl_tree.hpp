@@ -11,7 +11,8 @@
  * @tparam Comparator The type of the comparator used to order the values in the
  * tree (default is std::less<ValueType>).
  */
-template <typename ValueType, class Comparator = std::less<ValueType>>
+template <typename ValueType,
+          BinaryPredicate<ValueType, ValueType> Comparator = std::less<ValueType>>
 class avl_tree {
 public:
     using self = avl_tree;
@@ -165,7 +166,7 @@ private:
     AvlTreeNode<value_type> header_;
 };
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 void avl_tree<ValueType, Comparator>::clone(const self &other) &noexcept
 {
     base_ = other.base_;
@@ -185,32 +186,32 @@ void avl_tree<ValueType, Comparator>::clone(const self &other) &noexcept
     header_.restore_placeholder();
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 avl_tree<ValueType, Comparator>::avl_tree() : base_(), header_(0xffffff)
 {
     clear();
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 avl_tree<ValueType, Comparator>::~avl_tree()
 {
     clear();
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 avl_tree<ValueType, Comparator>::avl_tree(avl_tree &&other) noexcept
 {
     base_ = std::move(other.base_);
     header_ = std::move(other.header_);
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 avl_tree<ValueType, Comparator>::avl_tree(const avl_tree &other) noexcept : avl_tree()
 {
     clone(other);
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto avl_tree<ValueType, Comparator>::operator=(avl_tree &&other) noexcept -> self &
 {
     if (this != &other)
@@ -222,7 +223,7 @@ auto avl_tree<ValueType, Comparator>::operator=(avl_tree &&other) noexcept -> se
     return *this;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto avl_tree<ValueType, Comparator>::operator=(const avl_tree &other) noexcept -> self &
 {
     if (this != &other)
@@ -234,43 +235,43 @@ auto avl_tree<ValueType, Comparator>::operator=(const avl_tree &other) noexcept 
     return *this;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto avl_tree<ValueType, Comparator>::begin() const &noexcept -> iterator
 {
     return iterator(header_.left_);
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto avl_tree<ValueType, Comparator>::end() const &noexcept -> iterator
 {
     return iterator(header_.parent_);
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto avl_tree<ValueType, Comparator>::rbegin() const &noexcept -> reverse_iterator
 {
     return reverse_iterator(end());
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto avl_tree<ValueType, Comparator>::rend() const &noexcept -> reverse_iterator
 {
     return reverse_iterator(begin());
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto avl_tree<ValueType, Comparator>::size() const &noexcept -> size_type
 {
     return base_.size();
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 bool avl_tree<ValueType, Comparator>::empty() const &noexcept
 {
     return base_.empty();
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 void avl_tree<ValueType, Comparator>::clear() &noexcept
 {
     header_.unlink_placeholder();
@@ -278,7 +279,7 @@ void avl_tree<ValueType, Comparator>::clear() &noexcept
     base_.clear();
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto avl_tree<ValueType, Comparator>::insert(const value_type &value) &noexcept
     -> std::pair<iterator, bool>
 {
@@ -326,32 +327,32 @@ auto avl_tree<ValueType, Comparator>::insert(const value_type &value) &noexcept
     return {iterator(node), true};
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto avl_tree<ValueType, Comparator>::insert(value_type &&value) &noexcept
     -> std::pair<iterator, bool>
 {
     return insert(static_cast<ValueType &>(value));
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 void avl_tree<ValueType, Comparator>::erase_smallest() &noexcept
 {
     erase(iterator(header_.left_));
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 void avl_tree<ValueType, Comparator>::erase_largest() &noexcept
 {
     erase(iterator(header_.right_));
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 void avl_tree<ValueType, Comparator>::erase(const value_type &value) &noexcept
 {
     erase(find(value));
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 void avl_tree<ValueType, Comparator>::erase(const iterator &pos) &noexcept
 {
     /*
@@ -386,7 +387,7 @@ void avl_tree<ValueType, Comparator>::erase(const iterator &pos) &noexcept
     header_.restore_placeholder();
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto avl_tree<ValueType, Comparator>::find(const value_type &value) &noexcept -> iterator
 {
     header_.unlink_placeholder();
@@ -403,7 +404,7 @@ auto avl_tree<ValueType, Comparator>::find(const value_type &value) &noexcept ->
     return ret;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto avl_tree<ValueType, Comparator>::find(value_type &&value) &noexcept -> iterator
 {
     return find(static_cast<value_type &>(value));

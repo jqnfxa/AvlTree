@@ -3,13 +3,24 @@
 #include "../memory/memory.hpp"
 #include "AvlTreeHelper.hpp"
 
+template <typename T, typename Arg1, typename Arg2>
+concept BinaryPredicate = requires(T t, Arg1 a1, Arg2 a2)
+{
+    {
+        t(a1, a2)
+        } -> std::convertible_to<bool>;
+};
+
 /**
  * @brief An AVL tree.
  * @tparam ValueType The type of the value stored in the tree.
  * @tparam Comparator The type of the comparator used to order the values in the
  * tree (default is std::less<ValueType>).
+ * @note The comparator must satisfy the BinaryPredicate concept.
  */
-template <typename ValueType, class Comparator = std::less<ValueType>>
+template <typename ValueType,
+          BinaryPredicate<ValueType, ValueType> Comparator = std::less<ValueType>>
+
 class AvlTreeBase {
 public:
     using self = AvlTreeBase;
@@ -206,31 +217,31 @@ public:
     Comparator compare_;
 };
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 AvlTreeBase<ValueType, Comparator>::AvlTreeBase() : root_(nullptr), number_of_nodes_(0)
 {}
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 AvlTreeBase<ValueType, Comparator>::~AvlTreeBase()
 {
     clear();
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 AvlTreeBase<ValueType, Comparator>::AvlTreeBase(AvlTreeBase &&other) noexcept
 {
     root_ = std::exchange(other.root_, nullptr);
     number_of_nodes_ = std::exchange(other.number_of_nodes_, 0);
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 AvlTreeBase<ValueType, Comparator>::AvlTreeBase(const AvlTreeBase &other) noexcept
     : compare_(other.compare_), number_of_nodes_(other.number_of_nodes_)
 {
     root_ = copy(other.root_, nullptr);
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto AvlTreeBase<ValueType, Comparator>::operator=(AvlTreeBase &&other) noexcept -> self &
 {
     if (this != &other)
@@ -242,7 +253,7 @@ auto AvlTreeBase<ValueType, Comparator>::operator=(AvlTreeBase &&other) noexcept
     return *this;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto AvlTreeBase<ValueType, Comparator>::operator=(const AvlTreeBase &other) noexcept
     -> AvlTreeBase::self &
 {
@@ -259,19 +270,19 @@ auto AvlTreeBase<ValueType, Comparator>::operator=(const AvlTreeBase &other) noe
     return *this;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto AvlTreeBase<ValueType, Comparator>::size() const &noexcept -> size_type
 {
     return number_of_nodes_;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 bool AvlTreeBase<ValueType, Comparator>::empty() const &noexcept
 {
     return size() == 0;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto AvlTreeBase<ValueType, Comparator>::copy(node_pointer node,
                                               node_pointer parent) const &noexcept -> node_pointer
 {
@@ -289,7 +300,7 @@ auto AvlTreeBase<ValueType, Comparator>::copy(node_pointer node,
     return new_node;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 void AvlTreeBase<ValueType, Comparator>::clear() &noexcept
 {
     recursive_destroy(root_);
@@ -297,7 +308,7 @@ void AvlTreeBase<ValueType, Comparator>::clear() &noexcept
     number_of_nodes_ = 0;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 void AvlTreeBase<ValueType, Comparator>::swap_nodes(node_pointer a, node_pointer b) &noexcept
 {
     /*
@@ -327,7 +338,7 @@ void AvlTreeBase<ValueType, Comparator>::swap_nodes(node_pointer a, node_pointer
     b->update_parent_for_children();
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 void AvlTreeBase<ValueType, Comparator>::update_child(node_pointer new_child,
                                                       node_pointer old_child,
                                                       node_pointer parent) &noexcept
@@ -345,7 +356,7 @@ void AvlTreeBase<ValueType, Comparator>::update_child(node_pointer new_child,
     }
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 void AvlTreeBase<ValueType, Comparator>::solve_parent_cycle(node_pointer child,
                                                             node_pointer parent) &noexcept
 {
@@ -369,7 +380,7 @@ void AvlTreeBase<ValueType, Comparator>::solve_parent_cycle(node_pointer child,
     }
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 void AvlTreeBase<ValueType, Comparator>::insert(node_pointer node) &noexcept
 {
     if (root_ == nullptr)
@@ -405,7 +416,7 @@ void AvlTreeBase<ValueType, Comparator>::insert(node_pointer node) &noexcept
     rebalance(node->parent_);
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 void AvlTreeBase<ValueType, Comparator>::erase(node_pointer node) &noexcept
 {
     if (node == nullptr)
@@ -457,13 +468,13 @@ void AvlTreeBase<ValueType, Comparator>::erase(node_pointer node) &noexcept
     --number_of_nodes_;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 void AvlTreeBase<ValueType, Comparator>::erase(const value_type &value) &noexcept
 {
     erase(find(value));
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto AvlTreeBase<ValueType, Comparator>::find(const value_type &value) const &noexcept
     -> node_pointer
 {
@@ -477,7 +488,7 @@ auto AvlTreeBase<ValueType, Comparator>::find(const value_type &value) const &no
     return node;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 void AvlTreeBase<ValueType, Comparator>::recursive_destroy(node_pointer root) &noexcept
 {
     if (root == nullptr)
@@ -494,7 +505,7 @@ void AvlTreeBase<ValueType, Comparator>::recursive_destroy(node_pointer root) &n
     delete root;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto AvlTreeBase<ValueType, Comparator>::rotate_left(node_pointer node) &noexcept -> node_pointer
 {
     auto new_root = node->right_;
@@ -511,7 +522,7 @@ auto AvlTreeBase<ValueType, Comparator>::rotate_left(node_pointer node) &noexcep
     return new_root;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto AvlTreeBase<ValueType, Comparator>::rotate_right(node_pointer node) &noexcept -> node_pointer
 {
     auto new_root = node->left_;
@@ -528,7 +539,7 @@ auto AvlTreeBase<ValueType, Comparator>::rotate_right(node_pointer node) &noexce
     return new_root;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto AvlTreeBase<ValueType, Comparator>::small_left_rotate(node_pointer node) &noexcept
     -> node_pointer
 {
@@ -549,7 +560,7 @@ auto AvlTreeBase<ValueType, Comparator>::small_left_rotate(node_pointer node) &n
     return child_node;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto AvlTreeBase<ValueType, Comparator>::big_left_rotate(node_pointer node) &noexcept
     -> node_pointer
 {
@@ -560,7 +571,7 @@ auto AvlTreeBase<ValueType, Comparator>::big_left_rotate(node_pointer node) &noe
     return small_left_rotate(node);
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto AvlTreeBase<ValueType, Comparator>::small_right_rotate(node_pointer node) &noexcept
     -> node_pointer
 {
@@ -581,7 +592,7 @@ auto AvlTreeBase<ValueType, Comparator>::small_right_rotate(node_pointer node) &
     return child_node;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto AvlTreeBase<ValueType, Comparator>::big_right_rotate(node_pointer node) &noexcept
     -> node_pointer
 {
@@ -592,7 +603,7 @@ auto AvlTreeBase<ValueType, Comparator>::big_right_rotate(node_pointer node) &no
     return small_right_rotate(node);
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 auto AvlTreeBase<ValueType, Comparator>::balance_node(node_pointer node) &noexcept -> node_pointer
 {
     if (node == nullptr)
@@ -628,7 +639,7 @@ auto AvlTreeBase<ValueType, Comparator>::balance_node(node_pointer node) &noexce
     return node;
 }
 
-template <typename ValueType, class Comparator>
+template <typename ValueType, BinaryPredicate<ValueType, ValueType> Comparator>
 void AvlTreeBase<ValueType, Comparator>::rebalance(node_pointer node) &noexcept
 {
     auto current = node;
