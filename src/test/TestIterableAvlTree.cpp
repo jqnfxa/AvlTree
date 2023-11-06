@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
-#include <algorithm/avl_tree.hpp>
 #include <algorithm>
+#include <implementation/avl_tree.hpp>
 #include <memory/memory.hpp>
 #include <random>
 #include <ranges>

@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include <algorithm/AvlTreeNode.hpp>
+#include <implementation/AvlTreeNode.hpp>
 #include <memory/memory.hpp>
 
 TEST(AvlTreeNodeTest, test_constructor)

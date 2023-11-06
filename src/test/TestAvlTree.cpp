@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
-#include <algorithm/AvlTreeImplementation.hpp>
 #include <algorithm>
+#include <implementation/AvlTreeImplementation.hpp>
 #include <memory/memory.hpp>
 #include <random>
 
@@ -93,7 +93,6 @@ TEST(AvlTreeTest, test_avl_tree_insert)
     ASSERT_EQ(tree.size(), size);
 }
 
-/*
 TEST(AvlTreeTest, test_avl_tree_insert_big_range)
 {
     AvlTreeBase<int> tree;
@@ -116,7 +115,7 @@ TEST(AvlTreeTest, test_avl_tree_insert_big_range)
     ASSERT_TRUE(tree.root_->height_ < static_cast<int>(1.440 * std::log2(size + 2) - 0.328));
     ASSERT_EQ(tree.root_->height_, force_height(tree.root_));
     ASSERT_EQ(tree.size(), size);
-}*/
+}
 
 TEST(AvlTreeTest, test_avl_tree_erase)
 {
@@ -157,7 +156,6 @@ TEST(AvlTreeTest, test_avl_tree_erase)
     ASSERT_EQ(tree.size(), size - size / 2);
 }
 
-/*
 TEST(AvlTreeTest, test_avl_tree_erase_big_range)
 {
     AvlTreeBase<int> tree;
@@ -203,4 +201,3 @@ TEST(AvlTreeTest, test_avl_tree_erase_big_range)
     ASSERT_EQ(tree.root_, nullptr);
     ASSERT_EQ(tree.number_of_nodes_, 0);
 }
-*/
