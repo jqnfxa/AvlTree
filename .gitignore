@@ -1,5 +1,6 @@
-.cache
-.idea
-.vscode
-build
+.cache/clangd/index
+.cache/*
+.idea/*
+.vscode/*
+build/*
 cmake-build-debug
