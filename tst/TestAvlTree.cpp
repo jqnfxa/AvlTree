@@ -6,7 +6,7 @@
 
 TEST(AvlTreeTestSuite, TestIterator)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     std::vector<int> range(3 + 1);
     std::iota(range.begin(), range.end(), -static_cast<int64_t>(range.size()) / 2);
@@ -33,7 +33,7 @@ TEST(AvlTreeTestSuite, TestIterator)
 
 TEST(AvlTreeTestSuite, TestPushFrontSmallRange)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     for (int i = -5; i < 5; ++i)
     {
@@ -43,7 +43,7 @@ TEST(AvlTreeTestSuite, TestPushFrontSmallRange)
 
 TEST(AvlTreeTestSuite, TestSize)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     EXPECT_EQ(tree.size(), 0);
     EXPECT_TRUE(tree.empty());
@@ -62,7 +62,7 @@ TEST(AvlTreeTestSuite, TestSize)
 
 TEST(AvlTreeTestSuite, TestPushFrontMediumRange)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     for (int i = -1000; i < 1000; ++i)
     {
@@ -72,7 +72,7 @@ TEST(AvlTreeTestSuite, TestPushFrontMediumRange)
 
 TEST(AvlTreeTestSuite, TestPushFrontBigRange)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     for (int i = -10000; i < 10000; ++i)
     {
@@ -82,7 +82,7 @@ TEST(AvlTreeTestSuite, TestPushFrontBigRange)
 
 TEST(AvlTreeTestSuite, TestPushBackSmallRange)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     for (int i = 5; i >= -5; --i)
     {
@@ -92,7 +92,7 @@ TEST(AvlTreeTestSuite, TestPushBackSmallRange)
 
 TEST(AvlTreeTestSuite, TestPushBackMediumRange)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     for (int i = 1000; i >= -1000; --i)
     {
@@ -102,7 +102,7 @@ TEST(AvlTreeTestSuite, TestPushBackMediumRange)
 
 TEST(AvlTreeTestSuite, TestPushBackBigRange)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     for (int i = 10000; i >= -10000; --i)
     {
@@ -112,7 +112,7 @@ TEST(AvlTreeTestSuite, TestPushBackBigRange)
 
 TEST(AvlTreeTestSuite, TestFindSmall)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     std::vector<int> range(20);
     std::iota(range.begin(), range.end(), -10);
@@ -142,7 +142,7 @@ TEST(AvlTreeTestSuite, TestFindSmall)
 
 TEST(AvlTreeTestSuite, TestFindMedium)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     std::vector<int> range(2000);
     std::iota(range.begin(), range.end(), -1000);
@@ -165,7 +165,7 @@ TEST(AvlTreeTestSuite, TestFindMedium)
 
 TEST(AvlTreeTestSuite, TestFindBig)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     std::vector<int> range(20000);
     std::iota(range.begin(), range.end(), -10000);
@@ -188,7 +188,7 @@ TEST(AvlTreeTestSuite, TestFindBig)
 
 TEST(AvlTreeTestSuite, TestPopBack)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     for (int i = -2; i <= 2; ++i)
     {
@@ -208,7 +208,7 @@ TEST(AvlTreeTestSuite, TestPopBack)
 
 TEST(AvlTreeTestSuite, TestPopBackBig)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     for (int i = -2000; i <= 2000; ++i)
     {
@@ -227,7 +227,7 @@ TEST(AvlTreeTestSuite, TestPopBackBig)
 
 TEST(AvlTreeTestSuite, TestPopFront)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     for (int i = 2; i >= -2; --i)
     {
@@ -246,7 +246,7 @@ TEST(AvlTreeTestSuite, TestPopFront)
 
 TEST(AvlTreeTestSuite, TestPopFrontBig)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     for (int i = 2000; i >= -2000; --i)
     {
@@ -265,7 +265,7 @@ TEST(AvlTreeTestSuite, TestPopFrontBig)
 
 TEST(AvlTreeTestSuite, TestEraseSmall)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     std::vector<int> range(20);
     std::iota(range.begin(), range.end(), -10);
@@ -306,7 +306,7 @@ TEST(AvlTreeTestSuite, TestEraseSmall)
 
 TEST(AvlTreeTestSuite, TestEraseMedium)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     std::vector<int> range(2000);
     std::iota(range.begin(), range.end(), -1000);
@@ -330,7 +330,7 @@ TEST(AvlTreeTestSuite, TestEraseMedium)
 
 TEST(AvlTreeTestSuite, TestEraseMediumIterator)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     std::vector<int> range(2000);
     std::iota(range.begin(), range.end(), -1000);
@@ -354,7 +354,7 @@ TEST(AvlTreeTestSuite, TestEraseMediumIterator)
 
 TEST(AvlTreeTestSuite, TestFindStressTest)
 {
-    AvlTree<int> tree;
+    avl_tree<int> tree;
 
     std::vector<int> range(2000000 + 1);
     std::iota(range.begin(), range.end(), -2000000 / 2);

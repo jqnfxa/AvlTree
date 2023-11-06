@@ -10,16 +10,18 @@
  * @tparam ValueType The type of the value stored in the tree node.
  */
 template <typename ValueType>
-class AvlTreeIterator {
+class AvlTreeIterator : public std::iterator<std::bidirectional_iterator_tag,
+                                             ValueType,
+                                             std::ptrdiff_t,
+                                             const ValueType *,
+                                             const ValueType &> {
 public:
     template <typename T, class C>
-    friend class AvlTree;
+    friend class avl_tree;
 
 public:
-    using iterator_tag = std::bidirectional_iterator_tag;
-    using difference_type = std::ptrdiff_t;
     using value_type = ValueType;
-    using pointer_type = typename AvlTreeNode<value_type>::pointer_type;
+    using pointer_type = AvlTreeNode<value_type>::pointer_type;
     using self = AvlTreeIterator<value_type>;
     using reference = const value_type &;
     using pointer = const value_type *;

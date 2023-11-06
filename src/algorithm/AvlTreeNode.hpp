@@ -63,13 +63,13 @@ public:
      * @brief Get the predecessor of the node.
      * @return The predecessor of the node.
      */
-    [[nodiscard]] pointer_type predecessor() &noexcept;
+    [[nodiscard]] pointer_type predecessor() const &noexcept;
 
     /**
      * @brief Get the successor of the node.
      * @return The successor of the node.
      */
-    [[nodiscard]] pointer_type successor() &noexcept;
+    [[nodiscard]] pointer_type successor() const &noexcept;
 
     /**
      * @brief Get the height of the left subtree.
@@ -96,12 +96,12 @@ public:
     [[nodiscard]] bool is_placeholder() const &noexcept;
 
     /**
-     * @brief Update the height of the node and its ancestors iteratively.
+     * @brief Update the height of the node itself and its ancestors iteratively.
      */
     void iterative_height_update() &noexcept;
 
     /**
-     * @brief Update the height of the node standalone.
+     * @brief Update the height of the node itself.
      */
     void update_height_standalone() &noexcept;
 
@@ -119,6 +119,33 @@ public:
      * @brief Restore the placeholder.
      */
     void restore_placeholder() &noexcept;
+
+    /**
+     * @brief Update relations with children since we are new parent.
+     */
+    void update_parent_for_children() &noexcept;
+
+    /**
+     * @brief Update relations with left children since we are new parent.
+     */
+    void update_parent_for_left_child() &noexcept;
+
+    /**
+     * @brief Update relations with right children since we are new parent.
+     */
+    void update_parent_for_right_child() &noexcept;
+
+    /**
+     * @brief Function to get the leftmost child of this node.
+     * @return Leftmost child for this node.
+     */
+    pointer_type leftmost() const &noexcept;
+
+    /**
+     * @brief Function to get the rightmost child of this node.
+     * @return Rightmost child for this node.
+     */
+    pointer_type rightmost() const &noexcept;
 
 public:
     pointer_type left_;
@@ -194,39 +221,39 @@ auto AvlTreeNode<ValueType>::operator=(const AvlTreeNode &other) &noexcept -> se
 }
 
 template <typename ValueType>
-auto AvlTreeNode<ValueType>::predecessor() &noexcept -> pointer_type
+auto AvlTreeNode<ValueType>::predecessor() const &noexcept -> pointer_type
 {
-    if (left_ == nullptr)
+    if (left_ == nullptr || is_placeholder())
     {
         return const_cast<pointer_type>(this);
     }
 
-    pointer_type predecessor = left_;
+    const auto predecessor = left_;
 
-    while (predecessor != nullptr && predecessor->right_ != nullptr)
+    if (predecessor == nullptr)
     {
-        predecessor = predecessor->right_;
+        return predecessor;
     }
 
-    return predecessor;
+    return predecessor->rightmost();
 }
 
 template <typename ValueType>
-auto AvlTreeNode<ValueType>::successor() &noexcept -> pointer_type
+auto AvlTreeNode<ValueType>::successor() const &noexcept -> pointer_type
 {
-    if (right_ == nullptr)
+    if (right_ == nullptr || is_placeholder())
     {
         return const_cast<pointer_type>(this);
     }
 
-    pointer_type successor = right_;
+    const auto successor = right_;
 
-    while (successor != nullptr && successor->left_ != nullptr)
+    if (successor == nullptr)
     {
-        successor = successor->left_;
+        return successor;
     }
 
-    return successor;
+    return successor->leftmost();
 }
 
 template <typename ValueType>
@@ -250,11 +277,9 @@ auto AvlTreeNode<ValueType>::balance_factor() const &noexcept -> difference_type
 template <typename ValueType>
 void AvlTreeNode<ValueType>::iterative_height_update() &noexcept
 {
-    // Update self height first
     update_height_standalone();
 
-    pointer_type node = parent_;
-
+    auto node = parent_;
     difference_type pre = -1, post = 1;
 
     while (node != nullptr && pre != post)
@@ -306,4 +331,55 @@ void AvlTreeNode<ValueType>::restore_placeholder() &noexcept
 {
     left_->left_ = parent_;
     right_->right_ = parent_;
+}
+
+template <typename ValueType>
+void AvlTreeNode<ValueType>::update_parent_for_children() &noexcept
+{
+    update_parent_for_left_child();
+    update_parent_for_right_child();
+}
+
+template <typename ValueType>
+void AvlTreeNode<ValueType>::update_parent_for_left_child() &noexcept
+{
+    if (left_ != nullptr)
+    {
+        left_->parent_ = this;
+    }
+}
+
+template <typename ValueType>
+void AvlTreeNode<ValueType>::update_parent_for_right_child() &noexcept
+{
+    if (right_ != nullptr)
+    {
+        right_->parent_ = this;
+    }
+}
+
+template <typename ValueType>
+auto AvlTreeNode<ValueType>::leftmost() const &noexcept -> pointer_type
+{
+    auto node = const_cast<pointer_type>(this);
+
+    while (!node->is_placeholder() && node->left_ != nullptr)
+    {
+        node = node->left_;
+    }
+
+    return node;
+}
+
+template <typename ValueType>
+auto AvlTreeNode<ValueType>::rightmost() const &noexcept -> pointer_type
+{
+    auto node = const_cast<pointer_type>(this);
+
+    while (!node->is_placeholder() && node->right_ != nullptr)
+    {
+        node = node->right_;
+    }
+
+    return node;
 }

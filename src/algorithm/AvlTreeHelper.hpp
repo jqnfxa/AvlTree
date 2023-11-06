@@ -12,14 +12,17 @@ template <typename ValueType>
 auto avl_tree_increment(typename AvlTreeNode<ValueType>::pointer_type node) ->
     typename AvlTreeNode<ValueType>::pointer_type
 {
-    using pointer_type = typename AvlTreeNode<ValueType>::pointer_type;
-
+    /*
+     * No node to increment.
+     */
     if (node == nullptr)
     {
         return nullptr;
     }
 
-    // If placeholder node detected then increment does not perform.
+    /*
+     * If placeholder node detected then increment does not perform.
+     */
     if (node->is_placeholder())
     {
         return node;
@@ -27,21 +30,17 @@ auto avl_tree_increment(typename AvlTreeNode<ValueType>::pointer_type node) ->
 
     if (node->right_ != nullptr)
     {
-        // If node has right child then go to leftmost node of this child.
-        node = node->right_;
-
-        if (!node->is_placeholder())
-        {
-            while (node->left_ != nullptr)
-            {
-                node = node->left_;
-            }
-        }
+        /*
+         * If node has right child then go to successor of this node.
+         */
+        node = node->successor();
     }
     else
     {
-        // We've reached the leaf node, so we're coming out of it
-        pointer_type old = node;
+        /*
+         * We've reached the leaf node, so we're coming out of it.
+         */
+        auto old = node;
 
         while (node->parent_ != nullptr)
         {
@@ -69,8 +68,9 @@ template <typename ValueType>
 auto avl_tree_decrement(typename AvlTreeNode<ValueType>::pointer_type node) ->
     typename AvlTreeNode<ValueType>::pointer_type
 {
-    using pointer_type = typename AvlTreeNode<ValueType>::pointer_type;
-
+    /*
+     * No node to decrement.
+     */
     if (node == nullptr)
     {
         return nullptr;
@@ -78,7 +78,7 @@ auto avl_tree_decrement(typename AvlTreeNode<ValueType>::pointer_type node) ->
 
     /*
      * If placeholder node detected then decrement performs carefully.
-     * decrement possible if largest node is not placeholder.
+     * Decrement possible if largest node is not a placeholder.
      */
     if (node->is_placeholder())
     {
@@ -92,20 +92,17 @@ auto avl_tree_decrement(typename AvlTreeNode<ValueType>::pointer_type node) ->
 
     if (node->left_ != nullptr)
     {
-        // If node has left child then go to rightmost node of this child.
-        node = node->left_;
-
-        if (!node->is_placeholder())
-        {
-            while (node->right_ != nullptr)
-            {
-                node = node->right_;
-            }
-        }
+        /*
+         * If node has left child then go to predecessor of this node.
+         */
+        node = node->predecessor();
     }
     else
     {
-        pointer_type old = node;
+        /*
+         * We've reached the leaf node, so we're coming out of it.
+         */
+        auto old = node;
 
         while (node->parent_ != nullptr)
         {

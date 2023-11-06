@@ -126,13 +126,6 @@ build src/CMakeFiles/AvlTree_run.dir/main.cpp.o: CXX_COMPILER__AvlTree_run_unsca
   OBJECT_DIR = src/CMakeFiles/AvlTree_run.dir
   OBJECT_FILE_DIR = src/CMakeFiles/AvlTree_run.dir
 
-build src/CMakeFiles/AvlTree_run.dir/profiler/Timer.cpp.o: CXX_COMPILER__AvlTree_run_unscanned_Release /home/shard/CLionProjects/Algorithms_lb3/src/profiler/Timer.cpp || cmake_object_order_depends_target_AvlTree_run
-  DEP_FILE = src/CMakeFiles/AvlTree_run.dir/profiler/Timer.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20
-  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src
-  OBJECT_DIR = src/CMakeFiles/AvlTree_run.dir
-  OBJECT_FILE_DIR = src/CMakeFiles/AvlTree_run.dir/profiler
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target AvlTree_run
@@ -141,7 +134,7 @@ build src/CMakeFiles/AvlTree_run.dir/profiler/Timer.cpp.o: CXX_COMPILER__AvlTree
 #############################################
 # Link the executable src/AvlTree_run
 
-build src/AvlTree_run: CXX_EXECUTABLE_LINKER__AvlTree_run_Release src/CMakeFiles/AvlTree_run.dir/main.cpp.o src/CMakeFiles/AvlTree_run.dir/profiler/Timer.cpp.o
+build src/AvlTree_run: CXX_EXECUTABLE_LINKER__AvlTree_run_Release src/CMakeFiles/AvlTree_run.dir/main.cpp.o
   FLAGS = -O3 -DNDEBUG
   OBJECT_DIR = src/CMakeFiles/AvlTree_run.dir
   POST_BUILD = :
@@ -165,13 +158,6 @@ build src/CMakeFiles/AvlTree_lib.dir/main.cpp.o: CXX_COMPILER__AvlTree_lib_unsca
   OBJECT_DIR = src/CMakeFiles/AvlTree_lib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/AvlTree_lib.dir
 
-build src/CMakeFiles/AvlTree_lib.dir/profiler/Timer.cpp.o: CXX_COMPILER__AvlTree_lib_unscanned_Release /home/shard/CLionProjects/Algorithms_lb3/src/profiler/Timer.cpp || cmake_object_order_depends_target_AvlTree_lib
-  DEP_FILE = src/CMakeFiles/AvlTree_lib.dir/profiler/Timer.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20
-  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src
-  OBJECT_DIR = src/CMakeFiles/AvlTree_lib.dir
-  OBJECT_FILE_DIR = src/CMakeFiles/AvlTree_lib.dir/profiler
-
 
 # =============================================================================
 # Link build statements for STATIC_LIBRARY target AvlTree_lib
@@ -180,7 +166,7 @@ build src/CMakeFiles/AvlTree_lib.dir/profiler/Timer.cpp.o: CXX_COMPILER__AvlTree
 #############################################
 # Link the static library src/libAvlTree_lib.a
 
-build src/libAvlTree_lib.a: CXX_STATIC_LIBRARY_LINKER__AvlTree_lib_Release src/CMakeFiles/AvlTree_lib.dir/main.cpp.o src/CMakeFiles/AvlTree_lib.dir/profiler/Timer.cpp.o
+build src/libAvlTree_lib.a: CXX_STATIC_LIBRARY_LINKER__AvlTree_lib_Release src/CMakeFiles/AvlTree_lib.dir/main.cpp.o
   LANGUAGE_COMPILE_FLAGS = -O3 -DNDEBUG
   OBJECT_DIR = src/CMakeFiles/AvlTree_lib.dir
   POST_BUILD = :

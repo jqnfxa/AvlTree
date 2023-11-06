@@ -58,31 +58,14 @@ void benchmark_set(const std::vector<int> &test,
             }
         }
     }
-    int k;
     {
         Timer timer(std::cerr, "traverse forward " + std::to_string(tree.size()));
-
-        for (auto i : tree)
-        {
-            if (i > 15)
-            {
-                k++;
-            }
-        }
+        std::cerr << std::accumulate(tree.begin(), tree.end(), 0) << std::endl;
     }
-    std::cerr << k << std::endl;
     {
         Timer timer(std::cerr, "traverse backward " + std::to_string(tree.size()));
-
-        for (int it : std::ranges::reverse_view(tree))
-        {
-            if (it > 15)
-            {
-                k++;
-            }
-        }
+        std::cerr << std::accumulate(tree.rbegin(), tree.rend(), 0) << std::endl;
     }
-    std::cerr << k << std::endl;
     {
         Timer timer(std::cerr, "erase " + std::to_string(erase.size()));
 
@@ -142,7 +125,7 @@ void benchmark_tree(const std::vector<int> &test,
 {
     std::cerr << "Tree\n";
 
-    AvlTree<int, std::greater<>> tree;
+    avl_tree<int, std::greater<>> tree;
     std::vector<int> res;
     res.reserve(test.size());
 
@@ -165,31 +148,14 @@ void benchmark_tree(const std::vector<int> &test,
             }
         }
     }
-    int k = 0;
     {
         Timer timer(std::cerr, "traverse forward " + std::to_string(tree.size()));
-
-        for (auto i : tree)
-        {
-            if (i > 15)
-            {
-                k++;
-            }
-        }
+        std::cerr << std::accumulate(tree.begin(), tree.end(), 0) << std::endl;
     }
-    std::cerr << k << std::endl;
     {
-        Timer timer(std::cerr, "traverse backward " + std::to_string(test.size()));
-
-        for (auto it = tree.rbegin(); it != tree.rend(); ++it)
-        {
-            if (*it > 15)
-            {
-                k++;
-            }
-        }
+        Timer timer(std::cerr, "traverse backward " + std::to_string(tree.size()));
+        std::cerr << std::accumulate(tree.rbegin(), tree.rend(), 0) << std::endl;
     }
-    std::cerr << k << std::endl;
     {
         Timer timer(std::cerr, "erase " + std::to_string(erase.size()));
 
@@ -225,8 +191,6 @@ int main()
     std::vector<int> erase = find;
 
     std::shuffle(erase.begin(), erase.end(), std::mt19937(std::random_device()()));
-
-    benchmark_set(range, find, erase);
 
     for (int i = 0; i < size * 2; ++i)
     {
