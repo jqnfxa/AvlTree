@@ -1,10 +1,5 @@
-# Ignore everything
-/*
-
-# But not these files...
-!.clang-format
-!CMakeLists.txt
-!README.md
-
-# ...and not these directories
-!/src
+.cache/
+.idea/
+.vscode/
+build/
+cmake-build-debug/
