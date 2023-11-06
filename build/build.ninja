@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: AvlTree
+# Project: AvlTreeProject
 # Configurations: Debug
 # =============================================================================
 
@@ -40,6 +40,111 @@ include CMakeFiles/rules.ninja
 # Logical path to working directory; prefix for absolute paths.
 
 cmake_ninja_workdir = /home/shard/CLionProjects/Algorithms_lb3/build/
+# =============================================================================
+# Object build statements for EXECUTABLE target AvlTreeProject
+
+
+#############################################
+# Order-only phony target for AvlTreeProject
+
+build cmake_object_order_depends_target_AvlTreeProject: phony || CMakeFiles/AvlTreeProject.dir
+
+build CMakeFiles/AvlTreeProject.dir/src/core/main.cpp.o: CXX_COMPILER__AvlTreeProject_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/src/core/main.cpp || cmake_object_order_depends_target_AvlTreeProject
+  DEP_FILE = CMakeFiles/AvlTreeProject.dir/src/core/main.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src/core
+  OBJECT_DIR = CMakeFiles/AvlTreeProject.dir
+  OBJECT_FILE_DIR = CMakeFiles/AvlTreeProject.dir/src/core
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target AvlTreeProject
+
+
+#############################################
+# Link the executable AvlTreeProject
+
+build AvlTreeProject: CXX_EXECUTABLE_LINKER__AvlTreeProject_Debug CMakeFiles/AvlTreeProject.dir/src/core/main.cpp.o
+  FLAGS = -g
+  OBJECT_DIR = CMakeFiles/AvlTreeProject.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = AvlTreeProject
+  TARGET_PDB = AvlTreeProject.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target tests
+
+
+#############################################
+# Order-only phony target for tests
+
+build cmake_object_order_depends_target_tests: phony || CMakeFiles/tests.dir
+
+build CMakeFiles/tests.dir/src/test/TestAvlTree.cpp.o: CXX_COMPILER__tests_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/src/test/TestAvlTree.cpp || cmake_object_order_depends_target_tests
+  DEP_FILE = CMakeFiles/tests.dir/src/test/TestAvlTree.cpp.o.d
+  FLAGS = -g -std=gnu++20 -DGTEST_HAS_PTHREAD=1
+  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src/core
+  OBJECT_DIR = CMakeFiles/tests.dir
+  OBJECT_FILE_DIR = CMakeFiles/tests.dir/src/test
+
+build CMakeFiles/tests.dir/src/test/TestIterableAvlTree.cpp.o: CXX_COMPILER__tests_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/src/test/TestIterableAvlTree.cpp || cmake_object_order_depends_target_tests
+  DEP_FILE = CMakeFiles/tests.dir/src/test/TestIterableAvlTree.cpp.o.d
+  FLAGS = -g -std=gnu++20 -DGTEST_HAS_PTHREAD=1
+  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src/core
+  OBJECT_DIR = CMakeFiles/tests.dir
+  OBJECT_FILE_DIR = CMakeFiles/tests.dir/src/test
+
+build CMakeFiles/tests.dir/src/test/TestNode.cpp.o: CXX_COMPILER__tests_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/src/test/TestNode.cpp || cmake_object_order_depends_target_tests
+  DEP_FILE = CMakeFiles/tests.dir/src/test/TestNode.cpp.o.d
+  FLAGS = -g -std=gnu++20 -DGTEST_HAS_PTHREAD=1
+  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src/core
+  OBJECT_DIR = CMakeFiles/tests.dir
+  OBJECT_FILE_DIR = CMakeFiles/tests.dir/src/test
+
+build CMakeFiles/tests.dir/src/test/main.cpp.o: CXX_COMPILER__tests_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/src/test/main.cpp || cmake_object_order_depends_target_tests
+  DEP_FILE = CMakeFiles/tests.dir/src/test/main.cpp.o.d
+  FLAGS = -g -std=gnu++20 -DGTEST_HAS_PTHREAD=1
+  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src/core
+  OBJECT_DIR = CMakeFiles/tests.dir
+  OBJECT_FILE_DIR = CMakeFiles/tests.dir/src/test
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target tests
+
+
+#############################################
+# Link the executable tests
+
+build tests tests[1]_tests.cmake | ${cmake_ninja_workdir}tests[1]_tests.cmake: CXX_EXECUTABLE_LINKER__tests_Debug CMakeFiles/tests.dir/src/test/TestAvlTree.cpp.o CMakeFiles/tests.dir/src/test/TestIterableAvlTree.cpp.o CMakeFiles/tests.dir/src/test/TestNode.cpp.o CMakeFiles/tests.dir/src/test/main.cpp.o | /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libgtest.a
+  FLAGS = -g
+  LINK_LIBRARIES = -lgtest  /usr/lib/x86_64-linux-gnu/libgtest_main.a  /usr/lib/x86_64-linux-gnu/libgtest.a
+  OBJECT_DIR = CMakeFiles/tests.dir
+  POST_BUILD = cd /home/shard/CLionProjects/Algorithms_lb3/build && /usr/bin/cmake -D TEST_TARGET=tests -D TEST_EXECUTABLE=/home/shard/CLionProjects/Algorithms_lb3/build/tests -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/home/shard/CLionProjects/Algorithms_lb3/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=tests_TESTS -D CTEST_FILE=/home/shard/CLionProjects/Algorithms_lb3/build/tests[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
+  PRE_LINK = :
+  RESTAT = 1
+  TARGET_FILE = tests
+  TARGET_PDB = tests.dbg
+
+
+#############################################
+# Utility command for run_valgrind_tests
+
+build run_valgrind_tests: phony CMakeFiles/run_valgrind_tests valgrind_tests tests
+
+
+#############################################
+# Utility command for test
+
+build CMakeFiles/test.util: CUSTOM_COMMAND
+  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build && /usr/bin/ctest --force-new-ctest-process
+  DESC = Running tests...
+  pool = console
+  restat = 1
+
+build test: phony CMakeFiles/test.util
+
 
 #############################################
 # Utility command for edit_cache
@@ -65,661 +170,21 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 
 
 #############################################
-# Utility command for list_install_components
+# Phony custom command for CMakeFiles/run_valgrind_tests
 
-build list_install_components: phony
+build CMakeFiles/run_valgrind_tests | ${cmake_ninja_workdir}CMakeFiles/run_valgrind_tests: phony valgrind_tests || tests
 
 
 #############################################
-# Utility command for install
+# Custom command for valgrind_tests
 
-build CMakeFiles/install.util: CUSTOM_COMMAND all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build && /usr/bin/cmake -P cmake_install.cmake
-  DESC = Install the project...
-  pool = console
+build valgrind_tests | ${cmake_ninja_workdir}valgrind_tests: CUSTOM_COMMAND tests || tests
+  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build && valgrind --leak-check=full --error-exitcode=1 /home/shard/CLionProjects/Algorithms_lb3/build/tests
+  DESC = Generating valgrind_tests
   restat = 1
-
-build install: phony CMakeFiles/install.util
-
-
-#############################################
-# Utility command for install/local
-
-build CMakeFiles/install/local.util: CUSTOM_COMMAND all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build && /usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-  DESC = Installing only the local directory...
-  pool = console
-  restat = 1
-
-build install/local: phony CMakeFiles/install/local.util
-
-
-#############################################
-# Utility command for install/strip
-
-build CMakeFiles/install/strip.util: CUSTOM_COMMAND all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build && /usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-  DESC = Installing the project stripped...
-  pool = console
-  restat = 1
-
-build install/strip: phony CMakeFiles/install/strip.util
-
-# =============================================================================
-# Write statements declared in CMakeLists.txt:
-# /home/shard/CLionProjects/Algorithms_lb3/CMakeLists.txt
-# =============================================================================
-
-# =============================================================================
-# Object build statements for EXECUTABLE target AvlTree_run
-
-
-#############################################
-# Order-only phony target for AvlTree_run
-
-build cmake_object_order_depends_target_AvlTree_run: phony || src/CMakeFiles/AvlTree_run.dir
-
-build src/CMakeFiles/AvlTree_run.dir/main.cpp.o: CXX_COMPILER__AvlTree_run_unscanned_Release /home/shard/CLionProjects/Algorithms_lb3/src/main.cpp || cmake_object_order_depends_target_AvlTree_run
-  DEP_FILE = src/CMakeFiles/AvlTree_run.dir/main.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20
-  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src
-  OBJECT_DIR = src/CMakeFiles/AvlTree_run.dir
-  OBJECT_FILE_DIR = src/CMakeFiles/AvlTree_run.dir
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target AvlTree_run
-
-
-#############################################
-# Link the executable src/AvlTree_run
-
-build src/AvlTree_run: CXX_EXECUTABLE_LINKER__AvlTree_run_Release src/CMakeFiles/AvlTree_run.dir/main.cpp.o
-  FLAGS = -O3 -DNDEBUG
-  OBJECT_DIR = src/CMakeFiles/AvlTree_run.dir
-  POST_BUILD = :
-  PRE_LINK = :
-  TARGET_FILE = src/AvlTree_run
-  TARGET_PDB = AvlTree_run.dbg
-
-# =============================================================================
-# Object build statements for STATIC_LIBRARY target AvlTree_lib
-
-
-#############################################
-# Order-only phony target for AvlTree_lib
-
-build cmake_object_order_depends_target_AvlTree_lib: phony || src/CMakeFiles/AvlTree_lib.dir
-
-build src/CMakeFiles/AvlTree_lib.dir/main.cpp.o: CXX_COMPILER__AvlTree_lib_unscanned_Release /home/shard/CLionProjects/Algorithms_lb3/src/main.cpp || cmake_object_order_depends_target_AvlTree_lib
-  DEP_FILE = src/CMakeFiles/AvlTree_lib.dir/main.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++20
-  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src
-  OBJECT_DIR = src/CMakeFiles/AvlTree_lib.dir
-  OBJECT_FILE_DIR = src/CMakeFiles/AvlTree_lib.dir
-
-
-# =============================================================================
-# Link build statements for STATIC_LIBRARY target AvlTree_lib
-
-
-#############################################
-# Link the static library src/libAvlTree_lib.a
-
-build src/libAvlTree_lib.a: CXX_STATIC_LIBRARY_LINKER__AvlTree_lib_Release src/CMakeFiles/AvlTree_lib.dir/main.cpp.o
-  LANGUAGE_COMPILE_FLAGS = -O3 -DNDEBUG
-  OBJECT_DIR = src/CMakeFiles/AvlTree_lib.dir
-  POST_BUILD = :
-  PRE_LINK = :
-  TARGET_FILE = src/libAvlTree_lib.a
-  TARGET_PDB = AvlTree_lib.a.dbg
-
-
-#############################################
-# Utility command for edit_cache
-
-build src/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/src && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-  DESC = No interactive CMake dialog available...
-  restat = 1
-
-build src/edit_cache: phony src/CMakeFiles/edit_cache.util
-
-
-#############################################
-# Utility command for rebuild_cache
-
-build src/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/src && /usr/bin/cmake --regenerate-during-build -S/home/shard/CLionProjects/Algorithms_lb3 -B/home/shard/CLionProjects/Algorithms_lb3/build
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
-
-build src/rebuild_cache: phony src/CMakeFiles/rebuild_cache.util
-
-
-#############################################
-# Utility command for list_install_components
-
-build src/list_install_components: phony
-
-
-#############################################
-# Utility command for install
-
-build src/CMakeFiles/install.util: CUSTOM_COMMAND src/all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/src && /usr/bin/cmake -P cmake_install.cmake
-  DESC = Install the project...
-  pool = console
-  restat = 1
-
-build src/install: phony src/CMakeFiles/install.util
-
-
-#############################################
-# Utility command for install/local
-
-build src/CMakeFiles/install/local.util: CUSTOM_COMMAND src/all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/src && /usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-  DESC = Installing only the local directory...
-  pool = console
-  restat = 1
-
-build src/install/local: phony src/CMakeFiles/install/local.util
-
-
-#############################################
-# Utility command for install/strip
-
-build src/CMakeFiles/install/strip.util: CUSTOM_COMMAND src/all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/src && /usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-  DESC = Installing the project stripped...
-  pool = console
-  restat = 1
-
-build src/install/strip: phony src/CMakeFiles/install/strip.util
-
-# =============================================================================
-# Write statements declared in CMakeLists.txt:
-# /home/shard/CLionProjects/Algorithms_lb3/CMakeLists.txt
-# =============================================================================
-
-# =============================================================================
-# Object build statements for EXECUTABLE target AvlTree_tst
-
-
-#############################################
-# Order-only phony target for AvlTree_tst
-
-build cmake_object_order_depends_target_AvlTree_tst: phony || cmake_object_order_depends_target_AvlTree_lib cmake_object_order_depends_target_gtest
-
-build tst/CMakeFiles/AvlTree_tst.dir/TestAvlTree.cpp.o: CXX_COMPILER__AvlTree_tst_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/tst/TestAvlTree.cpp || cmake_object_order_depends_target_AvlTree_tst
-  DEP_FILE = tst/CMakeFiles/AvlTree_tst.dir/TestAvlTree.cpp.o.d
-  FLAGS = -g -std=gnu++20
-  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src -isystem /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/include -isystem /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest
-  OBJECT_DIR = tst/CMakeFiles/AvlTree_tst.dir
-  OBJECT_FILE_DIR = tst/CMakeFiles/AvlTree_tst.dir
-
-build tst/CMakeFiles/AvlTree_tst.dir/TestNode.cpp.o: CXX_COMPILER__AvlTree_tst_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/tst/TestNode.cpp || cmake_object_order_depends_target_AvlTree_tst
-  DEP_FILE = tst/CMakeFiles/AvlTree_tst.dir/TestNode.cpp.o.d
-  FLAGS = -g -std=gnu++20
-  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src -isystem /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/include -isystem /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest
-  OBJECT_DIR = tst/CMakeFiles/AvlTree_tst.dir
-  OBJECT_FILE_DIR = tst/CMakeFiles/AvlTree_tst.dir
-
-build tst/CMakeFiles/AvlTree_tst.dir/main.cpp.o: CXX_COMPILER__AvlTree_tst_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/tst/main.cpp || cmake_object_order_depends_target_AvlTree_tst
-  DEP_FILE = tst/CMakeFiles/AvlTree_tst.dir/main.cpp.o.d
-  FLAGS = -g -std=gnu++20
-  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src -isystem /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/include -isystem /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest
-  OBJECT_DIR = tst/CMakeFiles/AvlTree_tst.dir
-  OBJECT_FILE_DIR = tst/CMakeFiles/AvlTree_tst.dir
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target AvlTree_tst
-
-
-#############################################
-# Link the executable tst/AvlTree_tst
-
-build tst/AvlTree_tst: CXX_EXECUTABLE_LINKER__AvlTree_tst_Debug tst/CMakeFiles/AvlTree_tst.dir/TestAvlTree.cpp.o tst/CMakeFiles/AvlTree_tst.dir/TestNode.cpp.o tst/CMakeFiles/AvlTree_tst.dir/main.cpp.o | src/libAvlTree_lib.a lib/libgtest.a || lib/libgtest.a src/libAvlTree_lib.a
-  FLAGS = -g
-  LINK_LIBRARIES = src/libAvlTree_lib.a  lib/libgtest.a
-  OBJECT_DIR = tst/CMakeFiles/AvlTree_tst.dir
-  POST_BUILD = :
-  PRE_LINK = :
-  TARGET_FILE = tst/AvlTree_tst
-  TARGET_PDB = AvlTree_tst.dbg
-
-
-#############################################
-# Utility command for edit_cache
-
-build tst/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/tst && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-  DESC = No interactive CMake dialog available...
-  restat = 1
-
-build tst/edit_cache: phony tst/CMakeFiles/edit_cache.util
-
-
-#############################################
-# Utility command for rebuild_cache
-
-build tst/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/tst && /usr/bin/cmake --regenerate-during-build -S/home/shard/CLionProjects/Algorithms_lb3 -B/home/shard/CLionProjects/Algorithms_lb3/build
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
-
-build tst/rebuild_cache: phony tst/CMakeFiles/rebuild_cache.util
-
-
-#############################################
-# Utility command for list_install_components
-
-build tst/list_install_components: phony
-
-
-#############################################
-# Utility command for install
-
-build tst/CMakeFiles/install.util: CUSTOM_COMMAND tst/all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/tst && /usr/bin/cmake -P cmake_install.cmake
-  DESC = Install the project...
-  pool = console
-  restat = 1
-
-build tst/install: phony tst/CMakeFiles/install.util
-
-
-#############################################
-# Utility command for install/local
-
-build tst/CMakeFiles/install/local.util: CUSTOM_COMMAND tst/all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/tst && /usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-  DESC = Installing only the local directory...
-  pool = console
-  restat = 1
-
-build tst/install/local: phony tst/CMakeFiles/install/local.util
-
-
-#############################################
-# Utility command for install/strip
-
-build tst/CMakeFiles/install/strip.util: CUSTOM_COMMAND tst/all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/tst && /usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-  DESC = Installing the project stripped...
-  pool = console
-  restat = 1
-
-build tst/install/strip: phony tst/CMakeFiles/install/strip.util
-
-# =============================================================================
-# Write statements declared in CMakeLists.txt:
-# /home/shard/CLionProjects/Algorithms_lb3/CMakeLists.txt
-# =============================================================================
-
-
-#############################################
-# Utility command for edit_cache
-
-build lib/googletest/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-  DESC = No interactive CMake dialog available...
-  restat = 1
-
-build lib/googletest/edit_cache: phony lib/googletest/CMakeFiles/edit_cache.util
-
-
-#############################################
-# Utility command for rebuild_cache
-
-build lib/googletest/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest && /usr/bin/cmake --regenerate-during-build -S/home/shard/CLionProjects/Algorithms_lb3 -B/home/shard/CLionProjects/Algorithms_lb3/build
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
-
-build lib/googletest/rebuild_cache: phony lib/googletest/CMakeFiles/rebuild_cache.util
-
-
-#############################################
-# Utility command for list_install_components
-
-build lib/googletest/list_install_components: phony
-
-
-#############################################
-# Utility command for install
-
-build lib/googletest/CMakeFiles/install.util: CUSTOM_COMMAND lib/googletest/all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest && /usr/bin/cmake -P cmake_install.cmake
-  DESC = Install the project...
-  pool = console
-  restat = 1
-
-build lib/googletest/install: phony lib/googletest/CMakeFiles/install.util
-
-
-#############################################
-# Utility command for install/local
-
-build lib/googletest/CMakeFiles/install/local.util: CUSTOM_COMMAND lib/googletest/all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest && /usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-  DESC = Installing only the local directory...
-  pool = console
-  restat = 1
-
-build lib/googletest/install/local: phony lib/googletest/CMakeFiles/install/local.util
-
-
-#############################################
-# Utility command for install/strip
-
-build lib/googletest/CMakeFiles/install/strip.util: CUSTOM_COMMAND lib/googletest/all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest && /usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-  DESC = Installing the project stripped...
-  pool = console
-  restat = 1
-
-build lib/googletest/install/strip: phony lib/googletest/CMakeFiles/install/strip.util
-
-# =============================================================================
-# Write statements declared in CMakeLists.txt:
-# /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/CMakeLists.txt
-# =============================================================================
-
-# =============================================================================
-# Object build statements for STATIC_LIBRARY target gmock
-
-
-#############################################
-# Order-only phony target for gmock
-
-build cmake_object_order_depends_target_gmock: phony || cmake_object_order_depends_target_gtest
-
-build lib/googletest/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o: CXX_COMPILER__gmock_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googlemock/src/gmock-all.cc || cmake_object_order_depends_target_gmock
-  DEP_FILE = lib/googletest/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o.d
-  FLAGS = -g -std=c++20 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
-  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src -I/home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googlemock/include -I/home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googlemock -isystem /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/include -isystem /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest
-  OBJECT_DIR = lib/googletest/googlemock/CMakeFiles/gmock.dir
-  OBJECT_FILE_DIR = lib/googletest/googlemock/CMakeFiles/gmock.dir/src
-
-
-# =============================================================================
-# Link build statements for STATIC_LIBRARY target gmock
-
-
-#############################################
-# Link the static library lib/libgmock.a
-
-build lib/libgmock.a: CXX_STATIC_LIBRARY_LINKER__gmock_Debug lib/googletest/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o || lib/libgtest.a
-  LANGUAGE_COMPILE_FLAGS = -g
-  OBJECT_DIR = lib/googletest/googlemock/CMakeFiles/gmock.dir
-  POST_BUILD = :
-  PRE_LINK = :
-  TARGET_FILE = lib/libgmock.a
-  TARGET_PDB = gmock.a.dbg
-
-# =============================================================================
-# Object build statements for STATIC_LIBRARY target gmock_main
-
-
-#############################################
-# Order-only phony target for gmock_main
-
-build cmake_object_order_depends_target_gmock_main: phony || cmake_object_order_depends_target_gmock cmake_object_order_depends_target_gtest
-
-build lib/googletest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o: CXX_COMPILER__gmock_main_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googlemock/src/gmock_main.cc || cmake_object_order_depends_target_gmock_main
-  DEP_FILE = lib/googletest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o.d
-  FLAGS = -g -std=c++20 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
-  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src -isystem /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googlemock/include -isystem /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googlemock -isystem /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/include -isystem /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest
-  OBJECT_DIR = lib/googletest/googlemock/CMakeFiles/gmock_main.dir
-  OBJECT_FILE_DIR = lib/googletest/googlemock/CMakeFiles/gmock_main.dir/src
-
-
-# =============================================================================
-# Link build statements for STATIC_LIBRARY target gmock_main
-
-
-#############################################
-# Link the static library lib/libgmock_main.a
-
-build lib/libgmock_main.a: CXX_STATIC_LIBRARY_LINKER__gmock_main_Debug lib/googletest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o || lib/libgmock.a lib/libgtest.a
-  LANGUAGE_COMPILE_FLAGS = -g
-  OBJECT_DIR = lib/googletest/googlemock/CMakeFiles/gmock_main.dir
-  POST_BUILD = :
-  PRE_LINK = :
-  TARGET_FILE = lib/libgmock_main.a
-  TARGET_PDB = gmock_main.a.dbg
-
-
-#############################################
-# Utility command for edit_cache
-
-build lib/googletest/googlemock/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest/googlemock && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-  DESC = No interactive CMake dialog available...
-  restat = 1
-
-build lib/googletest/googlemock/edit_cache: phony lib/googletest/googlemock/CMakeFiles/edit_cache.util
-
-
-#############################################
-# Utility command for rebuild_cache
-
-build lib/googletest/googlemock/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest/googlemock && /usr/bin/cmake --regenerate-during-build -S/home/shard/CLionProjects/Algorithms_lb3 -B/home/shard/CLionProjects/Algorithms_lb3/build
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
-
-build lib/googletest/googlemock/rebuild_cache: phony lib/googletest/googlemock/CMakeFiles/rebuild_cache.util
-
-
-#############################################
-# Utility command for list_install_components
-
-build lib/googletest/googlemock/list_install_components: phony
-
-
-#############################################
-# Utility command for install
-
-build lib/googletest/googlemock/CMakeFiles/install.util: CUSTOM_COMMAND lib/googletest/googlemock/all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest/googlemock && /usr/bin/cmake -P cmake_install.cmake
-  DESC = Install the project...
-  pool = console
-  restat = 1
-
-build lib/googletest/googlemock/install: phony lib/googletest/googlemock/CMakeFiles/install.util
-
-
-#############################################
-# Utility command for install/local
-
-build lib/googletest/googlemock/CMakeFiles/install/local.util: CUSTOM_COMMAND lib/googletest/googlemock/all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest/googlemock && /usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-  DESC = Installing only the local directory...
-  pool = console
-  restat = 1
-
-build lib/googletest/googlemock/install/local: phony lib/googletest/googlemock/CMakeFiles/install/local.util
-
-
-#############################################
-# Utility command for install/strip
-
-build lib/googletest/googlemock/CMakeFiles/install/strip.util: CUSTOM_COMMAND lib/googletest/googlemock/all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest/googlemock && /usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-  DESC = Installing the project stripped...
-  pool = console
-  restat = 1
-
-build lib/googletest/googlemock/install/strip: phony lib/googletest/googlemock/CMakeFiles/install/strip.util
-
-# =============================================================================
-# Write statements declared in CMakeLists.txt:
-# /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googlemock/CMakeLists.txt
-# =============================================================================
-
-# =============================================================================
-# Object build statements for STATIC_LIBRARY target gtest
-
-
-#############################################
-# Order-only phony target for gtest
-
-build cmake_object_order_depends_target_gtest: phony || lib/googletest/googletest/CMakeFiles/gtest.dir
-
-build lib/googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o: CXX_COMPILER__gtest_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/src/gtest-all.cc || cmake_object_order_depends_target_gtest
-  DEP_FILE = lib/googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o.d
-  FLAGS = -g -std=c++20 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
-  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src -I/home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/include -I/home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest
-  OBJECT_DIR = lib/googletest/googletest/CMakeFiles/gtest.dir
-  OBJECT_FILE_DIR = lib/googletest/googletest/CMakeFiles/gtest.dir/src
-
-
-# =============================================================================
-# Link build statements for STATIC_LIBRARY target gtest
-
-
-#############################################
-# Link the static library lib/libgtest.a
-
-build lib/libgtest.a: CXX_STATIC_LIBRARY_LINKER__gtest_Debug lib/googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
-  LANGUAGE_COMPILE_FLAGS = -g
-  OBJECT_DIR = lib/googletest/googletest/CMakeFiles/gtest.dir
-  POST_BUILD = :
-  PRE_LINK = :
-  TARGET_FILE = lib/libgtest.a
-  TARGET_PDB = gtest.a.dbg
-
-# =============================================================================
-# Object build statements for STATIC_LIBRARY target gtest_main
-
-
-#############################################
-# Order-only phony target for gtest_main
-
-build cmake_object_order_depends_target_gtest_main: phony || cmake_object_order_depends_target_gtest
-
-build lib/googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o: CXX_COMPILER__gtest_main_unscanned_Debug /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/src/gtest_main.cc || cmake_object_order_depends_target_gtest_main
-  DEP_FILE = lib/googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o.d
-  FLAGS = -g -std=c++20 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
-  INCLUDES = -I/home/shard/CLionProjects/Algorithms_lb3/src -isystem /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/include -isystem /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest
-  OBJECT_DIR = lib/googletest/googletest/CMakeFiles/gtest_main.dir
-  OBJECT_FILE_DIR = lib/googletest/googletest/CMakeFiles/gtest_main.dir/src
-
-
-# =============================================================================
-# Link build statements for STATIC_LIBRARY target gtest_main
-
-
-#############################################
-# Link the static library lib/libgtest_main.a
-
-build lib/libgtest_main.a: CXX_STATIC_LIBRARY_LINKER__gtest_main_Debug lib/googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o || lib/libgtest.a
-  LANGUAGE_COMPILE_FLAGS = -g
-  OBJECT_DIR = lib/googletest/googletest/CMakeFiles/gtest_main.dir
-  POST_BUILD = :
-  PRE_LINK = :
-  TARGET_FILE = lib/libgtest_main.a
-  TARGET_PDB = gtest_main.a.dbg
-
-
-#############################################
-# Utility command for edit_cache
-
-build lib/googletest/googletest/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest/googletest && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-  DESC = No interactive CMake dialog available...
-  restat = 1
-
-build lib/googletest/googletest/edit_cache: phony lib/googletest/googletest/CMakeFiles/edit_cache.util
-
-
-#############################################
-# Utility command for rebuild_cache
-
-build lib/googletest/googletest/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest/googletest && /usr/bin/cmake --regenerate-during-build -S/home/shard/CLionProjects/Algorithms_lb3 -B/home/shard/CLionProjects/Algorithms_lb3/build
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
-
-build lib/googletest/googletest/rebuild_cache: phony lib/googletest/googletest/CMakeFiles/rebuild_cache.util
-
-
-#############################################
-# Utility command for list_install_components
-
-build lib/googletest/googletest/list_install_components: phony
-
-
-#############################################
-# Utility command for install
-
-build lib/googletest/googletest/CMakeFiles/install.util: CUSTOM_COMMAND lib/googletest/googletest/all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest/googletest && /usr/bin/cmake -P cmake_install.cmake
-  DESC = Install the project...
-  pool = console
-  restat = 1
-
-build lib/googletest/googletest/install: phony lib/googletest/googletest/CMakeFiles/install.util
-
-
-#############################################
-# Utility command for install/local
-
-build lib/googletest/googletest/CMakeFiles/install/local.util: CUSTOM_COMMAND lib/googletest/googletest/all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest/googletest && /usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-  DESC = Installing only the local directory...
-  pool = console
-  restat = 1
-
-build lib/googletest/googletest/install/local: phony lib/googletest/googletest/CMakeFiles/install/local.util
-
-
-#############################################
-# Utility command for install/strip
-
-build lib/googletest/googletest/CMakeFiles/install/strip.util: CUSTOM_COMMAND lib/googletest/googletest/all
-  COMMAND = cd /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest/googletest && /usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-  DESC = Installing the project stripped...
-  pool = console
-  restat = 1
-
-build lib/googletest/googletest/install/strip: phony lib/googletest/googletest/CMakeFiles/install/strip.util
 
 # =============================================================================
 # Target aliases.
-
-build AvlTree_lib: phony src/libAvlTree_lib.a
-
-build AvlTree_run: phony src/AvlTree_run
-
-build AvlTree_tst: phony tst/AvlTree_tst
-
-build gmock: phony lib/libgmock.a
-
-build gmock_main: phony lib/libgmock_main.a
-
-build gtest: phony lib/libgtest.a
-
-build gtest_main: phony lib/libgtest_main.a
-
-build libAvlTree_lib.a: phony src/libAvlTree_lib.a
-
-build libgmock.a: phony lib/libgmock.a
-
-build libgmock_main.a: phony lib/libgmock_main.a
-
-build libgtest.a: phony lib/libgtest.a
-
-build libgtest_main.a: phony lib/libgtest_main.a
 
 # =============================================================================
 # Folder targets.
@@ -729,42 +194,7 @@ build libgtest_main.a: phony lib/libgtest_main.a
 #############################################
 # Folder: /home/shard/CLionProjects/Algorithms_lb3/build
 
-build all: phony src/all tst/all lib/googletest/all
-
-# =============================================================================
-
-#############################################
-# Folder: /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest
-
-build lib/googletest/all: phony lib/googletest/googlemock/all
-
-# =============================================================================
-
-#############################################
-# Folder: /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest/googlemock
-
-build lib/googletest/googlemock/all: phony lib/libgmock.a lib/libgmock_main.a lib/googletest/googletest/all
-
-# =============================================================================
-
-#############################################
-# Folder: /home/shard/CLionProjects/Algorithms_lb3/build/lib/googletest/googletest
-
-build lib/googletest/googletest/all: phony lib/libgtest.a lib/libgtest_main.a
-
-# =============================================================================
-
-#############################################
-# Folder: /home/shard/CLionProjects/Algorithms_lb3/build/src
-
-build src/all: phony src/AvlTree_run src/libAvlTree_lib.a
-
-# =============================================================================
-
-#############################################
-# Folder: /home/shard/CLionProjects/Algorithms_lb3/build/tst
-
-build tst/all: phony tst/AvlTree_tst
+build all: phony AvlTreeProject tests run_valgrind_tests
 
 # =============================================================================
 # Built-in targets
@@ -773,14 +203,14 @@ build tst/all: phony tst/AvlTree_tst
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | /home/shard/CLionProjects/Algorithms_lb3/CMakeLists.txt /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/CMakeLists.txt /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googlemock/CMakeLists.txt /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googlemock/cmake/gmock.pc.in /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googlemock/cmake/gmock_main.pc.in /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/CMakeLists.txt /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/cmake/Config.cmake.in /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/cmake/gtest.pc.in /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/cmake/gtest_main.pc.in /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/cmake/internal_utils.cmake /home/shard/CLionProjects/Algorithms_lb3/src/CMakeLists.txt /home/shard/CLionProjects/Algorithms_lb3/tst/CMakeLists.txt /usr/share/cmake-3.28/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in /usr/share/cmake-3.28/Modules/CMakeCInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.28/Modules/CMakeDependentOption.cmake /usr/share/cmake-3.28/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.28/Modules/CMakePackageConfigHelpers.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.28/Modules/CheckCSourceCompiles.cmake /usr/share/cmake-3.28/Modules/CheckIncludeFile.cmake /usr/share/cmake-3.28/Modules/CheckLibraryExists.cmake /usr/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU.cmake /usr/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.28/Modules/FindPackageMessage.cmake /usr/share/cmake-3.28/Modules/FindPython/Support.cmake /usr/share/cmake-3.28/Modules/FindPython3.cmake /usr/share/cmake-3.28/Modules/FindThreads.cmake /usr/share/cmake-3.28/Modules/GNUInstallDirs.cmake /usr/share/cmake-3.28/Modules/Internal/CheckSourceCompiles.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake-3.28/Modules/Platform/Linux.cmake /usr/share/cmake-3.28/Modules/Platform/UnixPaths.cmake /usr/share/cmake-3.28/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.28.0-rc3/CMakeCCompiler.cmake CMakeFiles/3.28.0-rc3/CMakeCXXCompiler.cmake CMakeFiles/3.28.0-rc3/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | /home/shard/CLionProjects/Algorithms_lb3/CMakeLists.txt /usr/lib/x86_64-linux-gnu/cmake/GTest/GTestConfig.cmake /usr/lib/x86_64-linux-gnu/cmake/GTest/GTestConfigVersion.cmake /usr/lib/x86_64-linux-gnu/cmake/GTest/GTestTargets-none.cmake /usr/lib/x86_64-linux-gnu/cmake/GTest/GTestTargets.cmake /usr/share/cmake-3.28/Modules/CMakeCInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.28/Modules/CMakeFindDependencyMacro.cmake /usr/share/cmake-3.28/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.28/Modules/CheckCSourceCompiles.cmake /usr/share/cmake-3.28/Modules/CheckIncludeFile.cmake /usr/share/cmake-3.28/Modules/CheckLibraryExists.cmake /usr/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU.cmake /usr/share/cmake-3.28/Modules/FindGTest.cmake /usr/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.28/Modules/FindPackageMessage.cmake /usr/share/cmake-3.28/Modules/FindThreads.cmake /usr/share/cmake-3.28/Modules/GoogleTest.cmake /usr/share/cmake-3.28/Modules/Internal/CheckSourceCompiles.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake-3.28/Modules/Platform/Linux.cmake /usr/share/cmake-3.28/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.28.0-rc3/CMakeCCompiler.cmake CMakeFiles/3.28.0-rc3/CMakeCXXCompiler.cmake CMakeFiles/3.28.0-rc3/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build /home/shard/CLionProjects/Algorithms_lb3/CMakeLists.txt /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/CMakeLists.txt /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googlemock/CMakeLists.txt /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googlemock/cmake/gmock.pc.in /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googlemock/cmake/gmock_main.pc.in /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/CMakeLists.txt /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/cmake/Config.cmake.in /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/cmake/gtest.pc.in /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/cmake/gtest_main.pc.in /home/shard/CLionProjects/Algorithms_lb3/lib/googletest/googletest/cmake/internal_utils.cmake /home/shard/CLionProjects/Algorithms_lb3/src/CMakeLists.txt /home/shard/CLionProjects/Algorithms_lb3/tst/CMakeLists.txt /usr/share/cmake-3.28/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in /usr/share/cmake-3.28/Modules/CMakeCInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.28/Modules/CMakeDependentOption.cmake /usr/share/cmake-3.28/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.28/Modules/CMakePackageConfigHelpers.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.28/Modules/CheckCSourceCompiles.cmake /usr/share/cmake-3.28/Modules/CheckIncludeFile.cmake /usr/share/cmake-3.28/Modules/CheckLibraryExists.cmake /usr/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU.cmake /usr/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.28/Modules/FindPackageMessage.cmake /usr/share/cmake-3.28/Modules/FindPython/Support.cmake /usr/share/cmake-3.28/Modules/FindPython3.cmake /usr/share/cmake-3.28/Modules/FindThreads.cmake /usr/share/cmake-3.28/Modules/GNUInstallDirs.cmake /usr/share/cmake-3.28/Modules/Internal/CheckSourceCompiles.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake-3.28/Modules/Platform/Linux.cmake /usr/share/cmake-3.28/Modules/Platform/UnixPaths.cmake /usr/share/cmake-3.28/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.28.0-rc3/CMakeCCompiler.cmake CMakeFiles/3.28.0-rc3/CMakeCXXCompiler.cmake CMakeFiles/3.28.0-rc3/CMakeSystem.cmake: phony
+build /home/shard/CLionProjects/Algorithms_lb3/CMakeLists.txt /usr/lib/x86_64-linux-gnu/cmake/GTest/GTestConfig.cmake /usr/lib/x86_64-linux-gnu/cmake/GTest/GTestConfigVersion.cmake /usr/lib/x86_64-linux-gnu/cmake/GTest/GTestTargets-none.cmake /usr/lib/x86_64-linux-gnu/cmake/GTest/GTestTargets.cmake /usr/share/cmake-3.28/Modules/CMakeCInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.28/Modules/CMakeFindDependencyMacro.cmake /usr/share/cmake-3.28/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.28/Modules/CheckCSourceCompiles.cmake /usr/share/cmake-3.28/Modules/CheckIncludeFile.cmake /usr/share/cmake-3.28/Modules/CheckLibraryExists.cmake /usr/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU.cmake /usr/share/cmake-3.28/Modules/FindGTest.cmake /usr/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.28/Modules/FindPackageMessage.cmake /usr/share/cmake-3.28/Modules/FindThreads.cmake /usr/share/cmake-3.28/Modules/GoogleTest.cmake /usr/share/cmake-3.28/Modules/Internal/CheckSourceCompiles.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake-3.28/Modules/Platform/Linux.cmake /usr/share/cmake-3.28/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.28.0-rc3/CMakeCCompiler.cmake CMakeFiles/3.28.0-rc3/CMakeCXXCompiler.cmake CMakeFiles/3.28.0-rc3/CMakeSystem.cmake: phony
 
 
 #############################################
