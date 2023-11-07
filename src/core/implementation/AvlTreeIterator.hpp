@@ -2,6 +2,7 @@
 
 #include "AvlTreeHelper.hpp"
 #include "AvlTreeNode.hpp"
+#include "traits.hpp"
 
 #include <iterator>
 
@@ -16,7 +17,7 @@ class AvlTreeIterator : public std::iterator<std::bidirectional_iterator_tag,
                                              const ValueType *,
                                              const ValueType &> {
 public:
-    template <typename T, class C>
+    template <typename T, BinaryPredicate<T, T> C>
     friend class avl_tree;
 
 public:

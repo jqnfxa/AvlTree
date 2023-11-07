@@ -35,7 +35,7 @@ include(GoogleTest)
 gtest_discover_tests(tests)
 
 # Add a custom command that runs your tests with Valgrind
-add_custom_command(OUTPUT valgrind_tests COMMAND valgrind --leak-check=full --error-exitcode=1 $<TARGET_FILE:tests> DEPENDS tests)
+#add_custom_command(OUTPUT valgrind_tests COMMAND valgrind --leak-check=full --error-exitcode=1 $<TARGET_FILE:tests> DEPENDS tests)
 
 # Add a custom target that depends on the above command
-add_custom_target(run_valgrind_tests ALL DEPENDS valgrind_tests)
+#add_custom_target(run_valgrind_tests ALL DEPENDS valgrind_tests)

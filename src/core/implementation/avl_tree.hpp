@@ -2,6 +2,7 @@
 
 #include "AvlTreeImplementation.hpp"
 #include "AvlTreeIterator.hpp"
+#include "traits.hpp"
 
 #include <cstdint>
 
@@ -297,10 +298,9 @@ auto avl_tree<ValueType, Comparator>::insert(const value_type &value) &noexcept
 
     if (empty())
     {
-        base_.root_ = node;
+        base_.insert(node);
         header_.left_ = base_.root_;
         header_.right_ = base_.root_;
-        ++base_.number_of_nodes_;
     }
     else
     {

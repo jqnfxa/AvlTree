@@ -2,14 +2,7 @@
 
 #include "../memory/memory.hpp"
 #include "AvlTreeHelper.hpp"
-
-template <typename T, typename Arg1, typename Arg2>
-concept BinaryPredicate = requires(T t, Arg1 a1, Arg2 a2)
-{
-    {
-        t(a1, a2)
-        } -> std::convertible_to<bool>;
-};
+#include "traits.hpp"
 
 /**
  * @brief An AVL tree.
